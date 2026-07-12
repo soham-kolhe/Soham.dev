@@ -8,7 +8,7 @@ export const personalInfo = {
   firstName: "Soham",
   lastName: "Kolhe",
   tagline: "Full-Stack Developer & Cloud Engineer",
-  subtitle: "Building scalable systems with MERN, Azure & Docker",
+  subtitle: "Full-Stack Developer & Cloud Engineer — 3 shipped products, 5 Azure certifications",
   heroQuote: "Welcome to the Grid. I build the future.",
   location: "Vadodara, Gujarat, India",
   email: "sohamkolhe20@gmail.com",

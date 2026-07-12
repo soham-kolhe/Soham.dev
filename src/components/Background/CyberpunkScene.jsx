@@ -2,10 +2,11 @@
    Cyberpunk 3D Background Scene
    Floating neon geometry that responds to scroll
    ============================================ */
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Stars } from '@react-three/drei';
+import { Float, Stars, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
+import CourierDrone from './CourierDrone';
 
 /* --- Neon Grid Floor --- */
 function NeonGrid() {
@@ -207,7 +208,7 @@ function DataSphere() {
 }
 
 /* --- Main Scene --- */
-function Scene() {
+function Scene({ degraded }) {
   const groupRef = useRef();
 
   useFrame((state) => {
@@ -229,7 +230,7 @@ function Scene() {
       <Stars
         radius={50}
         depth={50}
-        count={2000}
+        count={degraded ? 500 : 2000}
         factor={3}
         saturation={0.5}
         fade
@@ -239,25 +240,34 @@ function Scene() {
       {/* Neon grid floor */}
       <NeonGrid />
 
-      {/* Central data sphere */}
-      <DataSphere />
+      {/* Central data sphere - hidden on degraded devices */}
+      {!degraded && <DataSphere />}
 
       {/* Floating neon shapes scattered around */}
       <FloatingShape position={[-4, 2, -3]} geometry="octahedron" color="#00F0FF" speed={0.8} />
       <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} />
       <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} />
-      <FloatingShape position={[2, 3, -8]} geometry="torusKnot" color="#00F0FF" speed={0.9} />
-      <FloatingShape position={[-6, 0, -6]} geometry="dodecahedron" color="#FF00AA" speed={0.7} />
-      <FloatingShape position={[7, 1, -4]} geometry="octahedron" color="#B8FF00" speed={1.1} />
+      {!degraded && (
+        <>
+          <FloatingShape position={[2, 3, -8]} geometry="torusKnot" color="#00F0FF" speed={0.9} />
+          <FloatingShape position={[-6, 0, -6]} geometry="dodecahedron" color="#FF00AA" speed={0.7} />
+          <FloatingShape position={[7, 1, -4]} geometry="octahedron" color="#B8FF00" speed={1.1} />
+        </>
+      )}
 
-      {/* Particles */}
-      <NeonParticles count={150} />
+      {/* Particles - count reduced if degraded */}
+      <NeonParticles count={degraded ? 40 : 150} />
+
+      {/* Scroll-Reactive Companion Drone */}
+      <CourierDrone degraded={degraded} />
     </group>
   );
 }
 
 /* --- Exported Canvas Component --- */
 export default function CyberpunkScene() {
+  const [degraded, setDegraded] = useState(false);
+
   return (
     <div
       style={{
@@ -280,7 +290,12 @@ export default function CyberpunkScene() {
         }}
         style={{ background: 'transparent' }}
       >
-        <Scene />
+        <PerformanceMonitor
+          onDecline={() => setDegraded(true)}
+          onIncline={() => setDegraded(false)}
+        >
+          <Scene degraded={degraded} />
+        </PerformanceMonitor>
       </Canvas>
     </div>
   );

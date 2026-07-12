@@ -19,6 +19,8 @@ export default function Cursor() {
       return;
     }
 
+    document.body.classList.add('cursor-ready');
+
     const cursor = cursorRef.current;
     const dot = cursorDotRef.current;
     let mouseX = 0;
@@ -62,37 +64,44 @@ export default function Cursor() {
     document.addEventListener('mouseleave', onMouseLeaveWindow);
     document.addEventListener('mouseenter', onMouseEnterWindow);
 
-    // Track interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .interactive');
-    interactiveElements.forEach((el) => {
+    const registeredElements = new WeakSet();
+
+    const addHoverListeners = (el) => {
+      if (registeredElements.has(el)) return;
       el.addEventListener('mouseenter', onMouseEnterInteractive);
       el.addEventListener('mouseleave', onMouseLeaveInteractive);
-    });
+      registeredElements.add(el);
+    };
+
+    const removeHoverListeners = (el) => {
+      el.removeEventListener('mouseenter', onMouseEnterInteractive);
+      el.removeEventListener('mouseleave', onMouseLeaveInteractive);
+    };
+
+    // Track interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .interactive');
+    interactiveElements.forEach(addHoverListeners);
 
     // Start animation loop
     const animId = requestAnimationFrame(animate);
 
     // MutationObserver to handle dynamically added elements
     const observer = new MutationObserver(() => {
-      const newElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .interactive');
-      newElements.forEach((el) => {
-        el.addEventListener('mouseenter', onMouseEnterInteractive);
-        el.addEventListener('mouseleave', onMouseLeaveInteractive);
-      });
+      const currentElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .interactive');
+      currentElements.forEach(addHoverListeners);
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      document.body.classList.remove('cursor-ready');
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseleave', onMouseLeaveWindow);
       document.removeEventListener('mouseenter', onMouseEnterWindow);
       cancelAnimationFrame(animId);
       observer.disconnect();
-      interactiveElements.forEach((el) => {
-        el.removeEventListener('mouseenter', onMouseEnterInteractive);
-        el.removeEventListener('mouseleave', onMouseLeaveInteractive);
-      });
+      const currentElements = document.querySelectorAll('a, button, [role="button"], input, textarea, select, .interactive');
+      currentElements.forEach(removeHoverListeners);
     };
   }, []);
 

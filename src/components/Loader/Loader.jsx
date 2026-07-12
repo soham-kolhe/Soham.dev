@@ -71,6 +71,14 @@ const Loader = ({ onComplete }) => {
     return () => clearTimeout(completeTimer);
   }, [handleComplete]);
 
+  useEffect(() => {
+    const handleKeyDown = () => {
+      handleComplete();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleComplete]);
+
   return (
     <div
       className={`loader ${isHidden ? 'loader--hidden' : ''}`}
@@ -78,10 +86,23 @@ const Loader = ({ onComplete }) => {
       aria-valuenow={Math.round(progress)}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-label="Loading portfolio"
+      aria-label="Loading portfolio. Press any key or click anywhere to skip."
       onClick={() => handleComplete()}
       style={{ cursor: 'pointer' }}
     >
+      {/* Screen Reader Skip Hint */}
+      <span style={{
+        position: 'absolute',
+        width: '1px',
+        height: '1px',
+        padding: '0',
+        margin: '-1px',
+        overflow: 'hidden',
+        clip: 'rect(0, 0, 0, 0)',
+        border: '0'
+      }}>
+        Loading simulation in progress. Press any key or click anywhere on the page to skip.
+      </span>
       {/* Skip Button */}
       <button 
         className="loader__skip cyber-btn" 

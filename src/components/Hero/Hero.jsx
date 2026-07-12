@@ -135,7 +135,7 @@ const Hero = () => {
           {/* HUD data below photo */}
           <div className="hero__photo-hud" aria-hidden="true">
             <span className="hero__photo-hud-line">◈ OPERATOR_ID: SK-2027</span>
-            <span className="hero__photo-hud-line hero__photo-hud-line--cyan">◈ CLEARANCE: LEVEL 5</span>
+            <span className="hero__photo-hud-line hero__photo-hud-line--cyan">◈ STATUS: AVAILABLE</span>
           </div>
         </div>
       </div>

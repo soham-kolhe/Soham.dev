@@ -27,13 +27,13 @@
 
   --color-text-primary: #EEEEF0;
   --color-text-secondary: #A0A0B8;
-  --color-text-muted: #606078;
+  --color-text-muted: #7A7A94;
 
   /* Typography */
   --font-heading: 'Orbitron', sans-serif;
   --font-body: 'JetBrains Mono', monospace;
 
-  --fs-hero: clamp(2.5rem, 6vw, 5rem);
+  --fs-hero: clamp(3rem, 7vw, 6rem);
   --fs-h1: clamp(2rem, 4vw, 3.5rem);
   --fs-h2: clamp(1.5rem, 3vw, 2.5rem);
   --fs-h3: clamp(1.1rem, 2vw, 1.5rem);
@@ -126,12 +126,18 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-void);
   overflow-x: hidden;
+}
+
+body.cursor-ready,
+body.cursor-ready button,
+body.cursor-ready a {
   cursor: none;
 }
 
-/* Hide default cursor on desktop, show on touch */
 @media (pointer: coarse) {
-  body {
+  body.cursor-ready,
+  body.cursor-ready button,
+  body.cursor-ready a {
     cursor: auto;
   }
 }
@@ -158,16 +164,10 @@ ul, ol {
 
 button {
   font-family: var(--font-body);
-  cursor: none;
+  cursor: pointer;
   border: none;
   background: none;
   color: inherit;
-}
-
-@media (pointer: coarse) {
-  button {
-    cursor: pointer;
-  }
 }
 
 ::selection {
@@ -210,9 +210,9 @@ button {
 }
 
 .section-label {
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: var(--fs-small);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-regular);
   color: var(--color-cyan);
   text-transform: uppercase;
   letter-spacing: 3px;

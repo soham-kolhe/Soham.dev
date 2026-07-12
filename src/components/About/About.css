@@ -66,6 +66,7 @@
   font-size: var(--fs-body);
   line-height: var(--lh-relaxed);
   color: var(--color-text-secondary);
+  max-width: 65ch;
 }
 
 /* --- Bio Meta Info --- */

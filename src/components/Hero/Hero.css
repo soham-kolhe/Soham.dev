@@ -108,18 +108,16 @@
   text-shadow: -2px 0 var(--color-magenta);
   left: -2px;
 }
-
 /* --- Subtitle with typing cursor --- */
 .hero__subtitle {
   font-family: var(--font-body);
-  font-size: var(--fs-h3);
+  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
   font-weight: var(--fw-medium);
   color: var(--color-text-secondary);
   line-height: var(--lh-normal);
   display: flex;
   align-items: center;
 }
-
 .hero__subtitle-text {
   border-right: 2px solid var(--color-cyan);
   padding-right: var(--space-xs);
@@ -406,10 +404,11 @@
 
 .hero__photo-hud-line {
   font-family: var(--font-body);
-  font-size: var(--fs-xs);
+  font-size: 0.65rem;
   color: var(--color-text-muted);
   letter-spacing: 2px;
   text-transform: uppercase;
+  opacity: 0.55;
 }
 
 .hero__photo-hud-line--cyan {

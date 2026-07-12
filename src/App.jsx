@@ -18,6 +18,7 @@ import Projects from './components/Projects/Projects';
 import Certifications from './components/Certifications/Certifications';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
+import { scrollState } from './scrollState';
 const CyberpunkScene = lazy(() => import('./components/Background/CyberpunkScene'));
 
 /* Styles */
@@ -28,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [sceneReady, setSceneReady] = useState(false);
   const lenisRef = useRef(null);
   const appRef = useRef(null);
 
@@ -45,8 +47,12 @@ function App() {
 
     lenisRef.current = lenis;
 
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    // Sync Lenis with GSAP ScrollTrigger and our Companion Drone scrollState
+    lenis.on('scroll', (e) => {
+      ScrollTrigger.update();
+      scrollState.progress = e.progress;
+      scrollState.velocity = e.velocity ?? 0;
+    });
 
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
@@ -58,6 +64,15 @@ function App() {
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
     };
+  }, [isLoading]);
+
+  /* --- Stagger 3D Background scene mount --- */
+  useEffect(() => {
+    if (isLoading) return;
+    const sceneTimer = setTimeout(() => {
+      setSceneReady(true);
+    }, 300);
+    return () => clearTimeout(sceneTimer);
   }, [isLoading]);
 
   /* --- GSAP Scroll Animations --- */
@@ -205,7 +220,7 @@ function App() {
       <div className="scanline-overlay" />
 
       {/* 3D Background */}
-      {!isLoading && (
+      {sceneReady && (
         <Suspense fallback={null}>
           <CyberpunkScene />
         </Suspense>
