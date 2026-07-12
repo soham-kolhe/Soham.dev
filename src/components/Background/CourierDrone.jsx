@@ -41,16 +41,13 @@ export default function CourierDrone({ degraded }) {
     };
   }, []);
 
-  // Trail buffer size: smaller on mobile/degraded systems for performance
-  const trailLength = useMemo(() => {
-    if (degraded) return 10;
-    if (isMobile) return 30;
-    return 60;
-  }, [degraded, isMobile]);
+  // Trail config
+  const showTrail = !degraded && !isMobile;
+  const trailLength = 20;
 
   const trailPositions = useMemo(() => {
-    return new Float32Array(trailLength * 3);
-  }, [trailLength]);
+    return new Float32Array(showTrail ? trailLength * 3 : 0);
+  }, [showTrail]);
 
   const colorObj = useRef(new THREE.Color(SECTION_COLORS[0]));
 
@@ -101,20 +98,19 @@ export default function CourierDrone({ degraded }) {
       materialRef.current.emissiveIntensity = 0.6 + Math.sin(state.clock.elapsedTime * 3) * 0.15;
     }
 
-    // Shift trail buffer and push new position
-    const arr = trailPositions;
-    for (let i = arr.length - 3; i >= 3; i -= 3) {
-      arr[i] = arr[i - 3];
-      arr[i + 1] = arr[i - 2];
-      arr[i + 2] = arr[i - 1];
-    }
-    if (groupRef.current) {
-      arr[0] = groupRef.current.position.x;
-      arr[1] = groupRef.current.position.y;
-      arr[2] = groupRef.current.position.z;
-    }
-    if (trailRef.current) {
-      trailRef.current.geometry.attributes.position.needsUpdate = true;
+    // Update trail if enabled
+    if (showTrail) {
+      const arr = trailPositions;
+      // Shift array natively in C++ via copyWithin
+      arr.copyWithin(3, 0);
+      if (groupRef.current) {
+        arr[0] = groupRef.current.position.x;
+        arr[1] = groupRef.current.position.y;
+        arr[2] = groupRef.current.position.z;
+      }
+      if (trailRef.current) {
+        trailRef.current.geometry.attributes.position.needsUpdate = true;
+      }
     }
   });
 
@@ -142,18 +138,20 @@ export default function CourierDrone({ degraded }) {
         )}
       </group>
 
-      {/* Light trail */}
-      <line ref={trailRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={trailLength}
-            array={trailPositions}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color={colorObj.current} transparent opacity={0.3} />
-      </line>
+      {/* Light trail - only rendered on desktop/high-performance */}
+      {showTrail && (
+        <line ref={trailRef}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              count={trailLength}
+              array={trailPositions}
+              itemSize={3}
+            />
+          </bufferGeometry>
+          <lineBasicMaterial color={colorObj.current} transparent opacity={0.3} />
+        </line>
+      )}
     </>
   );
 }

@@ -51,7 +51,7 @@ function NeonGrid() {
   return (
     <group ref={gridRef} position={[0, -3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
       <gridHelper
-        args={[60, 60, '#00F0FF', '#1a1a3e']}
+        args={[60, 24, '#00F0FF', '#1a1a3e']}
         position={[0, 0, 0]}
       />
     </group>
@@ -78,7 +78,7 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
 
     // Pulse emissive
     if (materialRef.current) {
-      materialRef.current.emissiveIntensity = 0.5 + Math.sin(t * 2) * 0.2;
+      materialRef.current.emissiveIntensity = 0.65 + Math.sin(t * 2) * 0.25;
     }
   });
 
@@ -106,7 +106,7 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
           ref={materialRef}
           color={color}
           emissive={color}
-          emissiveIntensity={0.5}
+          emissiveIntensity={0.65}
           wireframe
           transparent
           opacity={0.6}
@@ -243,22 +243,20 @@ function DataSphere({ degraded, reducedMotion }) {
         />
       </mesh>
       {/* Outer wireframe ring */}
-      {!degraded && (
-        <mesh ref={wireRef}>
-          <torusGeometry args={[1.8, 0.02, 16, 64]} />
-          <meshStandardMaterial
-            color="#FF00AA"
-            emissive="#FF00AA"
-            emissiveIntensity={0.5}
-            transparent
-            opacity={0.5}
-          />
-        </mesh>
-      )}
+      <mesh ref={wireRef}>
+        <torusGeometry args={[1.8, 0.02, 8, degraded ? 16 : 64]} />
+        <meshStandardMaterial
+          color="#FF00AA"
+          emissive="#FF00AA"
+          emissiveIntensity={0.5}
+          transparent
+          opacity={0.5}
+        />
+      </mesh>
       {/* Second ring */}
       {!degraded && (
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[2.0, 0.015, 16, 64]} />
+          <torusGeometry args={[2.0, 0.015, 8, 32]} />
           <meshStandardMaterial
             color="#B8FF00"
             emissive="#B8FF00"
@@ -345,45 +343,51 @@ function Scene({ degraded, reducedMotion }) {
     }
   });
 
+  const SHOW_GRID = false;
+
   return (
     <group ref={groupRef}>
+      {/* Depth Fog */}
+      <fog attach="fog" args={['#0D0D0D', 8, 25]} />
+
       {/* Ambient and point lights */}
       <ambientLight intensity={degraded ? 0.35 : 0.15} />
       <pointLight position={[5, 5, 5]} color="#00F0FF" intensity={1} distance={20} />
-      <pointLight position={[-5, 3, -5]} color="#FF00AA" intensity={0.8} distance={20} />
-      <pointLight position={[0, -3, 5]} color="#B8FF00" intensity={0.5} distance={15} />
+      {!degraded && (
+        <>
+          <pointLight position={[-5, 3, -5]} color="#FF00AA" intensity={0.8} distance={20} />
+          <pointLight position={[0, -3, 5]} color="#B8FF00" intensity={0.5} distance={15} />
+        </>
+      )}
 
-      {/* Stars background */}
+      {/* Stars background backdrop */}
       <Stars
-        radius={50}
-        depth={50}
-        count={degraded ? 500 : 2000}
+        radius={40}
+        depth={30}
+        count={degraded ? 250 : 800}
         factor={3}
         saturation={0.5}
         fade
         speed={0.5}
       />
 
-      {/* Neon grid floor */}
-      <NeonGrid />
+      {/* Neon grid floor (disabled for premium aesthetics and performance) */}
+      {SHOW_GRID && <NeonGrid />}
 
       {/* Central data sphere - rendered but simplified when degraded */}
       <DataSphere degraded={degraded} reducedMotion={reducedMotion} />
 
       {/* Floating neon shapes scattered around */}
       <FloatingShape position={[-4, 2, -3]} geometry="octahedron" color="#00F0FF" speed={0.8} reducedMotion={reducedMotion} />
-      <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} reducedMotion={reducedMotion} />
-      <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} reducedMotion={reducedMotion} />
       {!degraded && (
         <>
-          <FloatingShape position={[2, 3, -8]} geometry="torusKnot" color="#00F0FF" speed={0.9} reducedMotion={reducedMotion} />
-          <FloatingShape position={[-6, 0, -6]} geometry="dodecahedron" color="#FF00AA" speed={0.7} reducedMotion={reducedMotion} />
-          <FloatingShape position={[7, 1, -4]} geometry="octahedron" color="#B8FF00" speed={1.1} reducedMotion={reducedMotion} />
+          <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} reducedMotion={reducedMotion} />
+          <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} reducedMotion={reducedMotion} />
         </>
       )}
 
       {/* Particles - count reduced if degraded */}
-      <NeonParticles count={degraded ? 40 : 150} />
+      <NeonParticles count={degraded ? 25 : 75} />
 
       {/* Scroll-Reactive Companion Drone */}
       <CourierDrone degraded={degraded} />
@@ -437,7 +441,7 @@ export default function CyberpunkScene() {
         camera={{ position: [0, 1, 8], fov: 60 }}
         dpr={[1, 1.5]}
         gl={{
-          antialias: true,
+          antialias: false,
           alpha: true,
           powerPreference: 'high-performance',
         }}
