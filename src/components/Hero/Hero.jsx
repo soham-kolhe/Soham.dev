@@ -36,7 +36,7 @@ const icons = {
   ),
 };
 
-const Hero = () => {
+const Hero = ({ onImageLoad }) => {
   return (
     <section className="hero-section" id="hero">
       <div className="hero__container">
@@ -127,6 +127,7 @@ const Hero = () => {
               alt="Soham Kolhe — Full-Stack Developer & Cloud Engineer"
               className="hero__photo"
               loading="eager"
+              onLoad={onImageLoad}
             />
 
             {/* Neon glow behind image */}

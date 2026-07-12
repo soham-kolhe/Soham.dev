@@ -2,12 +2,41 @@
    Cyberpunk 3D Background Scene
    Floating neon geometry that responds to scroll
    ============================================ */
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Stars, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import CourierDrone from './CourierDrone';
 import { scrollState } from '../../scrollState';
+
+// Define camera and DataSphere checkpoints based on scroll progress (0.0 to 1.0)
+const SCENE_CHECKPOINTS = [
+  {
+    progress: 0.0, // Hero
+    camera: { pos: [0, 1, 8], fov: 60 },
+    sphere: { pos: [3, 0.5, -2], scale: 1.0 }
+  },
+  {
+    progress: 0.25, // About
+    camera: { pos: [-2, 1.5, 7], fov: 58 },
+    sphere: { pos: [2.5, 0.8, -3], scale: 0.9 }
+  },
+  {
+    progress: 0.5, // Skills & Projects
+    camera: { pos: [2.2, 0.5, 6], fov: 55 },
+    sphere: { pos: [0.5, 0.2, -1], scale: 1.25 }
+  },
+  {
+    progress: 0.75, // Certifications
+    camera: { pos: [0, -0.8, 9], fov: 62 },
+    sphere: { pos: [3.5, -1.0, -3], scale: 0.8 }
+  },
+  {
+    progress: 1.0, // Contact
+    camera: { pos: [1.5, -1.8, 8.5], fov: 60 },
+    sphere: { pos: [2.0, -2.0, -2], scale: 0.9 }
+  }
+];
 
 /* --- Neon Grid Floor --- */
 function NeonGrid() {
@@ -30,11 +59,12 @@ function NeonGrid() {
 }
 
 /* --- Floating Neon Shapes --- */
-function FloatingShape({ position, geometry, color, speed = 1, rotationAxis = 'y' }) {
+function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) {
   const meshRef = useRef();
   const materialRef = useRef();
 
   useFrame((state) => {
+    if (reducedMotion) return;
     if (!meshRef.current) return;
     const t = state.clock.elapsedTime * speed;
 
@@ -152,7 +182,8 @@ function NeonParticles({ count = 100 }) {
 }
 
 /* --- Central Data Sphere --- */
-function DataSphere() {
+function DataSphere({ degraded, reducedMotion }) {
+  const groupRef = useRef();
   const sphereRef = useRef();
   const wireRef = useRef();
 
@@ -166,72 +197,158 @@ function DataSphere() {
       wireRef.current.rotation.y = -t * 0.1;
       wireRef.current.rotation.z = t * 0.05;
     }
+
+    if (groupRef.current && !degraded && !reducedMotion) {
+      const progress = THREE.MathUtils.clamp(scrollState.progress, 0, 1);
+      let cpA = SCENE_CHECKPOINTS[0];
+      let cpB = SCENE_CHECKPOINTS[SCENE_CHECKPOINTS.length - 1];
+
+      for (let i = 0; i < SCENE_CHECKPOINTS.length - 1; i++) {
+        if (progress >= SCENE_CHECKPOINTS[i].progress && progress <= SCENE_CHECKPOINTS[i + 1].progress) {
+          cpA = SCENE_CHECKPOINTS[i];
+          cpB = SCENE_CHECKPOINTS[i + 1];
+          break;
+        }
+      }
+
+      const segmentRange = cpB.progress - cpA.progress;
+      const factor = segmentRange > 0 ? (progress - cpA.progress) / segmentRange : 0;
+
+      const targetSphereX = THREE.MathUtils.lerp(cpA.sphere.pos[0], cpB.sphere.pos[0], factor);
+      const targetSphereY = THREE.MathUtils.lerp(cpA.sphere.pos[1], cpB.sphere.pos[1], factor);
+      const targetSphereZ = THREE.MathUtils.lerp(cpA.sphere.pos[2], cpB.sphere.pos[2], factor);
+      const targetSphereScale = THREE.MathUtils.lerp(cpA.sphere.scale, cpB.sphere.scale, factor);
+
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetSphereX, 0.05);
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetSphereY, 0.05);
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetSphereZ, 0.05);
+
+      const s = THREE.MathUtils.lerp(groupRef.current.scale.x, targetSphereScale, 0.05);
+      groupRef.current.scale.set(s, s, s);
+    }
   });
 
   return (
-    <group position={[3, 0.5, -2]}>
+    <group ref={groupRef} position={[3, 0.5, -2]}>
       {/* Inner sphere */}
       <mesh ref={sphereRef}>
-        <icosahedronGeometry args={[1.2, 1]} />
+        <icosahedronGeometry args={[1.2, degraded ? 0 : 1]} />
         <meshStandardMaterial
           color="#00F0FF"
           emissive="#00F0FF"
-          emissiveIntensity={0.3}
+          emissiveIntensity={degraded ? 0.45 : 0.3}
           wireframe
           transparent
-          opacity={0.3}
+          opacity={degraded ? 0.5 : 0.3}
         />
       </mesh>
       {/* Outer wireframe ring */}
-      <mesh ref={wireRef}>
-        <torusGeometry args={[1.8, 0.02, 16, 64]} />
-        <meshStandardMaterial
-          color="#FF00AA"
-          emissive="#FF00AA"
-          emissiveIntensity={0.5}
-          transparent
-          opacity={0.5}
-        />
-      </mesh>
+      {!degraded && (
+        <mesh ref={wireRef}>
+          <torusGeometry args={[1.8, 0.02, 16, 64]} />
+          <meshStandardMaterial
+            color="#FF00AA"
+            emissive="#FF00AA"
+            emissiveIntensity={0.5}
+            transparent
+            opacity={0.5}
+          />
+        </mesh>
+      )}
       {/* Second ring */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.0, 0.015, 16, 64]} />
-        <meshStandardMaterial
-          color="#B8FF00"
-          emissive="#B8FF00"
-          emissiveIntensity={0.4}
-          transparent
-          opacity={0.3}
-        />
-      </mesh>
+      {!degraded && (
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[2.0, 0.015, 16, 64]} />
+          <meshStandardMaterial
+            color="#B8FF00"
+            emissive="#B8FF00"
+            emissiveIntensity={0.4}
+            transparent
+            opacity={0.3}
+          />
+        </mesh>
+      )}
     </group>
   );
 }
 
 /* --- Main Scene --- */
-function Scene({ degraded }) {
+function Scene({ degraded, reducedMotion }) {
   const groupRef = useRef();
 
   useFrame((state) => {
     if (groupRef.current) {
-      // Rotate the entire background scene as you scroll down
-      const targetRotationY = (scrollState.progress * Math.PI * 0.6) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.06);
+      if (!reducedMotion) {
+        // Rotate the entire background scene as you scroll down
+        const targetRotationY = (scrollState.progress * Math.PI * 0.6) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
+        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.06);
 
-      // Parallax vertical movement based on scroll progress
-      const targetPositionY = -scrollState.progress * 2.5;
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.06);
+        // Parallax vertical movement based on scroll progress
+        const targetPositionY = -scrollState.progress * 2.5;
+        groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.06);
 
-      // Tilt scene based on scroll velocity
-      const targetRotationX = scrollState.velocity * 0.15;
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.06);
+        // Tilt scene based on scroll velocity
+        const targetRotationX = scrollState.velocity * 0.15;
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.06);
+      } else {
+        // Static scene if reduced motion is preferred
+        groupRef.current.rotation.y = 0;
+        groupRef.current.position.y = 0;
+        groupRef.current.rotation.x = 0;
+      }
+    }
+
+    // Camera checkpoint lerping based on scroll progress
+    if (!degraded && !reducedMotion) {
+      const progress = THREE.MathUtils.clamp(scrollState.progress, 0, 1);
+      let cpA = SCENE_CHECKPOINTS[0];
+      let cpB = SCENE_CHECKPOINTS[SCENE_CHECKPOINTS.length - 1];
+
+      for (let i = 0; i < SCENE_CHECKPOINTS.length - 1; i++) {
+        if (progress >= SCENE_CHECKPOINTS[i].progress && progress <= SCENE_CHECKPOINTS[i + 1].progress) {
+          cpA = SCENE_CHECKPOINTS[i];
+          cpB = SCENE_CHECKPOINTS[i + 1];
+          break;
+        }
+      }
+
+      const segmentRange = cpB.progress - cpA.progress;
+      const factor = segmentRange > 0 ? (progress - cpA.progress) / segmentRange : 0;
+
+      const targetCamX = THREE.MathUtils.lerp(cpA.camera.pos[0], cpB.camera.pos[0], factor);
+      const targetCamY = THREE.MathUtils.lerp(cpA.camera.pos[1], cpB.camera.pos[1], factor);
+      const targetCamZ = THREE.MathUtils.lerp(cpA.camera.pos[2], cpB.camera.pos[2], factor);
+      const targetFov = THREE.MathUtils.lerp(cpA.camera.fov, cpB.camera.fov, factor);
+
+      // Smoothly lerp camera position
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetCamX, 0.05);
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetCamY, 0.05);
+      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetCamZ, 0.05);
+
+      // Update FOV if changed
+      if (Math.abs(state.camera.fov - targetFov) > 0.01) {
+        state.camera.fov = THREE.MathUtils.lerp(state.camera.fov, targetFov, 0.05);
+        state.camera.updateProjectionMatrix();
+      }
+
+      state.camera.lookAt(0, 0, 0);
+    } else {
+      // Default fallback camera position
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, 0, 0.05);
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 1, 0.05);
+      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 8, 0.05);
+      if (Math.abs(state.camera.fov - 60) > 0.01) {
+        state.camera.fov = THREE.MathUtils.lerp(state.camera.fov, 60, 0.05);
+        state.camera.updateProjectionMatrix();
+      }
+      state.camera.lookAt(0, 0, 0);
     }
   });
 
   return (
     <group ref={groupRef}>
       {/* Ambient and point lights */}
-      <ambientLight intensity={0.15} />
+      <ambientLight intensity={degraded ? 0.35 : 0.15} />
       <pointLight position={[5, 5, 5]} color="#00F0FF" intensity={1} distance={20} />
       <pointLight position={[-5, 3, -5]} color="#FF00AA" intensity={0.8} distance={20} />
       <pointLight position={[0, -3, 5]} color="#B8FF00" intensity={0.5} distance={15} />
@@ -250,18 +367,18 @@ function Scene({ degraded }) {
       {/* Neon grid floor */}
       <NeonGrid />
 
-      {/* Central data sphere - hidden on degraded devices */}
-      {!degraded && <DataSphere />}
+      {/* Central data sphere - rendered but simplified when degraded */}
+      <DataSphere degraded={degraded} reducedMotion={reducedMotion} />
 
       {/* Floating neon shapes scattered around */}
-      <FloatingShape position={[-4, 2, -3]} geometry="octahedron" color="#00F0FF" speed={0.8} />
-      <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} />
-      <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} />
+      <FloatingShape position={[-4, 2, -3]} geometry="octahedron" color="#00F0FF" speed={0.8} reducedMotion={reducedMotion} />
+      <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} reducedMotion={reducedMotion} />
+      <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} reducedMotion={reducedMotion} />
       {!degraded && (
         <>
-          <FloatingShape position={[2, 3, -8]} geometry="torusKnot" color="#00F0FF" speed={0.9} />
-          <FloatingShape position={[-6, 0, -6]} geometry="dodecahedron" color="#FF00AA" speed={0.7} />
-          <FloatingShape position={[7, 1, -4]} geometry="octahedron" color="#B8FF00" speed={1.1} />
+          <FloatingShape position={[2, 3, -8]} geometry="torusKnot" color="#00F0FF" speed={0.9} reducedMotion={reducedMotion} />
+          <FloatingShape position={[-6, 0, -6]} geometry="dodecahedron" color="#FF00AA" speed={0.7} reducedMotion={reducedMotion} />
+          <FloatingShape position={[7, 1, -4]} geometry="octahedron" color="#B8FF00" speed={1.1} reducedMotion={reducedMotion} />
         </>
       )}
 
@@ -277,6 +394,32 @@ function Scene({ degraded }) {
 /* --- Exported Canvas Component --- */
 export default function CyberpunkScene() {
   const [degraded, setDegraded] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Check URL query parameters for performance overrides
+  const forceSettings = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('perf') === 'high' || params.get('degraded') === 'false') {
+      return 'high';
+    }
+    if (params.get('perf') === 'low' || params.get('degraded') === 'true') {
+      return 'low';
+    }
+    return null;
+  }, []);
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(motionQuery.matches);
+    const handleMotionChange = (e) => setReducedMotion(e.matches);
+    motionQuery.addEventListener('change', handleMotionChange);
+    return () => {
+      motionQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
+
+  const activeDegraded = forceSettings ? (forceSettings === 'low') : degraded;
 
   return (
     <div
@@ -301,10 +444,16 @@ export default function CyberpunkScene() {
         style={{ background: 'transparent' }}
       >
         <PerformanceMonitor
-          onDecline={() => setDegraded(true)}
-          onIncline={() => setDegraded(false)}
+          onDecline={() => {
+            console.log('[PerformanceMonitor] Frame decline detected. Activating degraded mode.');
+            setDegraded(true);
+          }}
+          onIncline={() => {
+            console.log('[PerformanceMonitor] Frame incline detected. Restoring quality settings.');
+            setDegraded(false);
+          }}
         >
-          <Scene degraded={degraded} />
+          <Scene degraded={activeDegraded} reducedMotion={reducedMotion} />
         </PerformanceMonitor>
       </Canvas>
     </div>

@@ -3,7 +3,7 @@
    ============================================ */
 
 .contact {
-  background: var(--color-section-alt);
+  background-color: var(--color-section-alt-alpha);
 }
 
 /* --- Grid layout --- */

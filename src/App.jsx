@@ -54,15 +54,16 @@ function App() {
       scrollState.velocity = e.velocity ?? 0;
     });
 
-    gsap.ticker.add((time) => {
+    const raf = (time) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(raf);
 
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(raf);
     };
   }, [isLoading]);
 
@@ -71,16 +72,30 @@ function App() {
     if (isLoading) return;
     const sceneTimer = setTimeout(() => {
       setSceneReady(true);
+      ScrollTrigger.refresh();
     }, 300);
     return () => clearTimeout(sceneTimer);
+  }, [isLoading]);
+
+  /* --- Refresh ScrollTrigger when web fonts are loaded --- */
+  useEffect(() => {
+    if (isLoading) return;
+    if (document.fonts) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
   }, [isLoading]);
 
   /* --- GSAP Scroll Animations --- */
   useEffect(() => {
     if (isLoading) return;
 
+    let mm;
+
     // Small delay to ensure DOM is ready
     const timeout = setTimeout(() => {
+      mm = gsap.matchMedia();
       // Reveal animations (fade in up)
       gsap.utils.toArray('.reveal').forEach((el) => {
         gsap.fromTo(
@@ -196,10 +211,62 @@ function App() {
           }
         );
       });
+
+      // Certificates Grid Stagger (Scrub on desktop, one-shot on mobile)
+      mm.add(
+        {
+          isDesktop: '(min-width: 769px) and (prefers-reduced-motion: no-preference)',
+          isMobile: '(max-width: 768px) and (prefers-reduced-motion: no-preference)',
+        },
+        (context) => {
+          const { isDesktop, isMobile } = context.conditions;
+          const certsGrid = document.querySelector('.certs__grid');
+          if (certsGrid) {
+            if (isDesktop) {
+              gsap.fromTo(
+                certsGrid.children,
+                { opacity: 0, y: 60, scale: 0.9 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  stagger: { each: 0.08, from: 'start' },
+                  ease: 'power2.out',
+                  scrollTrigger: {
+                    trigger: certsGrid,
+                    start: 'top 85%',
+                    end: 'top 30%',
+                    scrub: 1,
+                  },
+                }
+              );
+            } else if (isMobile) {
+              gsap.fromTo(
+                certsGrid.children,
+                { opacity: 0, y: 30, scale: 0.95 },
+                {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.6,
+                  stagger: 0.05,
+                  ease: 'power2.out',
+                  scrollTrigger: {
+                    trigger: certsGrid,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none',
+                  },
+                }
+              );
+            }
+          }
+        }
+      );
     }, 100);
 
     return () => {
       clearTimeout(timeout);
+      if (mm) mm.revert();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [isLoading]);
@@ -231,7 +298,7 @@ function App() {
         <div ref={appRef} className="app-wrapper">
           <Navbar />
           <main>
-            <Hero />
+            <Hero onImageLoad={() => ScrollTrigger.refresh()} />
             <About />
             <Skills />
             <Projects />

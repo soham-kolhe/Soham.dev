@@ -3,7 +3,7 @@
    ============================================ */
 
 .footer {
-  background: var(--color-deep);
+  background-color: var(--color-deep-alpha);
   position: relative;
 }
 

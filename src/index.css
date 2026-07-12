@@ -14,6 +14,11 @@
   --color-border: #1E1E2E;
   --color-border-glow: rgba(0, 240, 255, 0.15);
 
+  /* Semi-transparent backgrounds (let 3D scene bleed through) */
+  --color-void-alpha: rgba(13, 13, 13, 0.88);
+  --color-deep-alpha: rgba(10, 10, 10, 0.90);
+  --color-section-alt-alpha: rgba(14, 14, 20, 0.88);
+
   --color-cyan: #00F0FF;
   --color-cyan-dim: #00A5B0;
   --color-cyan-glow: rgba(0, 240, 255, 0.4);
@@ -124,7 +129,7 @@ body {
   font-weight: var(--fw-regular);
   line-height: var(--lh-normal);
   color: var(--color-text-primary);
-  background-color: var(--color-void);
+  background-color: transparent;
   overflow-x: hidden;
 }
 
@@ -466,6 +471,15 @@ button {
 
   .scanline-overlay {
     display: none;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

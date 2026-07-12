@@ -65,7 +65,7 @@ export default function CourierDrone({ degraded }) {
     ], false, 'catmullrom', 0.5);
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (reducedMotion) return;
 
     const t = THREE.MathUtils.clamp(scrollState.progress, 0, 1);

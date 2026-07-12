@@ -5,7 +5,7 @@
 
 /* --- Section --- */
 .skills {
-  background-color: var(--color-void);
+  background-color: var(--color-void-alpha);
   position: relative;
 }
 

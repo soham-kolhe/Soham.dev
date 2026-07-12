@@ -26,7 +26,7 @@ const Certifications = () => {
             return (
               <article
                 key={index}
-                className={`cert-badge reveal-scale ${isHighlight ? 'cert-badge--highlight' : ''}`}
+                className={`cert-badge ${isHighlight ? 'cert-badge--highlight' : ''}`}
                 data-color={cert.color}
                 style={{ '--badge-delay': `${index * 0.1}s` }}
               >

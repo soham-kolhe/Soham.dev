@@ -4,7 +4,7 @@
 
 /* --- Section Layout --- */
 .projects {
-  background-color: var(--color-section-alt);
+  background-color: var(--color-section-alt-alpha);
   position: relative;
   overflow: hidden;
 }
