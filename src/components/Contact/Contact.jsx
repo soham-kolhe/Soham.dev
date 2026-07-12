@@ -51,17 +51,48 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('transmitting');
 
+    const formspreeId = personalInfo.formspreeId;
+
+    if (formspreeId) {
+      try {
+        const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          }),
+        });
+
+        if (response.ok) {
+          setStatus('success');
+          setTimeout(() => {
+            setFormData({ name: '', email: '', message: '' });
+            setStatus('idle');
+          }, 4000);
+          return;
+        }
+      } catch (error) {
+        console.error('Formspree transmission failed, falling back to mailto:', error);
+      }
+    }
+
+    // Fallback: mailto redirect
     setTimeout(() => {
       setStatus('success');
 
       // Prefill and trigger mailto redirect
       const subject = encodeURIComponent(`Comm Link: Message from ${formData.name}`);
       const body = encodeURIComponent(`Callsign: ${formData.name}\nFrequency: ${formData.email}\n\nTransmission:\n${formData.message}`);
-      window.location.href = `mailto:sohamkolhe20@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
 
       // Reset form after sequence
       setTimeout(() => {

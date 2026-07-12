@@ -12,6 +12,7 @@ export const personalInfo = {
   heroQuote: "Welcome to the Grid. I build the future.",
   location: "Vadodara, Gujarat, India",
   email: "sohamkolhe20@gmail.com",
+  formspreeId: "", // Paste your Formspree form ID here (e.g. "xqnqjdyy") to receive form submissions
   resumeLink: "/resume.pdf",
   bio: [
     "I'm a Computer Science student passionate about building systems that scale. With a strong foundation in MERN stack development and cloud engineering, I bring ideas from concept to deployment.",

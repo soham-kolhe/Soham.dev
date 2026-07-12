@@ -97,6 +97,7 @@ const Hero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.name}
+                  title={link.name}
                 >
                   {icons[link.icon]}
                   <span>{link.name}</span>

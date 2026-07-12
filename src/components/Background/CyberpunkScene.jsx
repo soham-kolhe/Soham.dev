@@ -7,6 +7,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Stars, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import CourierDrone from './CourierDrone';
+import { scrollState } from '../../scrollState';
 
 /* --- Neon Grid Floor --- */
 function NeonGrid() {
@@ -213,8 +214,17 @@ function Scene({ degraded }) {
 
   useFrame((state) => {
     if (groupRef.current) {
-      // Gentle scene sway based on time (scroll-linked via CSS/GSAP in parent)
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
+      // Rotate the entire background scene as you scroll down
+      const targetRotationY = (scrollState.progress * Math.PI * 0.6) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.06);
+
+      // Parallax vertical movement based on scroll progress
+      const targetPositionY = -scrollState.progress * 2.5;
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.06);
+
+      // Tilt scene based on scroll velocity
+      const targetRotationX = scrollState.velocity * 0.15;
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.06);
     }
   });
 
