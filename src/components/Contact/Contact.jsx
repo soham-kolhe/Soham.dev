@@ -45,6 +45,7 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [status, setStatus] = useState('idle'); // idle | transmitting | success
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -52,12 +53,22 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Formspree placeholder — replace YOUR_FORM_ID with real ID
-    const formAction = `https://formspree.io/f/YOUR_FORM_ID`;
-    const form = e.target;
-    form.action = formAction;
-    form.method = 'POST';
-    form.submit();
+    setStatus('transmitting');
+
+    setTimeout(() => {
+      setStatus('success');
+
+      // Prefill and trigger mailto redirect
+      const subject = encodeURIComponent(`Comm Link: Message from ${formData.name}`);
+      const body = encodeURIComponent(`Callsign: ${formData.name}\nFrequency: ${formData.email}\n\nTransmission:\n${formData.message}`);
+      window.location.href = `mailto:sohamkolhe20@gmail.com?subject=${subject}&body=${body}`;
+
+      // Reset form after sequence
+      setTimeout(() => {
+        setFormData({ name: '', email: '', message: '' });
+        setStatus('idle');
+      }, 4000);
+    }, 1500);
   };
 
   return (
@@ -130,15 +141,15 @@ const Contact = () => {
           <div className="contact__form-wrapper reveal-right">
             <div className="contact__form-card glass-card hud-corners">
               <div className="contact__form-header">
-                <span className="contact__form-status">● ONLINE</span>
+                <span className={`contact__form-status ${status !== 'idle' ? 'contact__form-status--active' : ''}`}>
+                  ● {status === 'idle' ? 'ONLINE' : status === 'transmitting' ? 'TRANSMITTING' : 'SECURE_LINK_ESTABLISHED'}
+                </span>
                 <span className="contact__form-label">SECURE_CHANNEL</span>
               </div>
 
               <form
                 className="contact__form"
                 onSubmit={handleSubmit}
-                action="https://formspree.io/f/YOUR_FORM_ID"
-                method="POST"
               >
                 <div className="contact__field">
                   <label htmlFor="contact-name" className="contact__label">
@@ -152,6 +163,7 @@ const Contact = () => {
                     placeholder="Enter your name..."
                     value={formData.name}
                     onChange={handleChange}
+                    disabled={status !== 'idle'}
                     required
                     autoComplete="name"
                   />
@@ -169,6 +181,7 @@ const Contact = () => {
                     placeholder="Enter your email..."
                     value={formData.email}
                     onChange={handleChange}
+                    disabled={status !== 'idle'}
                     required
                     autoComplete="email"
                   />
@@ -186,12 +199,17 @@ const Contact = () => {
                     rows="5"
                     value={formData.message}
                     onChange={handleChange}
+                    disabled={status !== 'idle'}
                     required
                   />
                 </div>
 
-                <button type="submit" className="cyber-btn contact__submit-btn">
-                  [TRANSMIT_MESSAGE]
+                <button 
+                  type="submit" 
+                  className={`cyber-btn contact__submit-btn ${status === 'success' ? 'cyber-btn--magenta' : ''}`}
+                  disabled={status !== 'idle'}
+                >
+                  {status === 'idle' ? '[ TRANSMIT_MESSAGE ]' : status === 'transmitting' ? '[ ROUTING_PACKETS... ]' : '[ TRANSMISSION_SUCCESS ]'}
                 </button>
               </form>
             </div>

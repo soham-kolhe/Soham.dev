@@ -355,6 +355,19 @@ button {
   box-shadow: var(--glow-magenta);
 }
 
+.cyber-btn--green {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.cyber-btn--green::before {
+  background: var(--color-green);
+}
+
+.cyber-btn--green:hover {
+  box-shadow: var(--glow-green);
+}
+
 /* --- HUD Corner Decoration --- */
 .hud-corners {
   position: relative;

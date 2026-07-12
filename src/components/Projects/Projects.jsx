@@ -112,17 +112,28 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* GitHub Link */}
-              <div className="mission-card__actions">
+              {/* Actions */}
+              <div className="mission-card__actions" style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`cyber-btn ${project.color === 'magenta' ? 'cyber-btn--magenta' : ''}`}
+                  className="cyber-btn"
                 >
                   <span className="cyber-btn__icon">◈</span>
-                  VIEW ON GITHUB
+                  VIEW CODE
                 </a>
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cyber-btn cyber-btn--magenta"
+                  >
+                    <span className="cyber-btn__icon">⚡</span>
+                    LIVE DEMO
+                  </a>
+                )}
               </div>
             </article>
           ))}

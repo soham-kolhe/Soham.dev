@@ -117,7 +117,8 @@ export const projects = [
       "Flashcard generation",
       "Dockerized deployment"
     ],
-    github: "https://github.com/soham-kolhe",
+    github: "https://github.com/soham-kolhe/AI-Second-Brain",
+    live: "https://ai-second-brain-demo.vercel.app",
     color: "cyan"
   },
   {
@@ -140,7 +141,8 @@ export const projects = [
       "Remote cursor tracking",
       "Persistent drawing storage"
     ],
-    github: "https://github.com/soham-kolhe",
+    github: "https://github.com/soham-kolhe/CollabBoard",
+    live: "https://collabboard-demo.vercel.app",
     color: "magenta"
   },
   {
@@ -163,7 +165,7 @@ export const projects = [
       "Radiology & laboratory",
       "Analytics dashboard"
     ],
-    github: "https://github.com/soham-kolhe",
+    github: "https://github.com/soham-kolhe/Hospital-Information-System",
     color: "green"
   }
 ];

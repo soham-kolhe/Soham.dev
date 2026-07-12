@@ -56,7 +56,7 @@ const Footer = () => {
             <span className="footer__name">Soham Kolhe</span>
           </p>
           <p className="footer__copy">
-            © 2025 — All systems operational
+            © 2026 — All systems operational
           </p>
         </div>
 
