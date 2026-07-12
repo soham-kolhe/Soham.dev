@@ -1,0 +1,247 @@
+/* ============================================
+   About Component — Styles
+   ============================================ */
+
+/* --- Section Background --- */
+.about {
+  background-color: var(--color-section-alt);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grid-line background texture */
+.about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* --- Two-column Grid --- */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+
+/* --- Left Column: Bio --- */
+.about__bio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.about__bio-tag {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.about__bio-tag-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  box-shadow: 0 0 6px var(--color-cyan-glow);
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+.about__bio-tag-text {
+  color: var(--color-cyan-dim);
+}
+
+.about__bio-paragraph {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* --- Bio Meta Info --- */
+.about__bio-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-left: 2px solid var(--color-cyan);
+  background: rgba(0, 240, 255, 0.03);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.about__meta-item {
+  display: flex;
+  gap: var(--space-sm);
+  font-size: var(--fs-small);
+}
+
+.about__meta-key {
+  color: var(--color-text-muted);
+  font-weight: var(--fw-medium);
+  min-width: 50px;
+}
+
+.about__meta-value {
+  color: var(--color-text-primary);
+}
+
+/* --- Right Column: Info Cards --- */
+.about__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.about__card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-xl);
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.about__card-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+.about__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.about__card-label {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-text-muted);
+}
+
+.about__card-value {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-primary);
+  line-height: var(--lh-tight);
+}
+
+.about__card-sub {
+  font-size: var(--fs-small);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-normal);
+  margin-top: 2px;
+}
+
+/* --- Card Accent Variants --- */
+
+/* Cyan accent */
+.about__card--cyan .about__card-icon {
+  background: rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.2);
+}
+
+.about__card--cyan .about__card-label {
+  color: var(--color-cyan-dim);
+}
+
+.about__card--cyan:hover {
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.08), inset 0 0 20px rgba(0, 240, 255, 0.03);
+}
+
+.about__card--cyan::before {
+  border-color: var(--color-cyan);
+}
+
+.about__card--cyan::after {
+  border-color: var(--color-cyan);
+}
+
+/* Magenta accent */
+.about__card--magenta .about__card-icon {
+  background: rgba(255, 0, 170, 0.08);
+  border-color: rgba(255, 0, 170, 0.2);
+}
+
+.about__card--magenta .about__card-label {
+  color: var(--color-magenta-dim);
+}
+
+.about__card--magenta:hover {
+  border-color: rgba(255, 0, 170, 0.35);
+  box-shadow: 0 0 20px rgba(255, 0, 170, 0.08), inset 0 0 20px rgba(255, 0, 170, 0.03);
+}
+
+.about__card--magenta::before {
+  border-color: var(--color-magenta);
+}
+
+.about__card--magenta::after {
+  border-color: var(--color-magenta);
+}
+
+/* Green accent */
+.about__card--green .about__card-icon {
+  background: rgba(184, 255, 0, 0.08);
+  border-color: rgba(184, 255, 0, 0.2);
+}
+
+.about__card--green .about__card-label {
+  color: var(--color-green);
+}
+
+.about__card--green:hover {
+  border-color: rgba(184, 255, 0, 0.35);
+  box-shadow: 0 0 20px rgba(184, 255, 0, 0.08), inset 0 0 20px rgba(184, 255, 0, 0.03);
+}
+
+.about__card--green::before {
+  border-color: var(--color-green);
+}
+
+.about__card--green::after {
+  border-color: var(--color-green);
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .about__card {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  .about__bio-meta {
+    padding: var(--space-md);
+  }
+}

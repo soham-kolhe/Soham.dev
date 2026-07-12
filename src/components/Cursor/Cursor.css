@@ -1,0 +1,107 @@
+/* ============================================
+   Custom Cyberpunk Cursor Styles
+   ============================================ */
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--color-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring--hover {
+  width: 60px;
+  height: 60px;
+  border-color: var(--color-magenta);
+  border-width: 2px;
+}
+
+.cursor-ring--hidden {
+  opacity: 0;
+}
+
+/* Crosshair lines */
+.cursor-ring__line {
+  position: absolute;
+  background-color: var(--color-cyan);
+  transition: background-color 0.3s ease;
+}
+
+.cursor-ring--hover .cursor-ring__line {
+  background-color: var(--color-magenta);
+}
+
+.cursor-ring__line--top,
+.cursor-ring__line--bottom {
+  width: 1px;
+  height: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cursor-ring__line--left,
+.cursor-ring__line--right {
+  height: 1px;
+  width: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cursor-ring__line--top {
+  top: -8px;
+}
+
+.cursor-ring__line--bottom {
+  bottom: -8px;
+}
+
+.cursor-ring__line--left {
+  left: -8px;
+}
+
+.cursor-ring__line--right {
+  right: -8px;
+}
+
+/* Cursor dot */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, opacity 0.3s ease;
+  box-shadow: 0 0 8px var(--color-cyan-glow), 0 0 20px var(--color-cyan-glow);
+}
+
+.cursor-dot--hover {
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-magenta);
+  box-shadow: 0 0 8px var(--color-magenta-glow), 0 0 20px var(--color-magenta-glow);
+}
+
+.cursor-dot--hidden {
+  opacity: 0;
+}
+
+/* Hide on touch devices */
+@media (pointer: coarse) {
+  .cursor-ring,
+  .cursor-dot {
+    display: none;
+  }
+}
