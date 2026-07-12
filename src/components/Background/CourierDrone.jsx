@@ -8,8 +8,8 @@ const SECTION_COLORS = [
   '#00F0FF', // about: cyan
   '#FF00AA', // skills: magenta
   '#FF00AA', // projects: magenta
-  '#B8FF00', // certs: green
-  '#B8FF00', // contact: green
+  '#00F0FF', // certs: cyan
+  '#FF00AA', // contact: magenta
 ];
 
 export default function CourierDrone({ degraded }) {

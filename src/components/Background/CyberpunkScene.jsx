@@ -109,7 +109,7 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
           emissiveIntensity={0.65}
           wireframe
           transparent
-          opacity={0.6}
+          opacity={0.7}
         />
       </mesh>
     </Float>
@@ -135,7 +135,6 @@ function NeonParticles({ count = 100 }) {
     const colorOptions = [
       [0, 0.94, 1],     // cyan
       [1, 0, 0.67],     // magenta
-      [0.72, 1, 0],     // green
     ];
     for (let i = 0; i < count; i++) {
       const c = colorOptions[Math.floor(Math.random() * colorOptions.length)];
@@ -236,10 +235,10 @@ function DataSphere({ degraded, reducedMotion }) {
         <meshStandardMaterial
           color="#00F0FF"
           emissive="#00F0FF"
-          emissiveIntensity={degraded ? 0.45 : 0.3}
+          emissiveIntensity={degraded ? 0.5 : 0.6}
           wireframe
           transparent
-          opacity={degraded ? 0.5 : 0.3}
+          opacity={degraded ? 0.55 : 0.5}
         />
       </mesh>
       {/* Outer wireframe ring */}
@@ -248,9 +247,9 @@ function DataSphere({ degraded, reducedMotion }) {
         <meshStandardMaterial
           color="#FF00AA"
           emissive="#FF00AA"
-          emissiveIntensity={0.5}
+          emissiveIntensity={0.65}
           transparent
-          opacity={0.5}
+          opacity={0.6}
         />
       </mesh>
       {/* Second ring */}
@@ -258,11 +257,11 @@ function DataSphere({ degraded, reducedMotion }) {
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[2.0, 0.015, 8, 32]} />
           <meshStandardMaterial
-            color="#B8FF00"
-            emissive="#B8FF00"
-            emissiveIntensity={0.4}
+            color="#00F0FF"
+            emissive="#00F0FF"
+            emissiveIntensity={0.55}
             transparent
-            opacity={0.3}
+            opacity={0.4}
           />
         </mesh>
       )}
@@ -348,15 +347,15 @@ function Scene({ degraded, reducedMotion }) {
   return (
     <group ref={groupRef}>
       {/* Depth Fog */}
-      <fog attach="fog" args={['#0D0D0D', 8, 25]} />
+      <fog attach="fog" args={['#000000', 8, 25]} />
 
       {/* Ambient and point lights */}
-      <ambientLight intensity={degraded ? 0.35 : 0.15} />
+      <ambientLight intensity={degraded ? 0.4 : 0.25} />
       <pointLight position={[5, 5, 5]} color="#00F0FF" intensity={1} distance={20} />
       {!degraded && (
         <>
           <pointLight position={[-5, 3, -5]} color="#FF00AA" intensity={0.8} distance={20} />
-          <pointLight position={[0, -3, 5]} color="#B8FF00" intensity={0.5} distance={15} />
+          <pointLight position={[0, -3, 5]} color="#00F0FF" intensity={0.5} distance={15} />
         </>
       )}
 
@@ -382,7 +381,7 @@ function Scene({ degraded, reducedMotion }) {
       {!degraded && (
         <>
           <FloatingShape position={[5, -1, -5]} geometry="torus" color="#FF00AA" speed={1.2} reducedMotion={reducedMotion} />
-          <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#B8FF00" speed={0.6} reducedMotion={reducedMotion} />
+          <FloatingShape position={[-3, -1, 2]} geometry="icosahedron" color="#FF00AA" speed={0.6} reducedMotion={reducedMotion} />
         </>
       )}
 

@@ -5,19 +5,19 @@
 /* --- CSS Custom Properties (Design Tokens) --- */
 :root {
   /* Colors */
-  --color-void: #0D0D0D;
-  --color-deep: #0A0A0A;
-  --color-surface: #111111;
-  --color-card: #141419;
-  --color-card-hover: #1A1A24;
-  --color-section-alt: #0E0E14;
-  --color-border: #1E1E2E;
+  --color-void: #000000;
+  --color-deep: #000000;
+  --color-surface: #0a0a0a;
+  --color-card: #111111;
+  --color-card-hover: #151515;
+  --color-section-alt: #050505;
+  --color-border: #1a1a24;
   --color-border-glow: rgba(0, 240, 255, 0.15);
 
   /* Semi-transparent backgrounds (let 3D scene bleed through) */
-  --color-void-alpha: rgba(13, 13, 13, 0.88);
-  --color-deep-alpha: rgba(10, 10, 10, 0.90);
-  --color-section-alt-alpha: rgba(14, 14, 20, 0.88);
+  --color-void-alpha: rgba(10, 10, 14, 0.55);
+  --color-deep-alpha: rgba(10, 10, 14, 0.55);
+  --color-section-alt-alpha: rgba(10, 10, 14, 0.55);
 
   --color-cyan: #00F0FF;
   --color-cyan-dim: #00A5B0;
@@ -84,8 +84,8 @@
   --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 20px var(--color-cyan-glow);
 
   /* Glassmorphism */
-  --glass-bg: rgba(13, 13, 13, 0.7);
-  --glass-bg-light: rgba(20, 20, 25, 0.6);
+  --glass-bg: rgba(0, 0, 0, 0.7);
+  --glass-bg-light: rgba(10, 10, 10, 0.6);
   --glass-blur: blur(12px);
   --glass-border: 1px solid rgba(0, 240, 255, 0.1);
 
@@ -129,7 +129,7 @@ body {
   font-weight: var(--fw-regular);
   line-height: var(--lh-normal);
   color: var(--color-text-primary);
-  background-color: transparent;
+  background-color: var(--color-void);
   overflow-x: hidden;
 }
 
