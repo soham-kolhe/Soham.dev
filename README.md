@@ -2,8 +2,6 @@
 
 Welcome to the Grid. This is a highly interactive, responsive, and developer-centric portfolio designed around a **Cyberpunk / Neon City HUD** aesthetic.
 
-🌐 **Live URL:** [sohamkolhe.dev](https://sohamkolhe.dev)
-
 ---
 
 ## ⚡ Tech Stack & Architecture
