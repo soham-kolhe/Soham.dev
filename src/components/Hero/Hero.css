@@ -291,8 +291,8 @@
 
 .hero__photo-frame {
   position: relative;
-  width: 300px;
-  height: 370px;
+  width: 380px;
+  height: 460px;
   overflow: hidden;
   border: 1.5px solid rgba(0, 240, 255, 0.3);
   background: var(--color-deep);
@@ -424,8 +424,8 @@
   }
 
   .hero__photo-frame {
-    width: 260px;
-    height: 320px;
+    width: 320px;
+    height: 390px;
   }
 }
 
@@ -453,8 +453,8 @@
   }
 
   .hero__photo-frame {
-    width: 200px;
-    height: 250px;
+    width: 250px;
+    height: 310px;
   }
 
   .hero__name {
@@ -513,7 +513,7 @@
   }
 
   .hero__photo-frame {
-    width: 170px;
-    height: 210px;
+    width: 210px;
+    height: 260px;
   }
 }

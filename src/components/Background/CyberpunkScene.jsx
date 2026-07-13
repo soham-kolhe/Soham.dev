@@ -218,11 +218,11 @@ function DataSphere({ degraded, reducedMotion }) {
       const targetSphereZ = THREE.MathUtils.lerp(cpA.sphere.pos[2], cpB.sphere.pos[2], factor);
       const targetSphereScale = THREE.MathUtils.lerp(cpA.sphere.scale, cpB.sphere.scale, factor);
 
-      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetSphereX, 0.05);
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetSphereY, 0.05);
-      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetSphereZ, 0.05);
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetSphereX, 0.03);
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetSphereY, 0.03);
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetSphereZ, 0.03);
 
-      const s = THREE.MathUtils.lerp(groupRef.current.scale.x, targetSphereScale, 0.05);
+      const s = THREE.MathUtils.lerp(groupRef.current.scale.x, targetSphereScale, 0.03);
       groupRef.current.scale.set(s, s, s);
     }
   });
@@ -277,16 +277,16 @@ function Scene({ degraded, reducedMotion }) {
     if (groupRef.current) {
       if (!reducedMotion) {
         // Rotate the entire background scene as you scroll down
-        const targetRotationY = (scrollState.progress * Math.PI * 0.6) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
-        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.06);
+        const targetRotationY = (scrollState.progress * Math.PI * 0.25) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
+        groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.035);
 
         // Parallax vertical movement based on scroll progress
-        const targetPositionY = -scrollState.progress * 2.5;
-        groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.06);
+        const targetPositionY = -scrollState.progress * 1.1;
+        groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.035);
 
         // Tilt scene based on scroll velocity
-        const targetRotationX = scrollState.velocity * 0.15;
-        groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.06);
+        const targetRotationX = scrollState.velocity * 0.06;
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.04);
       } else {
         // Static scene if reduced motion is preferred
         groupRef.current.rotation.y = 0;
@@ -318,9 +318,9 @@ function Scene({ degraded, reducedMotion }) {
       const targetFov = THREE.MathUtils.lerp(cpA.camera.fov, cpB.camera.fov, factor);
 
       // Smoothly lerp camera position
-      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetCamX, 0.05);
-      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetCamY, 0.05);
-      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetCamZ, 0.05);
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetCamX, 0.03);
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetCamY, 0.03);
+      state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetCamZ, 0.03);
 
       // Update FOV if changed
       if (Math.abs(state.camera.fov - targetFov) > 0.01) {

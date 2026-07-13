@@ -235,6 +235,28 @@ export const navItems = [
   { label: "About", href: "#about", icon: "user" },
   { label: "Skills", href: "#skills", icon: "cpu" },
   { label: "Projects", href: "#projects", icon: "folder" },
+  { label: "Open Source", href: "#opensource", icon: "code" },
   { label: "Certs", href: "#certifications", icon: "award" },
   { label: "Contact", href: "#contact", icon: "send" }
+];
+
+export const openSourceContributions = [
+  {
+    id: "privateboard",
+    repo: "PrivateBoard",
+    codename: "OPERATION: OPEN GRID",
+    classification: "CONTRIBUTOR",
+    repoPath: "lexasub/PrivateBoard",
+    description: "A private workspace and board management application featuring real-time auto-saving and collaborative features.",
+    contributions: [
+      "Added confirmation dialogs before deleting boards to prevent accidental data loss (Issue #5)",
+      "Implemented multi-select functionality for bulk deletion of boards (Issue #6)",
+      "Improved the auto-save status indicator with dynamic states (Saved, Saving, Failed) (Issue #9)"
+    ],
+    tech: ["React", "JavaScript", "Node.js"],
+    prCount: "3",
+    repoUrl: "https://github.com/lexasub/PrivateBoard",
+    contributionsUrl: "https://github.com/lexasub/PrivateBoard/pulls?q=is%3Apr+author%3Asoham-kolhe",
+    color: "cyan"
+  }
 ];

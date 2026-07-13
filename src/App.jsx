@@ -15,6 +15,7 @@ import Hero from './components/Hero/Hero';
 import About from './components/About/About';
 import Skills from './components/Skills/Skills';
 import Projects from './components/Projects/Projects';
+import OpenSource from './components/OpenSource/OpenSource';
 import Certifications from './components/Certifications/Certifications';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
@@ -302,6 +303,7 @@ function App() {
             <About />
             <Skills />
             <Projects />
+            <OpenSource />
             <Certifications />
             <Contact />
           </main>
