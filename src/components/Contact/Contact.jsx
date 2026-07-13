@@ -39,68 +39,106 @@ const SOCIAL_ICONS = {
   ),
 };
 
+/*
+  Submission strategy is now explicit and honest:
+
+  - If a Formspree ID is configured, we actually POST to it and only show
+    "TRANSMITTING" while that network request is genuinely in flight.
+  - If no Formspree ID is configured, we skip the fake network step
+    entirely and tell the user directly that this will open their email
+    client instead — no fabricated loading state.
+*/
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   });
-  const [status, setStatus] = useState('idle'); // idle | transmitting | success
+  // idle | transmitting | success | error
+  const [status, setStatus] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const hasBackend = Boolean(personalInfo.formspreeId);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const buildMailto = () => {
+    const subject = encodeURIComponent(`Comm Link: Message from ${formData.name}`);
+    const body = encodeURIComponent(
+      `Callsign: ${formData.name}\nFrequency: ${formData.email}\n\nTransmission:\n${formData.message}`
+    );
+    return `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+  };
+
+  const resetAfterDelay = (delay = 4000) => {
+    setTimeout(() => {
+      setFormData({ name: '', email: '', message: '' });
+      setStatus('idle');
+      setErrorMessage('');
+    }, delay);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('transmitting');
+    setErrorMessage('');
 
-    const formspreeId = personalInfo.formspreeId;
-
-    if (formspreeId) {
-      try {
-        const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-          }),
-        });
-
-        if (response.ok) {
-          setStatus('success');
-          setTimeout(() => {
-            setFormData({ name: '', email: '', message: '' });
-            setStatus('idle');
-          }, 4000);
-          return;
-        }
-      } catch (error) {
-        console.error('Formspree transmission failed, falling back to mailto:', error);
-      }
+    // No backend configured: don't fake a network call. Be upfront that
+    // this opens the visitor's email client, then do it immediately.
+    if (!hasBackend) {
+      window.location.href = buildMailto();
+      setStatus('success');
+      resetAfterDelay();
+      return;
     }
 
-    // Fallback: mailto redirect
-    setTimeout(() => {
+    // Backend configured: this is a real request, so a "transmitting"
+    // state is accurate here.
+    setStatus('transmitting');
+
+    try {
+      const response = await fetch(`https://formspree.io/f/${personalInfo.formspreeId}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Formspree responded with ${response.status}`);
+      }
+
       setStatus('success');
-
-      // Prefill and trigger mailto redirect
-      const subject = encodeURIComponent(`Comm Link: Message from ${formData.name}`);
-      const body = encodeURIComponent(`Callsign: ${formData.name}\nFrequency: ${formData.email}\n\nTransmission:\n${formData.message}`);
-      window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
-
-      // Reset form after sequence
-      setTimeout(() => {
-        setFormData({ name: '', email: '', message: '' });
-        setStatus('idle');
-      }, 4000);
-    }, 1500);
+      resetAfterDelay();
+    } catch (error) {
+      console.error('Formspree transmission failed:', error);
+      setStatus('error');
+      setErrorMessage(
+        'Transmission failed. You can retry, or reach out directly at ' + personalInfo.email
+      );
+    }
   };
+
+  const statusLabel = {
+    idle: hasBackend ? 'ONLINE' : 'ONLINE (opens email client)',
+    transmitting: 'TRANSMITTING',
+    success: hasBackend ? 'SECURE_LINK_ESTABLISHED' : 'EMAIL_CLIENT_OPENED',
+    error: 'TRANSMISSION_FAILED',
+  }[status];
+
+  const submitLabel = {
+    idle: hasBackend ? '[ TRANSMIT_MESSAGE ]' : '[ OPEN_EMAIL_CLIENT ]',
+    transmitting: '[ ROUTING_PACKETS... ]',
+    success: hasBackend ? '[ TRANSMISSION_SUCCESS ]' : '[ EMAIL_CLIENT_OPENED ]',
+    error: '[ RETRY_TRANSMISSION ]',
+  }[status];
 
   return (
     <section id="contact" className="section contact">
@@ -173,15 +211,20 @@ const Contact = () => {
             <div className="contact__form-card glass-card hud-corners">
               <div className="contact__form-header">
                 <span className={`contact__form-status ${status !== 'idle' ? 'contact__form-status--active' : ''}`}>
-                  ● {status === 'idle' ? 'ONLINE' : status === 'transmitting' ? 'TRANSMITTING' : 'SECURE_LINK_ESTABLISHED'}
+                  ● {statusLabel}
                 </span>
                 <span className="contact__form-label">SECURE_CHANNEL</span>
               </div>
 
-              <form
-                className="contact__form"
-                onSubmit={handleSubmit}
-              >
+              {!hasBackend && (
+                <p className="contact__form-note">
+                  Note: no message backend is configured yet, so submitting
+                  this form will open your email client with the message
+                  pre-filled instead of sending directly.
+                </p>
+              )}
+
+              <form className="contact__form" onSubmit={handleSubmit}>
                 <div className="contact__field">
                   <label htmlFor="contact-name" className="contact__label">
                     &gt; CALLSIGN:
@@ -194,7 +237,7 @@ const Contact = () => {
                     placeholder="Enter your name..."
                     value={formData.name}
                     onChange={handleChange}
-                    disabled={status !== 'idle'}
+                    disabled={status === 'transmitting'}
                     required
                     autoComplete="name"
                   />
@@ -212,7 +255,7 @@ const Contact = () => {
                     placeholder="Enter your email..."
                     value={formData.email}
                     onChange={handleChange}
-                    disabled={status !== 'idle'}
+                    disabled={status === 'transmitting'}
                     required
                     autoComplete="email"
                   />
@@ -230,17 +273,23 @@ const Contact = () => {
                     rows="5"
                     value={formData.message}
                     onChange={handleChange}
-                    disabled={status !== 'idle'}
+                    disabled={status === 'transmitting'}
                     required
                   />
                 </div>
 
-                <button 
-                  type="submit" 
+                {status === 'error' && (
+                  <p className="contact__form-error" role="alert">
+                    {errorMessage}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
                   className={`cyber-btn contact__submit-btn ${status === 'success' ? 'cyber-btn--magenta' : ''}`}
-                  disabled={status !== 'idle'}
+                  disabled={status === 'transmitting'}
                 >
-                  {status === 'idle' ? '[ TRANSMIT_MESSAGE ]' : status === 'transmitting' ? '[ ROUTING_PACKETS... ]' : '[ TRANSMISSION_SUCCESS ]'}
+                  {submitLabel}
                 </button>
               </form>
             </div>

@@ -262,3 +262,29 @@
     padding: var(--space-sm);
   }
 }
+
+/* ============================================
+   Append these rules to the existing Contact.css
+   ============================================ */
+
+.contact__form-note {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
+  border-left: 2px solid var(--color-gold);
+  background: rgba(255, 215, 0, 0.04);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.contact__form-error {
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--color-red);
+  border-left: 2px solid var(--color-red);
+  background: rgba(255, 51, 68, 0.06);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}

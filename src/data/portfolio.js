@@ -15,9 +15,9 @@ export const personalInfo = {
   formspreeId: "", // Paste your Formspree form ID here (e.g. "xqnqjdyy") to receive form submissions
   resumeLink: "/resume.pdf",
   bio: [
-    "I'm a Computer Science student passionate about building systems that scale. With a strong foundation in MERN stack development and cloud engineering, I bring ideas from concept to deployment.",
-    "Currently pursuing my B.Tech at Parul University while actively exploring DevOps, AI, and Cloud-Native technologies. I believe in building things that matter — and making them work flawlessly."
-  ],
+  "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure.",
+  "I'm currently completing my B.Tech at Parul University while working through DevOps, AI, and cloud-native tooling outside the classroom — five Azure certifications so far. I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use."
+],
   education: {
     degree: "B.Tech in Computer Science & Engineering",
     university: "Parul University, Vadodara",
