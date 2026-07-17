@@ -448,11 +448,15 @@ export default function CyberpunkScene() {
       >
         <PerformanceMonitor
           onDecline={() => {
-            console.log('[PerformanceMonitor] Frame decline detected. Activating degraded mode.');
+            if (import.meta.env.DEV) {
+              console.log('[PerformanceMonitor] Frame decline detected. Activating degraded mode.');
+            }
             setDegraded(true);
           }}
           onIncline={() => {
-            console.log('[PerformanceMonitor] Frame incline detected. Restoring quality settings.');
+            if (import.meta.env.DEV) {
+              console.log('[PerformanceMonitor] Frame incline detected. Restoring quality settings.');
+            }
             setDegraded(false);
           }}
         >

@@ -40,6 +40,15 @@
   opacity: 0.4;
 }
 
+/* --- Scroll Progress Bar --- */
+.navbar__progress {
+  height: 2px;
+  background: var(--color-cyan);
+  box-shadow: 0 0 6px var(--color-cyan-glow);
+  width: 0%;
+  transition: width 0.1s ease-out;
+}
+
 /* --- Logo --- */
 .navbar__logo {
   font-family: var(--font-heading);
@@ -258,7 +267,13 @@
 }
 
 /* --- Responsive --- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .navbar__links {
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 900px) {
   .navbar__links {
     display: none;
   }

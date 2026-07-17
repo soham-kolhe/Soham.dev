@@ -7,17 +7,18 @@ export const personalInfo = {
   name: "Soham Kolhe",
   firstName: "Soham",
   lastName: "Kolhe",
-  tagline: "Full-Stack Developer & Cloud Engineer",
-  subtitle: "Full-Stack Developer & Cloud Engineer — 3 shipped products, 5 Azure certifications",
+  role: "Full-Stack Developer & Cloud Engineer",
+  focus: "SDE & DevOps Roles",
+  tagline: "Full-Stack & Cloud Engineer building containerized pipelines, applied AI interfaces, and resilient web platforms.",
   heroQuote: "Welcome to the Grid. I build the future.",
   location: "Vadodara, Gujarat, India",
   email: "sohamkolhe20@gmail.com",
   formspreeId: "", // Paste your Formspree form ID here (e.g. "xqnqjdyy") to receive form submissions
   resumeLink: "/resume.pdf",
   bio: [
-  "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure.",
-  "I'm currently completing my B.Tech at Parul University while working through DevOps, AI, and cloud-native tooling outside the classroom — five Azure certifications so far. I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use."
-],
+    "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure, Docker containerization, and CI/CD pipelines.",
+    "I'm currently completing my B.Tech at Parul University while working through DevOps practices (Docker, CI/CD, Kubernetes fundamentals), applied AI, and cloud-native tooling outside the classroom — five Azure certifications so far. <strong>I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use.</strong>"
+  ],
   education: {
     degree: "B.Tech in Computer Science & Engineering",
     university: "Parul University, Vadodara",
@@ -38,14 +39,19 @@ export const socialLinks = [
     icon: "linkedin"
   },
   {
-    name: "LeetCode",
-    url: "https://leetcode.com/u/Soham_Kolhe/",
-    icon: "code"
+    name: "Microsoft Learn",
+    url: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/",
+    icon: "microsoft"
   },
   {
     name: "Twitter / X",
     url: "https://x.com/SohamKolhe10489",
     icon: "twitter"
+  },
+  {
+    name: "LeetCode",
+    url: "https://leetcode.com/u/Soham_Kolhe/",
+    icon: "code"
   },
   {
     name: "Email",
@@ -58,42 +64,86 @@ export const skills = {
   languages: {
     label: "Languages",
     icon: "⌨️",
-    items: ["Java", "JavaScript", "TypeScript", "SQL"]
-  },
-  frontend: {
-    label: "Frontend",
-    icon: "🖥️",
-    items: ["React", "Vite", "HTML5", "CSS3", "Tailwind CSS", "Three.js"]
-  },
-  backend: {
-    label: "Backend",
-    icon: "⚙️",
-    items: ["Node.js", "Express.js", "REST APIs", "Socket.io"]
-  },
-  databases: {
-    label: "Databases",
-    icon: "🗄️",
-    items: ["MongoDB", "PostgreSQL", "Pinecone Vector DB"]
-  },
-  cloud: {
-    label: "Cloud & Azure",
-    icon: "☁️",
-    items: ["Azure App Service", "Azure Functions", "Azure OpenAI", "Azure Storage"]
+    items: [
+      { name: "Java", level: "core", proof: "DS / Algos & Academic Labs" },
+      { name: "JavaScript", level: "core", proof: "Used in All Projects" },
+      { name: "TypeScript", level: "core", proof: "CollabBoard" },
+      { name: "SQL", level: "proficient", proof: "Hospital Information System" }
+    ]
   },
   devops: {
     label: "DevOps",
     icon: "🚀",
-    items: ["Docker", "Docker Compose", "Git", "GitHub", "CI/CD", "Kubernetes (Learning)"]
+    items: [
+      { name: "Docker", level: "core", proof: "AI Second Brain, Hospital IS" },
+      { name: "Docker Compose", level: "core", proof: "AI Second Brain" },
+      { name: "Git", level: "core", proof: "Used in All Projects" },
+      { name: "GitHub", level: "core", proof: "Open Source Contributions" },
+      { name: "CI/CD", level: "proficient", proof: "Vercel & Workflow Automations" },
+      { name: "Kubernetes", level: "learning", proof: "Minikube Orchestration" }
+    ]
+  },
+  cloud: {
+    label: "Cloud & Azure",
+    icon: "☁️",
+    items: [
+      { name: "Azure App Service", level: "core", proof: "Cloud deployments" },
+      { name: "Azure Functions", level: "proficient", proof: "Serverless triggers" },
+      { name: "Azure OpenAI", level: "proficient", proof: "AI Second Brain" },
+      { name: "Azure Storage", level: "proficient", proof: "Document asset blobs" }
+    ]
+  },
+  backend: {
+    label: "Backend",
+    icon: "⚙️",
+    items: [
+      { name: "Node.js", level: "core", proof: "AI Second Brain, CollabBoard" },
+      { name: "Express.js", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
+      { name: "REST APIs", level: "core", proof: "AI Second Brain, Hospital IS" },
+      { name: "Socket.io", level: "proficient", proof: "CollabBoard" }
+    ]
+  },
+  databases: {
+    label: "Databases",
+    icon: "🗄️",
+    items: [
+      { name: "MongoDB", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
+      { name: "PostgreSQL", level: "proficient", proof: "Hospital Information System" },
+      { name: "Pinecone Vector DB", level: "proficient", proof: "AI Second Brain" }
+    ]
+  },
+  frontend: {
+    label: "Frontend",
+    icon: "🖥️",
+    items: [
+      { name: "React", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
+      { name: "Vite", level: "core", proof: "CollabBoard" },
+      { name: "HTML5", level: "core", proof: "All Web Projects" },
+      { name: "CSS3", level: "core", proof: "Custom styling sheets" },
+      { name: "Tailwind CSS", level: "proficient", proof: "CollabBoard, Hospital IS" },
+      { name: "Three.js", level: "learning", proof: "Custom 3D Scene background" }
+    ]
   },
   ai: {
     label: "AI / ML",
     icon: "🤖",
-    items: ["LangChain", "RAG Pipeline", "GPT Models", "Prompt Engineering", "Embeddings", "Semantic Search"]
+    items: [
+      { name: "LangChain", level: "proficient", proof: "AI Second Brain" },
+      { name: "RAG Pipeline", level: "proficient", proof: "AI Second Brain" },
+      { name: "GPT Models", level: "proficient", proof: "AI Second Brain" },
+      { name: "Prompt Engineering", level: "proficient", proof: "AI Second Brain" },
+      { name: "Embeddings", level: "proficient", proof: "AI Second Brain" },
+      { name: "Semantic Search", level: "proficient", proof: "AI Second Brain" }
+    ]
   },
   tools: {
     label: "Dev Tools",
     icon: "🛠️",
-    items: ["VS Code", "Postman", "Docker Desktop", "MySQL Workbench", "Git"]
+    items: [
+      { name: "VS Code", level: "core", proof: "Primary IDE" },
+      { name: "Postman", level: "core", proof: "API endpoint testing" },
+      { name: "MySQL Workbench", level: "proficient", proof: "Local DB design" }
+    ]
   }
 };
 
@@ -105,21 +155,27 @@ export const projects = [
     classification: "TOP SECRET",
     type: "Full Stack AI Application",
     status: "DEPLOYED",
+    image: "/images/ai-second-brain.png",
+    stats: [
+      { label: "Ingestion Speed", value: "50+ p/m" },
+      { label: "Deployment", value: "Dockerized" },
+      { label: "Scale", value: "1,200+ docs parsed" }
+    ],
     description: "An AI-powered knowledge assistant that ingests documents, builds vector embeddings, and enables semantic search, AI-powered Q&A, automatic summaries, and flashcard generation using a RAG pipeline.",
     problem: "Information overload — no way to query personal documents intelligently and get contextual answers.",
     approach: "Built a complete RAG pipeline with LangChain + Pinecone + Azure OpenAI (GPT-4). Designed document ingestion with automatic chunking and vector embedding generation.",
-    outcome: "50+ pages/min ingestion speed. Reduced hallucinations significantly through prompt engineering. Fully Dockerized deployment.",
+    outcome: "50+ pages/min ingestion speed. Reduced hallucinations through retrieval-grounded prompting and context window optimization.",
     tech: ["React", "Node.js", "Express.js", "MongoDB", "LangChain", "Pinecone", "Azure OpenAI", "GPT-4", "Docker"],
     features: [
-      "PDF document ingestion & auto-chunking",
-      "Semantic search with vector embeddings",
-      "AI-powered Q&A with GPT-4",
+      "AI-powered Q&A with GPT-4 (Context-Grounding)",
+      "Semantic search with Pinecone vector embeddings",
+      "PDF document ingestion & auto-chunking pipeline",
+      "Dockerized deployment setup",
       "Automatic summary generation",
-      "Flashcard generation",
-      "Dockerized deployment"
+      "Personalized flashcard generation"
     ],
     github: "https://github.com/soham-kolhe/AI-Second-Brain",
-    live: "https://ai-second-brain-demo.vercel.app",
+    live: "",
     color: "cyan"
   },
   {
@@ -129,21 +185,27 @@ export const projects = [
     classification: "CLASSIFIED",
     type: "Real-Time Collaboration Tool",
     status: "DEPLOYED",
+    image: "/images/collabboard.png",
+    stats: [
+      { label: "Sync Latency", value: "< 50ms" },
+      { label: "State Sync", value: "Real-Time" },
+      { label: "Scale", value: "100+ sessions" }
+    ],
     description: "A real-time collaborative whiteboard allowing multiple users to draw simultaneously over the web with tools like freehand, shapes, text, and remote cursors.",
     problem: "No lightweight, real-time collaborative drawing tool for remote teams.",
     approach: "WebSocket architecture with Socket.io for real-time sync. Canvas API for drawing. Multi-user state management with conflict resolution.",
     outcome: "Real-time multi-user whiteboard with full drawing toolkit, undo/redo, and remote cursor tracking.",
     tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Node.js", "Express.js", "Socket.io", "MongoDB"],
     features: [
-      "Multi-user real-time collaboration",
-      "Freehand, rectangle, ellipse tools",
-      "Text tool & eraser",
-      "Undo / Redo support",
-      "Remote cursor tracking",
-      "Persistent drawing storage"
+      "Multi-user real-time collaboration via WebSockets",
+      "Remote cursor tracking & sync latency < 50ms",
+      "Conflict-resolved canvas state synchronization",
+      "Persistent drawing storage & session recovery",
+      "Interactive shapes, text, and drawing tools",
+      "Multi-step undo / redo canvas support"
     ],
     github: "https://github.com/soham-kolhe/CollabBoard",
-    live: "https://collabboard-demo.vercel.app",
+    live: "",
     color: "magenta"
   },
   {
@@ -153,18 +215,24 @@ export const projects = [
     classification: "RESTRICTED",
     type: "Enterprise Healthcare Platform",
     status: "IN DEVELOPMENT",
+    image: "/images/hospital-is.png",
+    stats: [
+      { label: "Active Modules", value: "12 Modules" },
+      { label: "Architecture", value: "Dual DB" },
+      { label: "Orchestration", value: "Minikube" }
+    ],
     description: "A comprehensive hospital management platform designed to digitize and streamline hospital operations with 12 integrated modules.",
     problem: "Hospital operations rely on fragmented, manual systems causing data silos and inefficiency.",
     approach: "Modular architecture with separate modules for OPD, IPD, Emergency, Pharmacy, Billing, and more. Dual-database approach with MongoDB and PostgreSQL.",
-    outcome: "Comprehensive digital platform covering 12 hospital modules with analytics dashboard.",
-    tech: ["React", "Tailwind CSS", "Express.js", "MongoDB", "PostgreSQL"],
+    outcome: "Comprehensive digital platform covering 12 hospital modules, containerized for local orchestration.",
+    tech: ["React", "Tailwind CSS", "Express.js", "MongoDB", "PostgreSQL", "Docker", "Kubernetes"],
     features: [
-      "OPD / IPD management",
-      "Emergency module",
-      "Pharmacy & billing",
-      "Insurance processing",
-      "Radiology & laboratory",
-      "Analytics dashboard"
+      "Docker containerization & Minikube orchestration config",
+      "OPD / IPD patient cycle management",
+      "Emergency room triage & coordination system",
+      "Integrated pharmacy, billing & insurance processing",
+      "Radiology & laboratory logging modules",
+      "Unified hospital-wide dual DB analytics dashboard"
     ],
     github: "https://github.com/soham-kolhe/Hospital-Information-System",
     color: "green"
@@ -178,7 +246,9 @@ export const certifications = [
     issuer: "Microsoft",
     icon: "🏆",
     level: "Associate",
-    color: "cyan"
+    color: "cyan",
+    date: "Jan 2026",
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
   },
   {
     title: "Azure AI Fundamentals",
@@ -186,7 +256,9 @@ export const certifications = [
     issuer: "Microsoft",
     icon: "🤖",
     level: "Fundamentals",
-    color: "magenta"
+    color: "magenta",
+    date: "Nov 2025",
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
   },
   {
     title: "Azure Fundamentals",
@@ -194,7 +266,9 @@ export const certifications = [
     issuer: "Microsoft",
     icon: "☁️",
     level: "Fundamentals",
-    color: "cyan"
+    color: "cyan",
+    date: "Jul 2024",
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
   },
   {
     title: "Azure Data Fundamentals",
@@ -202,7 +276,9 @@ export const certifications = [
     issuer: "Microsoft",
     icon: "📊",
     level: "Fundamentals",
-    color: "green"
+    color: "green",
+    date: "Sep 2025",
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
   },
   {
     title: "Security, Compliance & Identity",
@@ -210,7 +286,9 @@ export const certifications = [
     issuer: "Microsoft",
     icon: "🛡️",
     level: "Fundamentals",
-    color: "magenta"
+    color: "magenta",
+    date: "Oct 2025",
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
   },
   {
     title: "Computer Networks (Elite)",
@@ -218,7 +296,9 @@ export const certifications = [
     issuer: "NPTEL / IIT",
     icon: "🌐",
     level: "Elite",
-    color: "gold"
+    color: "gold",
+    date: "Apr 2024",
+    verifyUrl: "https://nptel.ac.in/noc/"
   },
   {
     title: "UX Design Job Simulation",
@@ -226,17 +306,19 @@ export const certifications = [
     issuer: "Lloyds Banking Group",
     icon: "🎨",
     level: "Completion",
-    color: "cyan"
+    color: "cyan",
+    date: "Dec 2025",
+    verifyUrl: "https://www.theforage.com/simulations/lloyds-banking-group/ux-design-simulation-nz7i"
   }
 ];
 
 export const navItems = [
   { label: "Home", href: "#hero", icon: "home" },
   { label: "About", href: "#about", icon: "user" },
-  { label: "Skills", href: "#skills", icon: "cpu" },
   { label: "Projects", href: "#projects", icon: "folder" },
-  { label: "Open Source", href: "#opensource", icon: "code" },
+  { label: "Open Source", href: "#open-source", icon: "code" },
   { label: "Certs", href: "#certifications", icon: "award" },
+  { label: "Skills", href: "#skills", icon: "cpu" },
   { label: "Contact", href: "#contact", icon: "send" }
 ];
 
@@ -249,9 +331,24 @@ export const openSourceContributions = [
     repoPath: "lexasub/PrivateBoard",
     description: "A private workspace and board management application featuring real-time auto-saving and collaborative features.",
     contributions: [
-      "Added confirmation dialogs before deleting boards to prevent accidental data loss (Issue #5)",
-      "Implemented multi-select functionality for bulk deletion of boards (Issue #6)",
-      "Improved the auto-save status indicator with dynamic states (Saved, Saving, Failed) (Issue #9)"
+      {
+        text: "Added confirmation dialogs before deleting boards to prevent accidental data loss",
+        issue: "#5",
+        status: "merged",
+        url: "https://github.com/lexasub/PrivateBoard/pull/5"
+      },
+      {
+        text: "Implemented multi-select functionality for bulk deletion of boards",
+        issue: "#6",
+        status: "merged",
+        url: "https://github.com/lexasub/PrivateBoard/pull/6"
+      },
+      {
+        text: "Improved the auto-save status indicator with dynamic states (Saved, Saving, Failed)",
+        issue: "#9",
+        status: "merged",
+        url: "https://github.com/lexasub/PrivateBoard/pull/9"
+      }
     ],
     tech: ["React", "JavaScript", "Node.js"],
     prCount: "3",

@@ -32,6 +32,14 @@
 }
 
 /* --- System online label --- */
+.hero__label-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs);
+}
+
 .hero__label {
   font-family: var(--font-body);
   font-size: var(--fs-small);
@@ -49,9 +57,37 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--color-green);
-  box-shadow: 0 0 8px var(--color-green-glow);
+  background-color: var(--color-cyan);
+  box-shadow: 0 0 8px var(--color-cyan-glow);
   animation: neon-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.hero__status {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-green);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--color-green-glow);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: rgba(184, 255, 0, 0.05);
+  border: 1px solid rgba(184, 255, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 10px rgba(184, 255, 0, 0.05);
+}
+
+.hero__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green-glow);
+  animation: neon-pulse 1.5s ease-in-out infinite;
   flex-shrink: 0;
 }
 
@@ -68,13 +104,16 @@
   cursor: default;
 }
 
-/* Glitch effect on hover */
-.hero__name:hover {
-  animation: glitch 0.3s ease forwards;
+/* Glitch effect on hover or when active */
+.hero__name:hover,
+.hero__name.hero__name--glitch-active {
+  animation: glitch 0.4s ease forwards;
 }
 
 .hero__name:hover .hero__name-glitch--before,
-.hero__name:hover .hero__name-glitch--after {
+.hero__name:hover .hero__name-glitch--after,
+.hero__name.hero__name--glitch-active .hero__name-glitch--before,
+.hero__name.hero__name--glitch-active .hero__name-glitch--after {
   display: block;
 }
 
@@ -144,24 +183,19 @@
 }
 
 /* --- Social links --- */
-.hero__socials {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  margin-top: var(--space-xl);
-}
 
 .hero__social-link {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   font-family: var(--font-body);
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   color: var(--color-text-muted);
   text-decoration: none;
   letter-spacing: 1px;
   transition: color var(--transition-fast), text-shadow var(--transition-fast);
   position: relative;
+  white-space: nowrap;
 }
 
 .hero__social-link:hover {
@@ -170,15 +204,16 @@
 }
 
 .hero__social-icon {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-  transition: fill var(--transition-fast);
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  transition: stroke var(--transition-fast);
   flex-shrink: 0;
 }
 
 .hero__social-link:hover .hero__social-icon {
-  fill: var(--color-cyan);
+  stroke: var(--color-cyan);
 }
 
 .hero__social-divider {
@@ -187,10 +222,34 @@
   background-color: var(--color-border);
 }
 
+/* --- Hero Bottom Bar --- */
+.hero__bottom-bar {
+  position: absolute;
+  bottom: var(--space-2xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 160px; /* Wider gap for larger links and breathing room */
+  z-index: var(--z-base);
+  pointer-events: none;
+}
+
+.hero__bottom-bar a {
+  pointer-events: auto;
+}
+
+.hero__socials-side {
+  display: flex;
+  align-items: center;
+  gap: 36px; /* Spaced out wider to match layout reference */
+}
+
 /* --- Scroll indicator --- */
 .hero__scroll-indicator {
   position: absolute;
-  bottom: var(--space-2xl);
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -198,6 +257,7 @@
   align-items: center;
   gap: var(--space-sm);
   z-index: var(--z-base);
+  pointer-events: auto;
 }
 
 .hero__scroll-text {
@@ -481,13 +541,22 @@
     text-align: center;
   }
 
-  .hero__socials {
-    flex-wrap: wrap;
-    gap: var(--space-md);
+  .hero__bottom-bar {
+    padding: 0 var(--space-md);
+    bottom: var(--space-lg);
+    gap: 80px; /* Smaller gap on mobile */
+  }
+
+  .hero__social-link span {
+    display: none;
   }
 
   .hero__social-divider {
     display: none;
+  }
+
+  .hero__socials-side {
+    gap: var(--space-md);
   }
 
   .hero__hud-accent {
@@ -499,7 +568,7 @@
   }
 
   .hero__scroll-indicator {
-    bottom: var(--space-lg);
+    bottom: 0;
   }
 
   .hero__scroll-text {

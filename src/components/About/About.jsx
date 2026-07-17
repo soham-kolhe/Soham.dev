@@ -2,6 +2,7 @@
    About Component — Operator Profile
    Cyberpunk-styled about section with info cards
    ============================================ */
+import { useState } from 'react';
 import { personalInfo } from '../../data/portfolio.js';
 import './About.css';
 
@@ -12,6 +13,13 @@ const infoCards = [
     value: `${personalInfo.education.degree}`,
     sub: `${personalInfo.education.university} — CGPA: ${personalInfo.education.cgpa}`,
     accent: 'cyan',
+  },
+  {
+    icon: '💻',
+    label: 'Production',
+    value: '3 Shipped Products',
+    sub: 'AI pipelines & collaborative systems — 2 deployed, 1 in progress',
+    accent: 'magenta',
   },
   {
     icon: '📍',
@@ -30,13 +38,15 @@ const infoCards = [
   {
     icon: '⚡',
     label: 'Interests',
-    value: 'Full-Stack, Cloud, DevOps, AI',
+    value: 'Cloud Infrastructure, CI/CD, Distributed Systems, Applied AI',
     sub: null,
     accent: 'cyan',
   },
 ];
 
 function About() {
+  const [activeTab, setActiveTab] = useState('bio');
+
   return (
     <section id="about" className="section about">
       <div className="container">
@@ -48,57 +58,133 @@ function About() {
           </h2>
         </div>
 
-        {/* Two-column layout */}
-        <div className="about__grid">
-          {/* Left Column — Bio */}
-          <div className="about__bio reveal-left">
-            <div className="about__bio-tag">
-              <span className="about__bio-tag-dot" />
-              <span className="about__bio-tag-text">sys.operator.bio</span>
+        {/* Console dossier window */}
+        <div className="about__console hud-corners glass-card reveal">
+          {/* Header Bar */}
+          <div className="about__console-header">
+            <div className="about__console-dots">
+              <span className="about__console-dot about__console-dot--red" />
+              <span className="about__console-dot about__console-dot--yellow" />
+              <span className="about__console-dot about__console-dot--green" />
             </div>
-
-            {personalInfo.bio.map((paragraph, index) => (
-              <p key={index} className="about__bio-paragraph">
-                {paragraph}
-              </p>
-            ))}
-
-            <div className="about__bio-meta">
-              <span className="about__meta-item">
-                <span className="about__meta-key">Name:</span>
-                <span className="about__meta-value">{personalInfo.name}</span>
-              </span>
-              <span className="about__meta-item">
-                <span className="about__meta-key">Role:</span>
-                <span className="about__meta-value">{personalInfo.tagline}</span>
-              </span>
-              <span className="about__meta-item">
-                <span className="about__meta-key">Year:</span>
-                <span className="about__meta-value">{personalInfo.education.year}</span>
-              </span>
+            <div className="about__console-title">SYS.OPERATOR_DOSSIER // SK-2027</div>
+            <div className="about__console-status">
+              <span className="about__console-pulse" />
+              <span>SECURE_CONN_ACTIVE</span>
             </div>
-
-            <hr className="neon-line" />
           </div>
 
-          {/* Right Column — Info Cards */}
-          <div className="about__cards reveal-right">
-            {infoCards.map((card) => (
-              <div
-                key={card.label}
-                className={`about__card glass-card hud-corners about__card--${card.accent}`}
+          <div className="about__console-body">
+            {/* Sidebar Tabs */}
+            <div className="about__console-sidebar">
+              <button
+                className={`about__tab-btn ${activeTab === 'bio' ? 'about__tab-btn--active' : ''}`}
+                onClick={() => setActiveTab('bio')}
               >
-                <div className="about__card-icon">{card.icon}</div>
-                <div className="about__card-content">
-                  <span className="about__card-label">{card.label}</span>
-                  <span className="about__card-value">{card.value}</span>
-                  {card.sub && (
-                    <span className="about__card-sub">{card.sub}</span>
-                  )}
+                <span className="about__tab-num">01 //</span> BIOGRAPHY
+              </button>
+              <button
+                className={`about__tab-btn ${activeTab === 'timeline' ? 'about__tab-btn--active' : ''}`}
+                onClick={() => setActiveTab('timeline')}
+              >
+                <span className="about__tab-num">02 //</span> TIMELINE
+              </button>
+              <button
+                className={`about__tab-btn ${activeTab === 'diagnostics' ? 'about__tab-btn--active' : ''}`}
+                onClick={() => setActiveTab('diagnostics')}
+              >
+                <span className="about__tab-num">03 //</span> DIAGNOSTICS
+              </button>
+            </div>
+
+            {/* Main Panel Content */}
+            <div className="about__console-content">
+              {activeTab === 'bio' && (
+                <div className="about__panel-bio">
+                  <div className="about__bio-tag">
+                    <span className="about__bio-tag-dot" />
+                    <span className="about__bio-tag-text">operator_bio.txt</span>
+                  </div>
+                  {personalInfo.bio.map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="about__bio-paragraph"
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                    />
+                  ))}
+                  <div className="about__bio-meta">
+                    <span className="about__meta-item">
+                      <span className="about__meta-key">Operator Name:</span>
+                      <span className="about__meta-value">{personalInfo.name}</span>
+                    </span>
+                    <span className="about__meta-item">
+                      <span className="about__meta-key">Focus Stack:</span>
+                      <span className="about__meta-value">{personalInfo.focus}</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+
+              {activeTab === 'timeline' && (
+                <div className="about__panel-timeline">
+                  <div className="about__bio-tag">
+                    <span className="about__bio-tag-dot" />
+                    <span className="about__bio-tag-text">academic_timeline.log</span>
+                  </div>
+                  <div className="about__timeline-item">
+                    <div className="about__timeline-marker" />
+                    <div className="about__timeline-content">
+                      <h4 className="about__timeline-title">{personalInfo.education.degree}</h4>
+                      <p className="about__timeline-uni">{personalInfo.education.university}</p>
+                      <p className="about__timeline-year">{personalInfo.education.year}</p>
+                      <span className="about__timeline-badge">CGPA: {personalInfo.education.cgpa}</span>
+                    </div>
+                  </div>
+                  <div className="about__timeline-item">
+                    <div className="about__timeline-marker about__timeline-marker--secondary" />
+                    <div className="about__timeline-content">
+                      <h4 className="about__timeline-title">Applied AI &amp; Cloud Architectures</h4>
+                      <p className="about__timeline-uni">Self-Directed Systems Development &amp; DevOps Labs</p>
+                      <p className="about__timeline-year">Ongoing</p>
+                      <span className="about__timeline-badge about__timeline-badge--secondary">5x Microsoft Certified</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'diagnostics' && (
+                <div className="about__panel-diagnostics">
+                  <div className="about__bio-tag">
+                    <span className="about__bio-tag-dot" />
+                    <span className="about__bio-tag-text">operator_metrics.sys</span>
+                  </div>
+                  <div className="about__diagnostics-grid">
+                    {infoCards.map((card) => (
+                      <div
+                        key={card.label}
+                        className={`about__diag-card about__diag-card--${card.accent}`}
+                      >
+                        <div className="about__diag-header">
+                          <span className="about__diag-icon">{card.icon}</span>
+                          <span className="about__diag-label">{card.label.toUpperCase()}</span>
+                        </div>
+                        <span className="about__diag-value">{card.value}</span>
+                        {card.sub && <span className="about__diag-sub">{card.sub}</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+        </div>
+
+        {/* Closing CTA */}
+        <div className="about__cta reveal">
+          <span className="about__cta-text">Curious what I've built?</span>
+          <a href="#projects" className="about__cta-link">
+            Explore Shipped Projects <span className="arrow">→</span>
+          </a>
         </div>
       </div>
     </section>

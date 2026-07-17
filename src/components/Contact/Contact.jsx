@@ -3,41 +3,8 @@
    ============================================ */
 import { useState } from 'react';
 import { personalInfo, socialLinks } from '../../data/portfolio.js';
+import { SocialIcons } from '../Icons/SocialIcons.jsx';
 import './Contact.css';
-
-const SOCIAL_ICONS = {
-  github: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-    </svg>
-  ),
-  linkedin: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
-  ),
-  code: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
-    </svg>
-  ),
-  twitter: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z" />
-      <path d="M4 20l6.768 -6.768" />
-      <path d="M20 4l-6.768 6.768" />
-    </svg>
-  ),
-  mail: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="M22 7l-10 7L2 7" />
-    </svg>
-  ),
-};
 
 /*
   Submission strategy is now explicit and honest:
@@ -54,14 +21,38 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [honeypot, setHoneypot] = useState('');
+  const [errors, setErrors] = useState({});
   // idle | transmitting | success | error
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
   const hasBackend = Boolean(personalInfo.formspreeId);
+  const MailIcon = SocialIcons.mail;
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = 'Callsign (name) is required.';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Frequency (email) is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Enter a valid email address.';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Transmission (message) is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
   const buildMailto = () => {
@@ -75,6 +66,8 @@ const Contact = () => {
   const resetAfterDelay = (delay = 4000) => {
     setTimeout(() => {
       setFormData({ name: '', email: '', message: '' });
+      setHoneypot('');
+      setErrors({});
       setStatus('idle');
       setErrorMessage('');
     }, delay);
@@ -83,6 +76,18 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+
+    // Honeypot spam trap
+    if (honeypot) {
+      setStatus('success');
+      resetAfterDelay();
+      return;
+    }
+
+    // Validate fields before proceeding
+    if (!validateForm()) {
+      return;
+    }
 
     // No backend configured: don't fake a network call. Be upfront that
     // this opens the visitor's email client, then do it immediately.
@@ -160,35 +165,45 @@ const Contact = () => {
               just to say hello — my comm link is always open.
             </p>
 
+            <div className="contact__meta-reminder">
+              <span className="contact__meta-badge">AVAILABILITY // SDE &amp; DEVOPS ROLES + INTERNSHIPS</span>
+              <span className="contact__meta-response">TYPICAL RESPONSE TIME // WITHIN 24–48 HOURS</span>
+            </div>
+
             <div className="contact__direct-links">
               <a
                 href={`mailto:${personalInfo.email}`}
                 className="contact__direct-link"
               >
-                <span className="contact__link-icon">{SOCIAL_ICONS.mail}</span>
+                <span className="contact__link-icon">
+                  {MailIcon ? <MailIcon /> : null}
+                </span>
                 <span className="contact__link-label">&gt; EMAIL</span>
                 <span className="contact__link-value">{personalInfo.email}</span>
               </a>
 
               {socialLinks
                 .filter((s) => s.icon === 'github' || s.icon === 'linkedin')
-                .map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact__direct-link"
-                  >
-                    <span className="contact__link-icon">
-                      {SOCIAL_ICONS[link.icon]}
-                    </span>
-                    <span className="contact__link-label">
-                      &gt; {link.name.toUpperCase()}
-                    </span>
-                    <span className="contact__link-value">{link.url}</span>
-                  </a>
-                ))}
+                .map((link) => {
+                  const Icon = SocialIcons[link.icon];
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact__direct-link"
+                    >
+                      <span className="contact__link-icon">
+                        {Icon ? <Icon /> : null}
+                      </span>
+                      <span className="contact__link-label">
+                        &gt; {link.name.toUpperCase()}
+                      </span>
+                      <span className="contact__link-value">{link.url}</span>
+                    </a>
+                  );
+                })}
             </div>
 
             {/* Resume download */}
@@ -224,16 +239,28 @@ const Contact = () => {
                 </p>
               )}
 
-              <form className="contact__form" onSubmit={handleSubmit}>
+              <form className="contact__form" onSubmit={handleSubmit} noValidate>
+                {/* Honeypot spam trap */}
+                <div style={{ display: 'none' }} aria-hidden="true">
+                  <input
+                    type="text"
+                    name="_comm_honeypot"
+                    tabIndex="-1"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className="contact__field">
                   <label htmlFor="contact-name" className="contact__label">
-                    &gt; CALLSIGN:
+                    &gt; CALLSIGN // name:
                   </label>
                   <input
                     id="contact-name"
                     type="text"
                     name="name"
-                    className="contact__input"
+                    className={`contact__input ${errors.name ? 'contact__input--error' : ''}`}
                     placeholder="Enter your name..."
                     value={formData.name}
                     onChange={handleChange}
@@ -241,17 +268,22 @@ const Contact = () => {
                     required
                     autoComplete="name"
                   />
+                  {errors.name && (
+                    <span className="contact__field-error" role="alert">
+                      {errors.name}
+                    </span>
+                  )}
                 </div>
 
                 <div className="contact__field">
                   <label htmlFor="contact-email" className="contact__label">
-                    &gt; FREQUENCY:
+                    &gt; FREQUENCY // email:
                   </label>
                   <input
                     id="contact-email"
                     type="email"
                     name="email"
-                    className="contact__input"
+                    className={`contact__input ${errors.email ? 'contact__input--error' : ''}`}
                     placeholder="Enter your email..."
                     value={formData.email}
                     onChange={handleChange}
@@ -259,16 +291,21 @@ const Contact = () => {
                     required
                     autoComplete="email"
                   />
+                  {errors.email && (
+                    <span className="contact__field-error" role="alert">
+                      {errors.email}
+                    </span>
+                  )}
                 </div>
 
                 <div className="contact__field">
                   <label htmlFor="contact-message" className="contact__label">
-                    &gt; TRANSMISSION:
+                    &gt; TRANSMISSION // message:
                   </label>
                   <textarea
                     id="contact-message"
                     name="message"
-                    className="contact__input contact__textarea"
+                    className={`contact__input contact__textarea ${errors.message ? 'contact__input--error' : ''}`}
                     placeholder="Enter your message..."
                     rows="5"
                     value={formData.message}
@@ -276,6 +313,11 @@ const Contact = () => {
                     disabled={status === 'transmitting'}
                     required
                   />
+                  {errors.message && (
+                    <span className="contact__field-error" role="alert">
+                      {errors.message}
+                    </span>
+                  )}
                 </div>
 
                 {status === 'error' && (
@@ -298,22 +340,25 @@ const Contact = () => {
 
         {/* Social links row */}
         <div className="contact__socials reveal">
-          {socialLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target={link.icon === 'mail' ? '_self' : '_blank'}
-              rel="noopener noreferrer"
-              className="contact__social-link"
-              aria-label={link.name}
-              title={link.name}
-            >
-              <span className="contact__social-icon">
-                {SOCIAL_ICONS[link.icon]}
-              </span>
-              <span className="contact__social-name">{link.name}</span>
-            </a>
-          ))}
+          {socialLinks.map((link) => {
+            const Icon = SocialIcons[link.icon];
+            return (
+              <a
+                key={link.name}
+                href={link.url}
+                target={link.icon === 'mail' ? '_self' : '_blank'}
+                rel="noopener noreferrer"
+                className="contact__social-link"
+                aria-label={link.name}
+                title={link.name}
+              >
+                <span className="contact__social-icon">
+                  {Icon ? <Icon /> : null}
+                </span>
+                <span className="contact__social-name">{link.name}</span>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

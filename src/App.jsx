@@ -107,6 +107,14 @@ function App() {
             y: 0,
             duration: 1,
             ease: 'power3.out',
+            onStart: () => {
+              if (el.classList.contains('hero__name')) {
+                el.classList.add('hero__name--glitch-active');
+                setTimeout(() => {
+                  el.classList.remove('hero__name--glitch-active');
+                }, 1000);
+              }
+            },
             scrollTrigger: {
               trigger: el,
               start: 'top 85%',
@@ -301,10 +309,10 @@ function App() {
           <main>
             <Hero onImageLoad={() => ScrollTrigger.refresh()} />
             <About />
-            <Skills />
             <Projects />
             <OpenSource />
             <Certifications />
+            <Skills />
             <Contact />
           </main>
           <Footer />
