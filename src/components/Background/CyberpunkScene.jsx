@@ -7,7 +7,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Stars, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import CourierDrone from './CourierDrone';
-import { scrollState } from '../../scrollState';
+import { scrollState, SECTION_COLORS } from '../../scrollState';
 
 // Define camera and DataSphere checkpoints based on scroll progress (0.0 to 1.0)
 const SCENE_CHECKPOINTS = [
@@ -106,10 +106,12 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
           ref={materialRef}
           color={color}
           emissive={color}
-          emissiveIntensity={0.65}
+          emissiveIntensity={0.95}
           wireframe
           transparent
-          opacity={0.7}
+          opacity={0.75}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </mesh>
     </Float>
@@ -185,6 +187,9 @@ function DataSphere({ degraded, reducedMotion }) {
   const groupRef = useRef();
   const sphereRef = useRef();
   const wireRef = useRef();
+  const innerMatRef = useRef();
+  const outerMatRef = useRef();
+  const colorObj = useRef(new THREE.Color(SECTION_COLORS[0]));
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -195,6 +200,19 @@ function DataSphere({ degraded, reducedMotion }) {
     if (wireRef.current) {
       wireRef.current.rotation.y = -t * 0.1;
       wireRef.current.rotation.z = t * 0.05;
+    }
+
+    // Sync sphere color to active section, same pattern as CourierDrone
+    const prog = THREE.MathUtils.clamp(scrollState.progress, 0, 1);
+    const segment = prog * (SECTION_COLORS.length - 1);
+    const idx = Math.floor(segment);
+    const frac = segment - idx;
+    const colorA = new THREE.Color(SECTION_COLORS[idx] || SECTION_COLORS[0]);
+    const colorB = new THREE.Color(SECTION_COLORS[idx + 1] || colorA);
+    colorObj.current.copy(colorA).lerp(colorB, frac);
+    if (innerMatRef.current) {
+      innerMatRef.current.color.copy(colorObj.current);
+      innerMatRef.current.emissive.copy(colorObj.current);
     }
 
     if (groupRef.current && !degraded && !reducedMotion) {
@@ -233,23 +251,29 @@ function DataSphere({ degraded, reducedMotion }) {
       <mesh ref={sphereRef}>
         <icosahedronGeometry args={[1.2, degraded ? 0 : 1]} />
         <meshStandardMaterial
+          ref={innerMatRef}
           color="#00F0FF"
           emissive="#00F0FF"
-          emissiveIntensity={degraded ? 0.5 : 0.6}
+          emissiveIntensity={degraded ? 0.7 : 1.0}
           wireframe
           transparent
-          opacity={degraded ? 0.55 : 0.5}
+          opacity={degraded ? 0.6 : 0.55}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </mesh>
       {/* Outer wireframe ring */}
       <mesh ref={wireRef}>
         <torusGeometry args={[1.8, 0.02, 8, degraded ? 16 : 64]} />
         <meshStandardMaterial
+          ref={outerMatRef}
           color="#FF00AA"
           emissive="#FF00AA"
-          emissiveIntensity={0.65}
+          emissiveIntensity={0.95}
           transparent
           opacity={0.6}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </mesh>
       {/* Second ring */}
@@ -347,7 +371,7 @@ function Scene({ degraded, reducedMotion }) {
   return (
     <group ref={groupRef}>
       {/* Depth Fog */}
-      <fog attach="fog" args={['#000000', 8, 25]} />
+      <fog attach="fog" args={['#000000', 12, 38]} />
 
       {/* Ambient and point lights */}
       <ambientLight intensity={degraded ? 0.4 : 0.25} />

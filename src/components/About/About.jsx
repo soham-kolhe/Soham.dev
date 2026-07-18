@@ -106,11 +106,15 @@ function About() {
                     <span className="about__bio-tag-text">operator_bio.txt</span>
                   </div>
                   {personalInfo.bio.map((paragraph, index) => (
-                    <p
-                      key={index}
-                      className="about__bio-paragraph"
-                      dangerouslySetInnerHTML={{ __html: paragraph }}
-                    />
+                    <p key={index} className="about__bio-paragraph">
+                      {paragraph.map((segment, i) =>
+                        segment.bold ? (
+                          <strong key={i}>{segment.text}</strong>
+                        ) : (
+                          <span key={i}>{segment.text}</span>
+                        )
+                      )}
+                    </p>
                   ))}
                   <div className="about__bio-meta">
                     <span className="about__meta-item">

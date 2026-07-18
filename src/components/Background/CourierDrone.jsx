@@ -1,16 +1,7 @@
 import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { scrollState } from '../../scrollState';
-
-const SECTION_COLORS = [
-  '#00F0FF', // hero: cyan
-  '#00F0FF', // about: cyan
-  '#FF00AA', // skills: magenta
-  '#FF00AA', // projects: magenta
-  '#00F0FF', // certs: cyan
-  '#FF00AA', // contact: magenta
-];
+import { scrollState, SECTION_COLORS } from '../../scrollState';
 
 export default function CourierDrone({ degraded }) {
   const groupRef = useRef();
@@ -125,10 +116,12 @@ export default function CourierDrone({ degraded }) {
             ref={materialRef}
             color="#00F0FF"
             emissive="#00F0FF"
-            emissiveIntensity={0.7}
+            emissiveIntensity={1.1}
             wireframe
             transparent
-            opacity={0.85}
+            opacity={0.9}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
           />
         </mesh>
         

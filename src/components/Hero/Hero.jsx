@@ -79,7 +79,7 @@ const Hero = ({ onImageLoad }) => {
             <span className="hero__photo-scanline" aria-hidden="true" />
 
             <img
-              src="/images/soham-profile.png"
+              src="/images/soham-profile.jpg"
               alt="Soham Kolhe — Full-Stack Developer & Cloud Engineer"
               className="hero__photo"
               loading="eager"

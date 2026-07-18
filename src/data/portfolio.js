@@ -16,8 +16,13 @@ export const personalInfo = {
   formspreeId: "", // Paste your Formspree form ID here (e.g. "xqnqjdyy") to receive form submissions
   resumeLink: "/resume.pdf",
   bio: [
-    "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure, Docker containerization, and CI/CD pipelines.",
-    "I'm currently completing my B.Tech at Parul University while working through DevOps practices (Docker, CI/CD, Kubernetes fundamentals), applied AI, and cloud-native tooling outside the classroom — five Azure certifications so far. <strong>I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use.</strong>"
+    [
+      { text: "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure, Docker containerization, and CI/CD pipelines." }
+    ],
+    [
+      { text: "I'm currently completing my B.Tech at Parul University while working through DevOps practices (Docker, CI/CD, Kubernetes fundamentals), applied AI, and cloud-native tooling outside the classroom — five Azure certifications so far. " },
+      { text: "I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use.", bold: true }
+    ]
   ],
   education: {
     degree: "B.Tech in Computer Science & Engineering",
@@ -155,7 +160,7 @@ export const projects = [
     classification: "TOP SECRET",
     type: "Full Stack AI Application",
     status: "DEPLOYED",
-    image: "/images/ai-second-brain.png",
+    image: "/images/ai-second-brain.jpg",
     stats: [
       { label: "Ingestion Speed", value: "50+ p/m" },
       { label: "Deployment", value: "Dockerized" },
@@ -185,7 +190,7 @@ export const projects = [
     classification: "CLASSIFIED",
     type: "Real-Time Collaboration Tool",
     status: "DEPLOYED",
-    image: "/images/collabboard.png",
+    image: "/images/collabboard.jpg",
     stats: [
       { label: "Sync Latency", value: "< 50ms" },
       { label: "State Sync", value: "Real-Time" },
@@ -215,7 +220,7 @@ export const projects = [
     classification: "RESTRICTED",
     type: "Enterprise Healthcare Platform",
     status: "IN DEVELOPMENT",
-    image: "/images/hospital-is.png",
+    image: "/images/hospital-is.jpg",
     stats: [
       { label: "Active Modules", value: "12 Modules" },
       { label: "Architecture", value: "Dual DB" },
