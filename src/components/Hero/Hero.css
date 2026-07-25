@@ -88,7 +88,18 @@
   background-color: var(--color-green);
   box-shadow: 0 0 6px var(--color-green-glow);
   animation: neon-pulse 1.5s ease-in-out infinite;
-  flex-shrink: 0;
+}
+
+.hero__grad-timeline {
+  flex-basis: 100%;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-secondary);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: var(--space-xs);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
 /* --- Name / Title --- */
@@ -231,7 +242,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 160px; /* Wider gap for larger links and breathing room */
   z-index: var(--z-base);
   pointer-events: none;
 }
@@ -240,10 +250,58 @@
   pointer-events: auto;
 }
 
-.hero__socials-side {
+/* --- Social Chips Row --- */
+.hero__social-chips {
   display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  z-index: var(--z-base);
+}
+
+.cyber-chip-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 36px; /* Spaced out wider to match layout reference */
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.cyber-chip-btn--cyan {
+  color: var(--color-cyan);
+  border-color: rgba(0, 240, 255, 0.2);
+}
+
+.cyber-chip-btn--cyan:hover {
+  background: rgba(0, 240, 255, 0.05);
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+  text-shadow: var(--glow-text-cyan);
+}
+
+.cyber-chip-btn--magenta {
+  color: var(--color-magenta);
+  border-color: rgba(255, 0, 170, 0.2);
+}
+
+.cyber-chip-btn--magenta:hover {
+  background: rgba(255, 0, 170, 0.05);
+  border-color: var(--color-magenta);
+  box-shadow: 0 0 10px rgba(255, 0, 170, 0.2);
+  text-shadow: 0 0 8px rgba(255, 0, 170, 0.5);
+}
+
+.cyber-chip-icon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
 }
 
 /* --- Scroll indicator --- */
@@ -544,19 +602,6 @@
   .hero__bottom-bar {
     padding: 0 var(--space-md);
     bottom: var(--space-lg);
-    gap: 80px; /* Smaller gap on mobile */
-  }
-
-  .hero__social-link span {
-    display: none;
-  }
-
-  .hero__social-divider {
-    display: none;
-  }
-
-  .hero__socials-side {
-    gap: var(--space-md);
   }
 
   .hero__hud-accent {

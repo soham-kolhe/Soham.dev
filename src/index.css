@@ -489,3 +489,15 @@ button {
   outline: 2px solid var(--color-cyan);
   outline-offset: 2px;
 }
+
+/* --- Atmospheric Background Gradient Layer --- */
+.bg-gradient-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: var(--bg-accent-color, #00F0FF);
+  opacity: 0.03;
+  transition: background-color 1.5s ease;
+}
+

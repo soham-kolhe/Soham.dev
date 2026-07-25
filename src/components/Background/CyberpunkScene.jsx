@@ -4,10 +4,12 @@
    ============================================ */
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Stars, PerformanceMonitor } from '@react-three/drei';
+import { Float, Stars, PerformanceMonitor, useDetectGPU } from '@react-three/drei';
 import * as THREE from 'three';
 import CourierDrone from './CourierDrone';
 import { scrollState, SECTION_COLORS } from '../../scrollState';
+
+const SECTION_COLOR_OBJS = SECTION_COLORS.map((c) => new THREE.Color(c));
 
 // Define camera and DataSphere checkpoints based on scroll progress (0.0 to 1.0)
 const SCENE_CHECKPOINTS = [
@@ -207,8 +209,8 @@ function DataSphere({ degraded, reducedMotion }) {
     const segment = prog * (SECTION_COLORS.length - 1);
     const idx = Math.floor(segment);
     const frac = segment - idx;
-    const colorA = new THREE.Color(SECTION_COLORS[idx] || SECTION_COLORS[0]);
-    const colorB = new THREE.Color(SECTION_COLORS[idx + 1] || colorA);
+    const colorA = SECTION_COLOR_OBJS[idx] || SECTION_COLOR_OBJS[0];
+    const colorB = SECTION_COLOR_OBJS[idx + 1] || colorA;
     colorObj.current.copy(colorA).lerp(colorB, frac);
     if (innerMatRef.current) {
       innerMatRef.current.color.copy(colorObj.current);
@@ -420,6 +422,8 @@ function Scene({ degraded, reducedMotion }) {
 
 /* --- Exported Canvas Component --- */
 export default function CyberpunkScene() {
+  const [isMobile, setIsMobile] = useState(false);
+  const gpuTier = useDetectGPU();
   const [degraded, setDegraded] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -435,6 +439,20 @@ export default function CyberpunkScene() {
     }
     return null;
   }, []);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mobileQuery.matches);
+    const handleMobileChange = (e) => setIsMobile(e.matches);
+    mobileQuery.addEventListener('change', handleMobileChange);
+    return () => mobileQuery.removeEventListener('change', handleMobileChange);
+  }, []);
+
+  useEffect(() => {
+    if (gpuTier && gpuTier.tier <= 1) {
+      setDegraded(true);
+    }
+  }, [gpuTier]);
 
   useEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -462,7 +480,7 @@ export default function CyberpunkScene() {
     >
       <Canvas
         camera={{ position: [0, 1, 8], fov: 60 }}
-        dpr={[1, 1.5]}
+        dpr={isMobile ? [1, 1] : [1, 1.5]}
         gl={{
           antialias: false,
           alpha: true,

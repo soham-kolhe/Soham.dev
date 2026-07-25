@@ -1,174 +1,124 @@
 /* ============================================
-   Loader — Cyberpunk Boot Sequence
-   A full-screen loading overlay that simulates
-   booting into a cyberpunk operating system.
+   Loader — Netflix-Style Portal Reveal
+   A full-screen loading overlay that features an
+   exponential text zoom transition into the page.
    ============================================ */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import gsap from 'gsap';
 import './Loader.css';
 
-const BOOT_SEQUENCE = [
-  { text: '> INITIALIZING SYSTEM...', delay: 0, duration: 150 },
-  { text: '> LOADING NEURAL INTERFACE...', delay: 150, duration: 150 },
-  { text: '> CONNECTING TO THE GRID...', delay: 300, duration: 150 },
-  { text: '> DECRYPTING PROTOCOLS... [OK]', delay: 450, duration: 100, type: 'success' },
-  { text: '> WELCOME, OPERATOR', delay: 600, duration: 150, type: 'welcome' },
-];
-
-const TOTAL_DURATION = 800; // ms before fade-out begins
-const FADE_DURATION = 400;  // matches CSS transition
-
 const Loader = ({ onComplete }) => {
-  const [visibleLines, setVisibleLines] = useState([]);
-  const [progress, setProgress] = useState(0);
-  const [isHidden, setIsHidden] = useState(false);
-  const [showCursor, setShowCursor] = useState(true);
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+  const [isSkipped, setIsSkipped] = useState(false);
 
-  // Progress bar animation
   useEffect(() => {
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min((elapsed / TOTAL_DURATION) * 100, 100);
-      setProgress(pct);
+    // Check user preference for reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (pct >= 100) {
-        clearInterval(interval);
+    if (prefersReducedMotion) {
+      // Direct elegant fade out for accessibility
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        onComplete: onComplete,
+      });
+      return;
+    }
+
+    // Set initial animations timeline
+    const tl = gsap.timeline({
+      onComplete: () => {
+        if (!isSkipped) {
+          onComplete();
+        }
       }
-    }, 15);
+    });
 
-    return () => clearInterval(interval);
-  }, []);
-
-  // Boot sequence lines
-  useEffect(() => {
-    const timers = BOOT_SEQUENCE.map((line, index) =>
-      setTimeout(() => {
-        setVisibleLines((prev) => [...prev, { ...line, id: index }]);
-      }, line.delay)
+    // 1. Text emerges with opacity and tracking-in
+    tl.fromTo(
+      textRef.current,
+      { opacity: 0, scale: 0.95, letterSpacing: '0.8em' },
+      {
+        opacity: 1,
+        scale: 1,
+        letterSpacing: '0.3em',
+        duration: 1.0,
+        ease: 'power2.out',
+      }
     );
 
-    return () => timers.forEach(clearTimeout);
-  }, []);
+    // 2. Short dramatic pause
+    tl.to(textRef.current, {
+      duration: 0.3,
+    });
 
-  // Fade-out and completion
-  const handleComplete = useCallback((e) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    setShowCursor(false);
-    setIsHidden(true);
+    // 3. Exponential zoom portal (zoom out past the camera)
+    tl.to(
+      textRef.current,
+      {
+        scale: 120,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power4.in',
+      }
+    );
 
-    const fadeTimer = setTimeout(() => {
-      onComplete?.();
-    }, FADE_DURATION);
+    // Fade out overlay background slightly before the zoom completes to merge with the main page
+    tl.to(
+      containerRef.current,
+      {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.inOut',
+      },
+      '-=0.4'
+    );
 
-    return () => clearTimeout(fadeTimer);
-  }, [onComplete]);
+    return () => {
+      tl.kill();
+    };
+  }, [onComplete, isSkipped]);
+
+  // Click or keydown handler to skip immediately
+  const handleSkip = useCallback(() => {
+    if (isSkipped) return;
+    setIsSkipped(true);
+    gsap.killTweensOf([containerRef.current, textRef.current]);
+    gsap.to(containerRef.current, {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.out',
+      onComplete: onComplete,
+    });
+  }, [isSkipped, onComplete]);
 
   useEffect(() => {
-    const completeTimer = setTimeout(() => handleComplete(), TOTAL_DURATION);
-    return () => clearTimeout(completeTimer);
-  }, [handleComplete]);
-
-  useEffect(() => {
-    const handleKeyDown = () => {
-      handleComplete();
+    const handleKeyDown = (e) => {
+      // Space or Enter or Esc keys can skip
+      if (e.key === ' ' || e.key === 'Enter' || e.key === 'Escape') {
+        handleSkip();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleComplete]);
+  }, [handleSkip]);
 
   return (
     <div
-      className={`loader ${isHidden ? 'loader--hidden' : ''}`}
+      ref={containerRef}
+      className="loader-portal"
+      onClick={handleSkip}
       role="progressbar"
-      aria-valuenow={Math.round(progress)}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label="Loading portfolio. Press any key or click anywhere to skip."
-      onClick={() => handleComplete()}
-      style={{ cursor: 'pointer' }}
+      aria-label="Welcome screen. Press enter, space, escape, or click to skip."
     >
-      {/* Screen Reader Skip Hint */}
-      <span style={{
-        position: 'absolute',
-        width: '1px',
-        height: '1px',
-        padding: '0',
-        margin: '-1px',
-        overflow: 'hidden',
-        clip: 'rect(0, 0, 0, 0)',
-        border: '0'
-      }}>
-        Loading simulation in progress. Press any key or click anywhere on the page to skip.
-      </span>
-      {/* Skip Button */}
-      <button 
-        className="loader__skip cyber-btn" 
-        onClick={(e) => handleComplete(e)}
-        style={{
-          position: 'absolute',
-          top: '20px',
-          right: '20px',
-          fontSize: '0.7rem',
-          padding: '6px 12px',
-          zIndex: 10,
-          background: 'rgba(13,13,13,0.8)',
-        }}
-      >
-        <span>[ SKIP_BOOT ]</span>
-      </button>
-
-      {/* Scanline overlay */}
-      <div className="loader__scanlines" aria-hidden="true" />
-
-      {/* Main boot log */}
-      <div className="loader__content">
-        <div className="loader__header">
-          ◈ NEON_CITY OS v2.7.1 ◈
-        </div>
-
-        <div className="loader__log" aria-live="polite">
-          {visibleLines.map((line) => (
-            <div
-              key={line.id}
-              className={`loader__line ${
-                line.type === 'success' ? 'loader__line--success' : ''
-              } ${line.type === 'welcome' ? 'loader__line--welcome' : ''}`}
-            >
-              <span>{line.text}</span>
-            </div>
-          ))}
-          {showCursor && visibleLines.length > 0 && visibleLines.length < BOOT_SEQUENCE.length && (
-            <span className="loader__cursor" aria-hidden="true" />
-          )}
-        </div>
-
-        <div className="loader__status">
-          <span className="loader__status-dot" />
-          <span>System boot in progress (Click anywhere to skip)</span>
-        </div>
-      </div>
-
-      {/* Bottom progress bar */}
-      <div className="loader__progress-container">
-        <div className="loader__progress-info">
-          <span>Loading modules</span>
-          <span className="loader__progress-percent">
-            {Math.round(progress)}%
-          </span>
-        </div>
-        <div className="loader__progress-track">
-          <div
-            className="loader__progress-bar"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </div>
-
-      <div className="loader__version" aria-hidden="true">
-        SK_PORTFOLIO // BUILD 2026.07
+      <div className="loader-portal__scanlines" aria-hidden="true" />
+      <div className="loader-portal__scaler">
+        <h1 ref={textRef} className="loader-portal__text">
+          SOHAM KOLHE
+        </h1>
       </div>
     </div>
   );

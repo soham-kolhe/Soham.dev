@@ -1,7 +1,7 @@
 /* ============================================
-   Footer — Minimal Cyberpunk Footer
+   Footer — Bottom Bar Only
    ============================================ */
-import { socialLinks, personalInfo } from '../../data/portfolio.js';
+import { socialLinks } from '../../data/portfolio.js';
 import { SocialIcons } from '../Icons/SocialIcons.jsx';
 import './Footer.css';
 
@@ -11,19 +11,11 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer">
+    <footer id="footer" className="footer">
       {/* Neon line divider */}
       <div className="footer__neon-line" />
 
       <div className="container footer__inner">
-        {/* Footer CTA */}
-        <div className="footer__cta">
-          <span className="footer__cta-badge">SYSTEM STATUS: OPEN TO OPPORTUNITIES</span>
-          <p className="footer__cta-text">
-            Open to full-time SDE &amp; DevOps roles — <a href="#contact" className="footer__cta-link">let's connect</a> or <a href={personalInfo.resumeLink} target="_blank" rel="noopener noreferrer" className="footer__cta-link">[ view resume ]</a>
-          </p>
-        </div>
-
         <div className="footer__bottom">
           {/* Attribution */}
           <div className="footer__attribution">

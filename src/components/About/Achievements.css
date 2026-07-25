@@ -1,0 +1,212 @@
+/* ============================================
+   Achievements Component — Cyberpunk HUD Strip
+   ============================================ */
+
+.achievements-strip {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-xl);
+  width: 100%;
+}
+
+
+
+.achievements-strip__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.achievement-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 14px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.achievement-card:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+}
+
+/* Accent borders & shadows */
+.achievement-card--cyan {
+  border-left: 4px solid var(--color-cyan);
+}
+
+.achievement-card--cyan:hover {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.05);
+}
+
+.achievement-card--magenta {
+  border-left: 4px solid var(--color-magenta);
+}
+
+.achievement-card--magenta:hover {
+  border-color: var(--color-magenta);
+  box-shadow: 0 0 15px rgba(255, 0, 170, 0.15), inset 0 0 15px rgba(255, 0, 170, 0.05);
+}
+
+.achievement-card--green {
+  border-left: 4px solid var(--color-green);
+}
+
+.achievement-card--green:hover {
+  border-color: var(--color-green);
+  box-shadow: 0 0 15px rgba(184, 255, 0, 0.15), inset 0 0 15px rgba(184, 255, 0, 0.05);
+}
+
+.achievement-card__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+}
+
+.achievement-card__icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.achievement-card:hover .achievement-card__icon {
+  transform: scale(1.15);
+}
+
+.achievement-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.achievement-card__title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.5px;
+}
+
+.achievement-card__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.achievement-card__proof {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.achievement-card:hover .achievement-card__proof,
+.achievement-card:focus-visible .achievement-card__proof {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-cyan);
+}
+
+.achievement-card--magenta:hover .achievement-card__proof,
+.achievement-card--magenta:focus-visible .achievement-card__proof {
+  color: var(--color-magenta);
+}
+
+.achievement-card--green:hover .achievement-card__proof,
+.achievement-card--green:focus-visible .achievement-card__proof {
+  color: var(--color-green);
+}
+
+/* Responsive constraints */
+@media (max-width: 768px) {
+  .achievement-card {
+    padding: var(--space-md);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .achievement-card__content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .achievement-card__proof {
+    align-self: flex-end;
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+/* --- Compact mode: embedded inside About's facts pane --- */
+.achievements-strip--compact {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+
+.achievements-strip--compact .achievements-strip__grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.achievements-strip--compact .achievement-card {
+  padding: var(--space-sm) var(--space-md);
+  padding-bottom: var(--space-sm);
+  gap: var(--space-sm);
+}
+
+.achievements-strip--compact .achievement-card__icon {
+  font-size: 1.25rem;
+}
+
+.achievements-strip--compact .achievement-card__title {
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.achievements-strip--compact .achievement-card__subtitle {
+  font-size: 0.65rem;
+}
+
+.achievements-strip--compact .achievement-card__proof {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .achievements-strip--compact .achievements-strip__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Static (non-clickable, pure-fact) cards */
+.achievement-card--static {
+  cursor: default;
+}
+
+.achievement-card--static:hover .achievement-card__icon {
+  transform: none;
+}

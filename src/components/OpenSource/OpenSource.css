@@ -31,7 +31,7 @@
   max-width: 960px;
   margin: 0 auto;
   overflow: hidden;
-  height: 520px;
+  min-height: 520px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.03);
   transition: all var(--transition-normal);
 }
@@ -72,7 +72,7 @@
   font-family: var(--font-heading);
   font-size: var(--fs-xs);
   font-weight: var(--fw-bold);
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   color: var(--color-text-secondary);
 }
 
@@ -107,9 +107,9 @@
   overflow: hidden;
 }
 
-/* Sidebar List */
+/* Sidebar Tree List */
 .oss__console-sidebar {
-  width: 240px;
+  width: 250px;
   background: rgba(10, 15, 26, 0.4);
   border-right: 1px solid var(--color-border);
   display: flex;
@@ -119,11 +119,16 @@
   overflow-y: auto;
 }
 
+.oss__tree-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .oss__repo-btn {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  padding: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   background: none;
   border: none;
   border-left: 3px solid transparent;
@@ -139,29 +144,19 @@
 }
 
 .oss__repo-btn--active {
-  background: rgba(0, 240, 255, 0.03);
+  background: rgba(0, 240, 255, 0.04);
   border-left-color: var(--color-cyan);
   color: var(--color-text-primary);
 }
 
 .oss__repo-btn--active[data-color="magenta"] {
-  background: rgba(255, 0, 170, 0.03);
+  background: rgba(255, 0, 170, 0.04);
   border-left-color: var(--color-magenta);
 }
 
 .oss__repo-icon {
-  font-size: 0.7rem;
-  margin-right: 10px;
-  margin-top: 2px;
-  color: var(--color-text-muted);
-}
-
-.oss__repo-btn--active .oss__repo-icon {
-  color: var(--color-cyan);
-}
-
-.oss__repo-btn--active[data-color="magenta"] .oss__repo-icon {
-  color: var(--color-magenta);
+  font-size: 0.85rem;
+  margin-right: 8px;
 }
 
 .oss__repo-info {
@@ -183,10 +178,62 @@
   color: var(--color-text-muted);
 }
 
-/* File Viewer Content */
+/* Sub-Folders Tree Indented List */
+.oss__tree-subfolders {
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--space-lg);
+  margin-top: 2px;
+  gap: 2px;
+}
+
+.oss__subfolder-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px var(--space-sm);
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  text-align: left;
+  transition: all var(--transition-fast);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.oss__subfolder-btn:hover {
+  color: var(--color-cyan);
+  background: rgba(0, 240, 255, 0.02);
+}
+
+.oss__subfolder-btn--active {
+  color: var(--color-cyan);
+  border-left-color: var(--color-cyan);
+  background: rgba(0, 240, 255, 0.06);
+  font-weight: var(--fw-semibold);
+  text-shadow: var(--glow-text-cyan);
+}
+
+.oss__subfolder-icon {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.oss__subfolder-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Main File Viewer Content */
 .oss__console-content {
   flex: 1;
-  padding: var(--space-xl) var(--space-2xl);
+  padding: var(--space-xl);
   overflow-y: auto;
   background: rgba(10, 15, 26, 0.2);
   display: flex;
@@ -194,10 +241,74 @@
   gap: var(--space-lg);
 }
 
+/* Breadcrumb Header */
+.oss__breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.oss__breadcrumb-path {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.oss__breadcrumb-item {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.oss__breadcrumb-item:hover {
+  color: var(--color-cyan);
+}
+
+.oss__breadcrumb-item--active {
+  color: var(--color-cyan);
+  font-weight: var(--fw-bold);
+  cursor: default;
+}
+
+.oss__breadcrumb-sep {
+  color: var(--color-border);
+}
+
+/* View Containers */
+.oss__view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  animation: oss-fade-in 0.25s ease-out;
+}
+
+@keyframes oss-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .oss__content-header {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+}
+
+.oss__header-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
 }
 
 .oss__classification {
@@ -239,11 +350,11 @@
 .oss__divider[data-color="cyan"] { background: rgba(0, 240, 255, 0.15); }
 .oss__divider[data-color="magenta"] { background: rgba(255, 0, 170, 0.15); }
 
-/* PR log list */
-.oss__pr-section {
+/* Sub-Folders Section & Cards Grid */
+.oss__subfolders-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 .oss__section-label {
@@ -252,28 +363,141 @@
   letter-spacing: 1.5px;
 }
 
-.oss__pr-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+.oss__subfolder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-md);
 }
 
-.oss__pr-item {
-  background: rgba(10, 15, 26, 0.4);
-  border: 1px solid var(--color-border);
+.oss__subfolder-card {
   padding: var(--space-md);
+  background: rgba(10, 15, 26, 0.5);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-.oss__pr-item-top {
+.oss__subfolder-card:hover {
+  border-color: var(--color-cyan);
+  background: rgba(0, 240, 255, 0.03);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.oss__subfolder-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.oss__card-folder-icon {
+  font-size: 1.1rem;
+}
+
+.oss__subfolder-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  line-height: var(--lh-tight);
+}
+
+.oss__subfolder-card-sub {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--color-cyan);
+  letter-spacing: 1px;
+}
+
+.oss__subfolder-card-summary {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-normal);
+  margin-top: 2px;
+}
+
+.oss__subfolder-card-cta {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-cyan);
+  letter-spacing: 1px;
+  margin-top: var(--space-xs);
+}
+
+/* Specific Merge Sub-Folder View */
+.oss__subfolder-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.oss__back-btn {
+  background: rgba(0, 240, 255, 0.04);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: var(--radius-xs);
+  padding: 3px 10px;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-cyan);
+  letter-spacing: 1px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.oss__back-btn:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.oss__subfolder-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.oss__issue-tag {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: var(--fw-bold);
+  color: var(--color-cyan);
+  letter-spacing: 1.5px;
+}
+
+.oss__subfolder-summary {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-relaxed);
+}
+
+.oss__about-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.oss__about-text {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-relaxed);
+  padding: var(--space-md);
+  background: rgba(13, 13, 13, 0.6);
+  border-left: 2px solid var(--color-cyan);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Status Badges */
 .oss__pr-status {
   font-family: var(--font-body);
   font-size: 0.6rem;
@@ -285,26 +509,7 @@
 .oss__pr-status--merged {
   color: var(--color-green);
   border: 1px solid rgba(184, 255, 0, 0.3);
-  background: rgba(184, 255, 0, 0.02);
-}
-
-.oss__pr-link {
-  font-family: var(--font-body);
-  font-size: var(--fs-xs);
-  color: var(--color-cyan);
-  text-shadow: var(--glow-text-cyan);
-  text-decoration: none;
-}
-
-.oss__pr-link:hover {
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
-}
-
-.oss__pr-text {
-  font-family: var(--font-body);
-  font-size: var(--fs-xs);
-  color: var(--color-text-secondary);
-  line-height: var(--lh-relaxed);
+  background: rgba(184, 255, 0, 0.04);
 }
 
 /* Tech block */
@@ -340,13 +545,14 @@
 .oss__tech-chip[data-color="magenta"] { border-color: rgba(255, 0, 170, 0.2); }
 
 .oss__actions {
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .oss__console {
     height: auto;
+    min-height: auto;
   }
 
   .oss__console-body {
@@ -355,31 +561,20 @@
 
   .oss__console-sidebar {
     width: 100%;
-    flex-direction: row;
-    padding: var(--space-sm) 0;
     border-right: none;
     border-bottom: 1px solid var(--color-border);
-    justify-content: space-around;
-    overflow-x: auto;
-  }
-
-  .oss__repo-btn {
-    border-left: none;
-    border-bottom: 3px solid transparent;
     padding: var(--space-sm);
   }
 
-  .oss__repo-btn--active {
-    border-bottom-color: var(--color-cyan);
-    border-left-color: transparent;
-  }
-
-  .oss__repo-btn--active[data-color="magenta"] {
-    border-bottom-color: var(--color-magenta);
-    border-left-color: transparent;
+  .oss__tree-subfolders {
+    padding-left: var(--space-md);
   }
 
   .oss__console-content {
     padding: var(--space-lg);
+  }
+
+  .oss__subfolder-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -17,10 +17,10 @@ export const personalInfo = {
   resumeLink: "/resume.pdf",
   bio: [
     [
-      { text: "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline that ingests documents at 50+ pages/min to a WebSocket-based collaborative whiteboard handling real-time multi-user state. My background is MERN stack development paired with Azure cloud infrastructure, Docker containerization, and CI/CD pipelines." }
+      { text: "I'm a Computer Science student who builds full systems end to end — from a RAG pipeline ingesting 50+ pages/min to a WebSocket collaborative whiteboard syncing multi-user state in real time. My stack is MERN + Azure cloud, Docker, and CI/CD pipelines." }
     ],
     [
-      { text: "I'm currently completing my B.Tech at Parul University while working through DevOps practices (Docker, CI/CD, Kubernetes fundamentals), applied AI, and cloud-native tooling outside the classroom — five Azure certifications so far. " },
+      { text: "Currently completing my B.Tech at Parul University while earning Azure certifications (five so far) and going deeper on DevOps, applied AI, and cloud-native tooling outside the classroom. " },
       { text: "I care most about the part after 'it works on my machine': containerizing it, handling the edge cases, and shipping something someone else can actually use.", bold: true }
     ]
   ],
@@ -72,20 +72,20 @@ export const skills = {
     items: [
       { name: "Java", level: "core", proof: "DS / Algos & Academic Labs" },
       { name: "JavaScript", level: "core", proof: "Used in All Projects" },
-      { name: "TypeScript", level: "core", proof: "CollabBoard" },
-      { name: "SQL", level: "proficient", proof: "Hospital Information System" }
+      { name: "TypeScript", level: "core", proof: "CollabBoard", proofProjectId: "collabboard" },
+      { name: "SQL", level: "proficient", proof: "Hospital Information System", proofProjectId: "hospital-is" }
     ]
   },
   devops: {
     label: "DevOps",
     icon: "🚀",
     items: [
-      { name: "Docker", level: "core", proof: "AI Second Brain, Hospital IS" },
-      { name: "Docker Compose", level: "core", proof: "AI Second Brain" },
+      { name: "Docker", level: "core", proof: "AI Second Brain, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "Docker Compose", level: "core", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
       { name: "Git", level: "core", proof: "Used in All Projects" },
       { name: "GitHub", level: "core", proof: "Open Source Contributions" },
       { name: "CI/CD", level: "proficient", proof: "Vercel & Workflow Automations" },
-      { name: "Kubernetes", level: "learning", proof: "Minikube Orchestration" }
+      { name: "Kubernetes", level: "learning", proof: "Minikube Orchestration", proofProjectId: "hospital-is" }
     ]
   },
   cloud: {
@@ -94,7 +94,7 @@ export const skills = {
     items: [
       { name: "Azure App Service", level: "core", proof: "Cloud deployments" },
       { name: "Azure Functions", level: "proficient", proof: "Serverless triggers" },
-      { name: "Azure OpenAI", level: "proficient", proof: "AI Second Brain" },
+      { name: "Azure OpenAI", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
       { name: "Azure Storage", level: "proficient", proof: "Document asset blobs" }
     ]
   },
@@ -102,30 +102,30 @@ export const skills = {
     label: "Backend",
     icon: "⚙️",
     items: [
-      { name: "Node.js", level: "core", proof: "AI Second Brain, CollabBoard" },
-      { name: "Express.js", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
-      { name: "REST APIs", level: "core", proof: "AI Second Brain, Hospital IS" },
-      { name: "Socket.io", level: "proficient", proof: "CollabBoard" }
+      { name: "Node.js", level: "core", proof: "AI Second Brain, CollabBoard", proofProjectId: "ai-second-brain" },
+      { name: "Express.js", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "REST APIs", level: "core", proof: "AI Second Brain, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "Socket.io", level: "proficient", proof: "CollabBoard", proofProjectId: "collabboard" }
     ]
   },
   databases: {
     label: "Databases",
     icon: "🗄️",
     items: [
-      { name: "MongoDB", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
-      { name: "PostgreSQL", level: "proficient", proof: "Hospital Information System" },
-      { name: "Pinecone Vector DB", level: "proficient", proof: "AI Second Brain" }
+      { name: "MongoDB", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "PostgreSQL", level: "proficient", proof: "Hospital Information System", proofProjectId: "hospital-is" },
+      { name: "Pinecone Vector DB", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" }
     ]
   },
   frontend: {
     label: "Frontend",
     icon: "🖥️",
     items: [
-      { name: "React", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS" },
-      { name: "Vite", level: "core", proof: "CollabBoard" },
+      { name: "React", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "Vite", level: "core", proof: "CollabBoard", proofProjectId: "collabboard" },
       { name: "HTML5", level: "core", proof: "All Web Projects" },
       { name: "CSS3", level: "core", proof: "Custom styling sheets" },
-      { name: "Tailwind CSS", level: "proficient", proof: "CollabBoard, Hospital IS" },
+      { name: "Tailwind CSS", level: "proficient", proof: "CollabBoard, Hospital IS", proofProjectId: "collabboard" },
       { name: "Three.js", level: "learning", proof: "Custom 3D Scene background" }
     ]
   },
@@ -133,12 +133,12 @@ export const skills = {
     label: "AI / ML",
     icon: "🤖",
     items: [
-      { name: "LangChain", level: "proficient", proof: "AI Second Brain" },
-      { name: "RAG Pipeline", level: "proficient", proof: "AI Second Brain" },
-      { name: "GPT Models", level: "proficient", proof: "AI Second Brain" },
-      { name: "Prompt Engineering", level: "proficient", proof: "AI Second Brain" },
-      { name: "Embeddings", level: "proficient", proof: "AI Second Brain" },
-      { name: "Semantic Search", level: "proficient", proof: "AI Second Brain" }
+      { name: "LangChain", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "RAG Pipeline", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "GPT Models", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "Prompt Engineering", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "Embeddings", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "Semantic Search", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" }
     ]
   },
   tools: {
@@ -156,61 +156,58 @@ export const projects = [
   {
     id: "ai-second-brain",
     title: "AI Second Brain",
-    codename: "OPERATION: NEURAL LINK",
+    codename: "OPERATION: NEURAL_LINK",
     classification: "TOP SECRET",
     type: "Full Stack AI Application",
-    status: "DEPLOYED",
-    image: "/images/ai-second-brain.jpg",
+    status: "BUILD COMPLETE",
+    image: "/images/ai-second-brain.png",
     stats: [
-      { label: "Ingestion Speed", value: "50+ p/m" },
-      { label: "Deployment", value: "Dockerized" },
-      { label: "Scale", value: "1,200+ docs parsed" }
+      { label: "PIPELINE", value: "RAG" },
+      { label: "DEPLOYMENT", value: "Docker" },
+      { label: "AUTH", value: "JWT" }
     ],
-    description: "An AI-powered knowledge assistant that ingests documents, builds vector embeddings, and enables semantic search, AI-powered Q&A, automatic summaries, and flashcard generation using a RAG pipeline.",
-    problem: "Information overload — no way to query personal documents intelligently and get contextual answers.",
-    approach: "Built a complete RAG pipeline with LangChain + Pinecone + Azure OpenAI (GPT-4). Designed document ingestion with automatic chunking and vector embedding generation.",
-    outcome: "50+ pages/min ingestion speed. Reduced hallucinations through retrieval-grounded prompting and context window optimization.",
-    tech: ["React", "Node.js", "Express.js", "MongoDB", "LangChain", "Pinecone", "Azure OpenAI", "GPT-4", "Docker"],
+    description: "AI-powered learning platform built using Retrieval-Augmented Generation (RAG) that transforms uploaded PDFs into an intelligent searchable knowledge base.",
+    problem: "Students struggle to search large collections of notes using <strong>traditional keyword search</strong>. Finding contextual answers across multiple documents becomes <strong>slow and inefficient</strong>.",
+    approach: "Designed a complete <strong>RAG pipeline</strong> using <strong>Multer</strong>, <strong>pdfjs-dist</strong>, <strong>LangChain text splitters</strong>, <strong>OpenAI Embeddings</strong> and <strong>Pinecone Vector Database</strong>. Added <strong>JWT authentication</strong>, isolated <strong>multi-session chat history</strong> and <strong>Dockerized deployment</strong>.",
+    outcome: "Delivered an end-to-end <strong>document intelligence platform</strong> supporting <strong>contextual Q&A</strong>, <strong>semantic retrieval</strong>, <strong>flashcard generation</strong>, <strong>MCQ creation</strong> and persistent <strong>multi-session conversations</strong>.",
+    tech: ["React", "Node.js", "Express.js", "MongoDB", "LangChain", "Pinecone", "Azure OpenAI", "Docker"],
     features: [
-      "AI-powered Q&A with GPT-4 (Context-Grounding)",
-      "Semantic search with Pinecone vector embeddings",
-      "PDF document ingestion & auto-chunking pipeline",
-      "Dockerized deployment setup",
-      "Automatic summary generation",
-      "Personalized flashcard generation"
+      "<strong>Semantic search</strong> with Pinecone vector database",
+      "<strong>PDF upload & automatic text chunking</strong> pipeline",
+      "<strong>Flashcard generation</strong> from uploaded documents",
+      "<strong>Automatic MCQ generation</strong> for self-testing",
+      "<strong>Weak-topic analytics</strong> for targeted revision"
     ],
     github: "https://github.com/soham-kolhe/AI-Second-Brain",
-    live: "",
+    live: "https://github.com/soham-kolhe/AI-Second-Brain",
     color: "cyan"
   },
   {
     id: "collabboard",
     title: "CollabBoard",
-    codename: "OPERATION: SYNC STREAM",
-    classification: "CLASSIFIED",
-    type: "Real-Time Collaboration Tool",
-    status: "DEPLOYED",
-    image: "/images/collabboard.jpg",
+    codename: "OPERATION: SYNCHRONIZE",
+    classification: "RESTRICTED",
+    type: "Real-Time Collaboration Platform",
+    status: "BUILD COMPLETE",
+    image: "/images/collabboard.png",
     stats: [
-      { label: "Sync Latency", value: "< 50ms" },
-      { label: "State Sync", value: "Real-Time" },
-      { label: "Scale", value: "100+ sessions" }
+      { label: "REAL-TIME", value: "Socket.io" },
+      { label: "PERSISTENCE", value: "MongoDB" },
+      { label: "SECURITY", value: "JWT" }
     ],
-    description: "A real-time collaborative whiteboard allowing multiple users to draw simultaneously over the web with tools like freehand, shapes, text, and remote cursors.",
-    problem: "No lightweight, real-time collaborative drawing tool for remote teams.",
-    approach: "WebSocket architecture with Socket.io for real-time sync. Canvas API for drawing. Multi-user state management with conflict resolution.",
-    outcome: "Real-time multi-user whiteboard with full drawing toolkit, undo/redo, and remote cursor tracking.",
-    tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Node.js", "Express.js", "Socket.io", "MongoDB"],
+    description: "A collaborative whiteboard enabling multiple users to draw together in real-time using WebSockets with persistent board storage.",
+    problem: "Traditional drawing applications provide <strong>limited real-time collaboration</strong> and often <strong>lose board state</strong> when users disconnect or refresh the application.",
+    approach: "Built a room-based <strong>Socket.io architecture</strong> with <strong>JWT authentication</strong>, <strong>board ownership</strong>, <strong>MongoDB persistence</strong> and <strong>Tldraw SDK integration</strong> to synchronize canvas operations across connected users.",
+    outcome: "Created a collaborative platform supporting <strong>synchronized drawing</strong>, <strong>persistent whiteboards</strong>, <strong>secure room access</strong> and seamless <strong>multi-user interaction</strong>.",
+    tech: ["React", "TypeScript", "Tldraw", "Node.js", "Express.js", "MongoDB", "Socket.io", "JWT"],
     features: [
-      "Multi-user real-time collaboration via WebSockets",
-      "Remote cursor tracking & sync latency < 50ms",
-      "Conflict-resolved canvas state synchronization",
-      "Persistent drawing storage & session recovery",
-      "Interactive shapes, text, and drawing tools",
-      "Multi-step undo / redo canvas support"
+      "<strong>Tldraw SDK integration</strong> with board CRUD APIs",
+      "<strong>Live cursor tracking</strong> & multi-user canvas sync",
+      "<strong>Board ownership</strong> & granular access control",
+      "<strong>Multi-step Undo / Redo</strong> canvas state support"
     ],
     github: "https://github.com/soham-kolhe/CollabBoard",
-    live: "",
+    live: "https://github.com/soham-kolhe/CollabBoard",
     color: "magenta"
   },
   {
@@ -253,7 +250,10 @@ export const certifications = [
     level: "Associate",
     color: "cyan",
     date: "Jan 2026",
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
+    highlight: true,
+    // TODO: Replace with your personal Credly / Microsoft Learn verification URL
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    image: "/images/Az-104.png"
   },
   {
     title: "Azure AI Fundamentals",
@@ -263,7 +263,9 @@ export const certifications = [
     level: "Fundamentals",
     color: "magenta",
     date: "Nov 2025",
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
+    highlight: false,
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    image: "/images/Ai-900.png"
   },
   {
     title: "Azure Fundamentals",
@@ -273,7 +275,10 @@ export const certifications = [
     level: "Fundamentals",
     color: "cyan",
     date: "Jul 2024",
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
+    highlight: false,
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    // TODO: Drop the real AZ-900 certificate screenshot at public/images/certs/az-900.png
+    image: "/images/certs/az-900.png"
   },
   {
     title: "Azure Data Fundamentals",
@@ -283,7 +288,9 @@ export const certifications = [
     level: "Fundamentals",
     color: "green",
     date: "Sep 2025",
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
+    highlight: false,
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    image: "/images/DP-900.png"
   },
   {
     title: "Security, Compliance & Identity",
@@ -293,7 +300,9 @@ export const certifications = [
     level: "Fundamentals",
     color: "magenta",
     date: "Oct 2025",
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/"
+    highlight: false,
+    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    image: "/images/SC-900.png"
   },
   {
     title: "Computer Networks (Elite)",
@@ -303,7 +312,10 @@ export const certifications = [
     level: "Elite",
     color: "gold",
     date: "Apr 2024",
-    verifyUrl: "https://nptel.ac.in/noc/"
+    highlight: false,
+    verifyUrl: "https://nptel.ac.in/noc/",
+    // TODO: Drop the real NPTEL certificate screenshot at public/images/certs/nptel.png
+    image: "/images/certs/nptel.png"
   },
   {
     title: "UX Design Job Simulation",
@@ -313,7 +325,10 @@ export const certifications = [
     level: "Completion",
     color: "cyan",
     date: "Dec 2025",
-    verifyUrl: "https://www.theforage.com/simulations/lloyds-banking-group/ux-design-simulation-nz7i"
+    highlight: false,
+    verifyUrl: "https://www.theforage.com/simulations/lloyds-banking-group/ux-design-simulation-nz7i",
+    // TODO: Drop the real Lloyds UX certificate screenshot at public/images/certs/lloyds-ux.png
+    image: "/images/certs/lloyds-ux.png"
   }
 ];
 
@@ -337,22 +352,34 @@ export const openSourceContributions = [
     description: "A private workspace and board management application featuring real-time auto-saving and collaborative features.",
     contributions: [
       {
-        text: "Added confirmation dialogs before deleting boards to prevent accidental data loss",
+        id: "pr-5",
+        folderName: "pr-5-delete-confirmation",
+        title: "Board Deletion Confirmation Dialog",
         issue: "#5",
         status: "merged",
-        url: "https://github.com/lexasub/PrivateBoard/pull/5"
+        url: "https://github.com/lexasub/PrivateBoard/pull/5",
+        summary: "Added confirmation dialogs before deleting boards to prevent accidental data loss.",
+        about: "Designed and integrated a safety modal prompt whenever a user initiates board deletion. Prevents accidental destruction of workspace boards and ensures explicit user confirmation before executing destructive API calls."
       },
       {
-        text: "Implemented multi-select functionality for bulk deletion of boards",
+        id: "pr-6",
+        folderName: "pr-6-multi-select-deletion",
+        title: "Multi-Select Bulk Board Deletion",
         issue: "#6",
         status: "merged",
-        url: "https://github.com/lexasub/PrivateBoard/pull/6"
+        url: "https://github.com/lexasub/PrivateBoard/pull/6",
+        summary: "Implemented multi-select functionality for bulk deletion of boards.",
+        about: "Added checkbox state management across the workspace dashboard, enabling users to select multiple boards simultaneously and trigger a batched bulk deletion action."
       },
       {
-        text: "Improved the auto-save status indicator with dynamic states (Saved, Saving, Failed)",
+        id: "pr-9",
+        folderName: "pr-9-autosave-indicator",
+        title: "Dynamic Auto-Save Status Indicator",
         issue: "#9",
         status: "merged",
-        url: "https://github.com/lexasub/PrivateBoard/pull/9"
+        url: "https://github.com/lexasub/PrivateBoard/pull/9",
+        summary: "Improved the auto-save status indicator with dynamic states (Saved, Saving, Failed).",
+        about: "Refactored the header sync status component to give real-time visual feedback ('Saving...', 'All changes saved', 'Sync failed, retrying') during background REST updates."
       }
     ],
     tech: ["React", "JavaScript", "Node.js"],

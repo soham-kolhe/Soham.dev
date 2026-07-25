@@ -23,6 +23,9 @@ const Hero = ({ onImageLoad }) => {
               <span className="hero__status-dot" aria-hidden="true" />
               <span>STATUS: OPEN TO OPPORTUNITIES</span>
             </div>
+            <div className="hero__grad-timeline">
+              <span>// B.TECH CSE • PARUL UNIVERSITY • GRADUATING JUNE 2027</span>
+            </div>
           </div>
 
           {/* Name with glitch on hover */}
@@ -63,6 +66,28 @@ const Hero = ({ onImageLoad }) => {
             >
               <span>[ VIEW RESUME ]</span>
             </a>
+          </div>
+
+          {/* Social Links Row */}
+          <div className="hero__social-chips reveal">
+            {socialLinks.map((link, idx) => {
+              const Icon = SocialIcons[link.icon];
+              const isEmail = link.icon === 'mail';
+              const isCyanColor = idx % 2 === 0;
+              return (
+                <a
+                  key={link.name}
+                  href={link.url}
+                  className={`cyber-chip-btn ${isCyanColor ? 'cyber-chip-btn--cyan' : 'cyber-chip-btn--magenta'}`}
+                  target={isEmail ? '_self' : '_blank'}
+                  rel={isEmail ? undefined : 'noopener noreferrer'}
+                  aria-label={link.name}
+                  title={link.name}
+                >
+                  {Icon && <Icon className="cyber-chip-icon" />}
+                </a>
+              );
+            })}
           </div>
         </div>
 
@@ -109,56 +134,12 @@ const Hero = ({ onImageLoad }) => {
 
       {/* Hero Bottom Bar */}
       <div className="hero__bottom-bar">
-        {/* Left Socials */}
-        <nav className="hero__socials-side hero__socials-side--left reveal" aria-label="Primary socials">
-          {socialLinks.slice(0, 3).map((link) => (
-            <span key={link.name} style={{ display: 'contents' }}>
-              <a
-                href={link.url}
-                className="hero__social-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.name}
-                title={link.name}
-              >
-                {(() => {
-                  const Icon = SocialIcons[link.icon];
-                  return Icon ? <Icon className="hero__social-icon" /> : null;
-                })()}
-                <span>{link.name}</span>
-              </a>
-            </span>
-          ))}
-        </nav>
-
         {/* Scroll down indicator */}
         <div className="hero__scroll-indicator" aria-hidden="true">
           <span className="hero__scroll-text">Scroll</span>
           <span className="hero__scroll-line" />
           <span className="hero__scroll-chevron" />
         </div>
-
-        {/* Right Socials */}
-        <nav className="hero__socials-side hero__socials-side--right reveal" aria-label="Secondary socials">
-          {socialLinks.slice(3).map((link) => (
-            <span key={link.name} style={{ display: 'contents' }}>
-              <a
-                href={link.url}
-                className="hero__social-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.name}
-                title={link.name}
-              >
-                {(() => {
-                  const Icon = SocialIcons[link.icon];
-                  return Icon ? <Icon className="hero__social-icon" /> : null;
-                })()}
-                <span>{link.name}</span>
-              </a>
-            </span>
-          ))}
-        </nav>
       </div>
     </section>
   );
