@@ -45,11 +45,4 @@ export const MicrosoftIcon = (props) => (
   </svg>
 );
 
-export const SocialIcons = {
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  code: CodeIcon,
-  twitter: TwitterIcon,
-  mail: MailIcon,
-  microsoft: MicrosoftIcon
-};
+

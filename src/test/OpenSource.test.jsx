@@ -1,38 +1,45 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import OpenSource from '../components/OpenSource/OpenSource';
 import { openSourceContributions } from '../data/portfolio';
 
 describe('OpenSource Component', () => {
-  it('renders the open source section and all listed repositories', () => {
+  it('renders the open source section and listed repositories', () => {
     render(<OpenSource />);
-    
+
     expect(screen.getByRole('heading', { level: 2 }).textContent).toBe('OPEN SOURCE CONTRIBUTIONS');
 
     openSourceContributions.forEach((entry) => {
-      expect(screen.getByText(entry.repo)).toBeInTheDocument();
+      expect(screen.getAllByText(entry.repo).length).toBeGreaterThan(0);
       expect(screen.getByText(entry.description)).toBeInTheDocument();
-      expect(screen.getByText(new RegExp(`${entry.prCount} PRs MERGED`, 'i'))).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(`${entry.prCount} Sub-Folders`, 'i'))).toBeInTheDocument();
     });
   });
 
-  it('renders individual contribution logs with status badges and PR links', () => {
+  it('renders contribution sub-folders and displays PR details on selection', async () => {
+    const user = userEvent.setup();
     render(<OpenSource />);
-    
-    openSourceContributions.forEach((entry) => {
-      entry.contributions.forEach((contrib) => {
-        // Check that the contribution text is rendered
-        expect(screen.getByText(contrib.text)).toBeInTheDocument();
-        
-        // Check that the status badge is rendered
-        const statusBadges = screen.getAllByText(new RegExp(contrib.status, 'i'));
-        expect(statusBadges.length).toBeGreaterThan(0);
-        
-        // Check that the PR link is rendered
-        const prLink = screen.getByRole('link', { name: new RegExp(`PR ${contrib.issue}`, 'i') });
-        expect(prLink).toBeInTheDocument();
-        expect(prLink.getAttribute('href')).toBe(contrib.url);
-      });
+
+    const firstRepo = openSourceContributions[0];
+    const firstContrib = firstRepo.contributions[0];
+
+    // Click the sub-folder button in the tree sidebar
+    const subFolderBtn = screen.getByRole('button', {
+      name: new RegExp(firstContrib.folderName, 'i'),
     });
+    await user.click(subFolderBtn);
+
+    // Verify sub-folder view details
+    expect(screen.getByText(new RegExp(firstContrib.title, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(firstContrib.about)).toBeInTheDocument();
+
+    // Verify PR resolve link button
+    const prLink = screen.getByRole('link', {
+      name: new RegExp(`RESOLVE ISSUE ${firstContrib.issue}`, 'i'),
+    });
+    expect(prLink).toBeInTheDocument();
+    expect(prLink.getAttribute('href')).toBe(firstContrib.url);
   });
 });
+

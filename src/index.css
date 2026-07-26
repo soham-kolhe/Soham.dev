@@ -133,16 +133,14 @@ body {
 }
 
 body.cursor-ready,
-body.cursor-ready button,
-body.cursor-ready a {
-  cursor: none;
+body.cursor-ready * {
+  cursor: none !important;
 }
 
 @media (pointer: coarse) {
   body.cursor-ready,
-  body.cursor-ready button,
-  body.cursor-ready a {
-    cursor: auto;
+  body.cursor-ready * {
+    cursor: auto !important;
   }
 }
 
@@ -372,6 +370,28 @@ button {
 
 .cyber-btn--green:hover {
   box-shadow: var(--glow-green);
+}
+
+.cyber-btn--disabled,
+.cyber-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  pointer-events: auto;
+}
+
+.cyber-btn--disabled:hover,
+.cyber-btn:disabled:hover {
+  color: var(--color-text-muted);
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.cyber-btn--disabled::before,
+.cyber-btn:disabled::before {
+  display: none;
 }
 
 /* --- HUD Corner Decoration --- */

@@ -25,16 +25,12 @@ describe('Certifications Component', () => {
     expect(screen.getAllByText(azure.code).length).toBeGreaterThan(0);
   });
 
-  it('selecting a credential from the list updates the detail viewer', async () => {
-    const user = userEvent.setup();
+  it('renders credential verification links for cards with verifyUrl', () => {
     render(<Certifications />);
-
-    const target = certifications[1]; // AI-900
-    const buttons = screen.getAllByText(target.code);
-    await user.click(buttons[0]);
-
-    // decoding animation runs on a timer; just confirm the row is now active
-    const row = buttons[0].closest('button');
-    expect(row.className).toContain('certs__item-row--active');
+    const certWithLink = certifications.find((c) => c.verifyUrl);
+    const links = screen.getAllByRole('link', { name: new RegExp(certWithLink.title, 'i') });
+    expect(links.length).toBeGreaterThan(0);
+    expect(links[0]).toHaveAttribute('href', certWithLink.verifyUrl);
+    expect(links[0]).toHaveAttribute('target', '_blank');
   });
 });

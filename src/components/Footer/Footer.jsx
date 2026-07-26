@@ -1,8 +1,8 @@
 /* ============================================
    Footer — Bottom Bar Only
    ============================================ */
-import { socialLinks } from '../../data/portfolio.js';
-import { SocialIcons } from '../Icons/SocialIcons.jsx';
+import { personalInfo, socialLinks } from '../../data/portfolio.js';
+import { SocialIcons } from '../Icons/socialIconsMap.js';
 import './Footer.css';
 
 const Footer = () => {
@@ -21,10 +21,10 @@ const Footer = () => {
           <div className="footer__attribution">
             <p className="footer__designed">
               Designed &amp; Built by{' '}
-              <span className="footer__name">Soham Kolhe</span>
+              <span className="footer__name">{personalInfo.name}</span>
             </p>
             <p className="footer__copy">
-              © {new Date().getFullYear()} Soham Kolhe — Open to Opportunities
+              © {new Date().getFullYear()} {personalInfo.name} — Open to Opportunities
             </p>
           </div>
 

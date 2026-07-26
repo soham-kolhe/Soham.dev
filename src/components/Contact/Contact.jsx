@@ -3,7 +3,7 @@
    ============================================ */
 import { useState } from 'react';
 import { personalInfo, socialLinks } from '../../data/portfolio.js';
-import { SocialIcons } from '../Icons/SocialIcons.jsx';
+import { SocialIcons } from '../Icons/socialIconsMap.js';
 import './Contact.css';
 
 const SUBJECT_OPTIONS = [
@@ -152,8 +152,7 @@ const Contact = () => {
 
       setStatus('success');
       resetAfterDelay();
-    } catch (error) {
-      console.error('Formspree transmission failed:', error);
+    } catch {
       setStatus('error');
       setErrorMessage(
         'Transmission failed. You can retry, or reach out directly at ' + personalInfo.email
@@ -374,6 +373,8 @@ const Contact = () => {
                   <button
                     key={opt}
                     type="button"
+                    role="radio"
+                    aria-checked={formData.subject === opt}
                     className={`contact__chip ${
                       formData.subject === opt ? 'contact__chip--active' : ''
                     }`}

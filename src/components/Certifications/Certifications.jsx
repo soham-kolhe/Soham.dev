@@ -208,6 +208,7 @@ const Certifications = () => {
             <button
               key={f.key}
               onClick={() => setActiveFilter(f.key)}
+              aria-pressed={activeFilter === f.key}
               className={`cyber-tab ${activeFilter === f.key ? 'cyber-tab--active' : ''}`}
             >
               {f.label}

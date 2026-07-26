@@ -4,7 +4,7 @@
    ============================================ */
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Stars, PerformanceMonitor, useDetectGPU } from '@react-three/drei';
+import { PerformanceMonitor } from '@react-three/drei/core/PerformanceMonitor';
 import * as THREE from 'three';
 import CourierDrone from './CourierDrone';
 import { scrollState, SECTION_COLORS } from '../../scrollState';
@@ -40,23 +40,49 @@ const SCENE_CHECKPOINTS = [
   }
 ];
 
-/* --- Neon Grid Floor --- */
-function NeonGrid() {
-  const gridRef = useRef();
+/* --- Optimized Background Stars --- */
+function BackgroundStars({ count = 350, degraded }) {
+  const starsRef = useRef();
+  const actualCount = degraded ? Math.floor(count * 0.4) : count;
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(actualCount * 3);
+    for (let i = 0; i < actualCount; i++) {
+      const r = 30 + Math.random() * 20;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pos[i * 3 + 2] = r * Math.cos(phi);
+    }
+    return pos;
+  }, [actualCount]);
 
   useFrame((state) => {
-    if (gridRef.current) {
-      gridRef.current.position.z = (state.clock.elapsedTime * 0.5) % 2;
+    if (starsRef.current) {
+      starsRef.current.rotation.y = state.clock.elapsedTime * 0.008;
     }
   });
 
   return (
-    <group ref={gridRef} position={[0, -3, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <gridHelper
-        args={[60, 24, '#00F0FF', '#1a1a3e']}
-        position={[0, 0, 0]}
+    <points ref={starsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={actualCount}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.07}
+        color="#88ccff"
+        transparent
+        opacity={0.6}
+        sizeAttenuation
+        depthWrite={false}
       />
-    </group>
+    </points>
   );
 }
 
@@ -66,19 +92,13 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
   const materialRef = useRef();
 
   useFrame((state) => {
-    if (reducedMotion) return;
-    if (!meshRef.current) return;
+    if (reducedMotion || !meshRef.current) return;
     const t = state.clock.elapsedTime * speed;
 
-    // Gentle rotation
     meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.5;
     meshRef.current.rotation.y = t * 0.2;
-    meshRef.current.rotation.z = Math.cos(t * 0.2) * 0.3;
-
-    // Subtle floating
     meshRef.current.position.y = position[1] + Math.sin(t * 0.5) * 0.3;
 
-    // Pulse emissive
     if (materialRef.current) {
       materialRef.current.emissiveIntensity = 0.65 + Math.sin(t * 2) * 0.25;
     }
@@ -89,39 +109,33 @@ function FloatingShape({ position, geometry, color, speed = 1, reducedMotion }) 
       case 'octahedron':
         return new THREE.OctahedronGeometry(0.7, 0);
       case 'torus':
-        return new THREE.TorusGeometry(0.5, 0.15, 16, 32);
+        return new THREE.TorusGeometry(0.5, 0.12, 8, 20);
       case 'icosahedron':
         return new THREE.IcosahedronGeometry(0.6, 0);
-      case 'torusKnot':
-        return new THREE.TorusKnotGeometry(0.4, 0.12, 64, 16);
-      case 'dodecahedron':
-        return new THREE.DodecahedronGeometry(0.5, 0);
       default:
         return new THREE.OctahedronGeometry(0.5, 0);
     }
   }, [geometry]);
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <mesh ref={meshRef} position={position} geometry={geom}>
-        <meshStandardMaterial
-          ref={materialRef}
-          color={color}
-          emissive={color}
-          emissiveIntensity={0.95}
-          wireframe
-          transparent
-          opacity={0.75}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={meshRef} position={position} geometry={geom}>
+      <meshStandardMaterial
+        ref={materialRef}
+        color={color}
+        emissive={color}
+        emissiveIntensity={0.95}
+        wireframe
+        transparent
+        opacity={0.75}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </mesh>
   );
 }
 
 /* --- Floating Particles --- */
-function NeonParticles({ count = 100 }) {
+function NeonParticles({ count = 45 }) {
   const particlesRef = useRef();
 
   const positions = useMemo(() => {
@@ -204,7 +218,6 @@ function DataSphere({ degraded, reducedMotion }) {
       wireRef.current.rotation.z = t * 0.05;
     }
 
-    // Sync sphere color to active section, same pattern as CourierDrone
     const prog = THREE.MathUtils.clamp(scrollState.progress, 0, 1);
     const segment = prog * (SECTION_COLORS.length - 1);
     const idx = Math.floor(segment);
@@ -251,7 +264,7 @@ function DataSphere({ degraded, reducedMotion }) {
     <group ref={groupRef} position={[3, 0.5, -2]}>
       {/* Inner sphere */}
       <mesh ref={sphereRef}>
-        <icosahedronGeometry args={[1.2, degraded ? 0 : 1]} />
+        <icosahedronGeometry args={[1.2, 0]} />
         <meshStandardMaterial
           ref={innerMatRef}
           color="#00F0FF"
@@ -266,7 +279,7 @@ function DataSphere({ degraded, reducedMotion }) {
       </mesh>
       {/* Outer wireframe ring */}
       <mesh ref={wireRef}>
-        <torusGeometry args={[1.8, 0.02, 8, degraded ? 16 : 64]} />
+        <torusGeometry args={[1.8, 0.02, 6, degraded ? 14 : 24]} />
         <meshStandardMaterial
           ref={outerMatRef}
           color="#FF00AA"
@@ -281,7 +294,7 @@ function DataSphere({ degraded, reducedMotion }) {
       {/* Second ring */}
       {!degraded && (
         <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[2.0, 0.015, 8, 32]} />
+          <torusGeometry args={[2.0, 0.015, 6, 20]} />
           <meshStandardMaterial
             color="#00F0FF"
             emissive="#00F0FF"
@@ -302,26 +315,21 @@ function Scene({ degraded, reducedMotion }) {
   useFrame((state) => {
     if (groupRef.current) {
       if (!reducedMotion) {
-        // Rotate the entire background scene as you scroll down
         const targetRotationY = (scrollState.progress * Math.PI * 0.25) + Math.sin(state.clock.elapsedTime * 0.08) * 0.04;
         groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.035);
 
-        // Parallax vertical movement based on scroll progress
         const targetPositionY = -scrollState.progress * 1.1;
         groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPositionY, 0.035);
 
-        // Tilt scene based on scroll velocity
         const targetRotationX = scrollState.velocity * 0.06;
         groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.04);
       } else {
-        // Static scene if reduced motion is preferred
         groupRef.current.rotation.y = 0;
         groupRef.current.position.y = 0;
         groupRef.current.rotation.x = 0;
       }
     }
 
-    // Camera checkpoint lerping based on scroll progress
     if (!degraded && !reducedMotion) {
       const progress = THREE.MathUtils.clamp(scrollState.progress, 0, 1);
       let cpA = SCENE_CHECKPOINTS[0];
@@ -343,12 +351,10 @@ function Scene({ degraded, reducedMotion }) {
       const targetCamZ = THREE.MathUtils.lerp(cpA.camera.pos[2], cpB.camera.pos[2], factor);
       const targetFov = THREE.MathUtils.lerp(cpA.camera.fov, cpB.camera.fov, factor);
 
-      // Smoothly lerp camera position
       state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetCamX, 0.03);
       state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetCamY, 0.03);
       state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, targetCamZ, 0.03);
 
-      // Update FOV if changed
       if (Math.abs(state.camera.fov - targetFov) > 0.01) {
         state.camera.fov = THREE.MathUtils.lerp(state.camera.fov, targetFov, 0.05);
         state.camera.updateProjectionMatrix();
@@ -356,7 +362,6 @@ function Scene({ degraded, reducedMotion }) {
 
       state.camera.lookAt(0, 0, 0);
     } else {
-      // Default fallback camera position
       state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, 0, 0.05);
       state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 1, 0.05);
       state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 8, 0.05);
@@ -368,14 +373,10 @@ function Scene({ degraded, reducedMotion }) {
     }
   });
 
-  const SHOW_GRID = false;
-
   return (
     <group ref={groupRef}>
-      {/* Depth Fog */}
       <fog attach="fog" args={['#000000', 12, 38]} />
 
-      {/* Ambient and point lights */}
       <ambientLight intensity={degraded ? 0.4 : 0.25} />
       <pointLight position={[5, 5, 5]} color="#00F0FF" intensity={1} distance={20} />
       {!degraded && (
@@ -385,24 +386,13 @@ function Scene({ degraded, reducedMotion }) {
         </>
       )}
 
-      {/* Stars background backdrop */}
-      <Stars
-        radius={40}
-        depth={30}
-        count={degraded ? 250 : 800}
-        factor={3}
-        saturation={0.5}
-        fade
-        speed={0.5}
-      />
+      {/* Stars backdrop */}
+      <BackgroundStars count={350} degraded={degraded} />
 
-      {/* Neon grid floor (disabled for premium aesthetics and performance) */}
-      {SHOW_GRID && <NeonGrid />}
-
-      {/* Central data sphere - rendered but simplified when degraded */}
+      {/* Central data sphere */}
       <DataSphere degraded={degraded} reducedMotion={reducedMotion} />
 
-      {/* Floating neon shapes scattered around */}
+      {/* Floating neon shapes */}
       <FloatingShape position={[-4, 2, -3]} geometry="octahedron" color="#00F0FF" speed={0.8} reducedMotion={reducedMotion} />
       {!degraded && (
         <>
@@ -411,8 +401,8 @@ function Scene({ degraded, reducedMotion }) {
         </>
       )}
 
-      {/* Particles - count reduced if degraded */}
-      <NeonParticles count={degraded ? 25 : 75} />
+      {/* Particles */}
+      <NeonParticles count={degraded ? 20 : 45} />
 
       {/* Scroll-Reactive Companion Drone */}
       <CourierDrone degraded={degraded} />
@@ -423,11 +413,9 @@ function Scene({ degraded, reducedMotion }) {
 /* --- Exported Canvas Component --- */
 export default function CyberpunkScene() {
   const [isMobile, setIsMobile] = useState(false);
-  const gpuTier = useDetectGPU();
   const [degraded, setDegraded] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  // Check URL query parameters for performance overrides
   const forceSettings = useMemo(() => {
     if (typeof window === 'undefined') return null;
     const params = new URLSearchParams(window.location.search);
@@ -449,10 +437,13 @@ export default function CyberpunkScene() {
   }, []);
 
   useEffect(() => {
-    if (gpuTier && gpuTier.tier <= 1) {
-      setDegraded(true);
+    if (typeof navigator !== 'undefined') {
+      const isLowConcurrency = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+      if (isLowConcurrency) {
+        setDegraded(true);
+      }
     }
-  }, [gpuTier]);
+  }, []);
 
   useEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -489,18 +480,8 @@ export default function CyberpunkScene() {
         style={{ background: 'transparent' }}
       >
         <PerformanceMonitor
-          onDecline={() => {
-            if (import.meta.env.DEV) {
-              console.log('[PerformanceMonitor] Frame decline detected. Activating degraded mode.');
-            }
-            setDegraded(true);
-          }}
-          onIncline={() => {
-            if (import.meta.env.DEV) {
-              console.log('[PerformanceMonitor] Frame incline detected. Restoring quality settings.');
-            }
-            setDegraded(false);
-          }}
+          onDecline={() => setDegraded(true)}
+          onIncline={() => setDegraded(false)}
         >
           <Scene degraded={activeDegraded} reducedMotion={reducedMotion} />
         </PerformanceMonitor>

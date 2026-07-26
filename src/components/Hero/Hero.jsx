@@ -5,7 +5,7 @@
    ============================================ */
 
 import { personalInfo, socialLinks } from '../../data/portfolio';
-import { SocialIcons } from '../Icons/SocialIcons.jsx';
+import { SocialIcons } from '../Icons/socialIconsMap.js';
 import './Hero.css';
 
 const Hero = ({ onImageLoad }) => {
@@ -24,7 +24,9 @@ const Hero = ({ onImageLoad }) => {
               <span>STATUS: OPEN TO OPPORTUNITIES</span>
             </div>
             <div className="hero__grad-timeline">
-              <span>// B.TECH CSE • PARUL UNIVERSITY • GRADUATING JUNE 2027</span>
+              <span>
+                // {personalInfo.education.degree.replace('in Computer Science & Engineering', 'CSE').toUpperCase()} • {personalInfo.education.university.split(',')[0].toUpperCase()} • GRADUATING {personalInfo.education.year.split('—')[1]?.trim().toUpperCase() || '2027'}
+              </span>
             </div>
           </div>
 

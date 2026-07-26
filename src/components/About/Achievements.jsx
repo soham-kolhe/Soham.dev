@@ -6,7 +6,9 @@
    clickable; pure facts are static.
    ============================================ */
 import './Achievements.css';
-import { personalInfo } from '../../data/portfolio.js';
+import { personalInfo, socialLinks, certifications } from '../../data/portfolio.js';
+
+const leetcodeUrl = socialLinks.find((s) => s.name.toLowerCase().includes('leetcode'))?.url || 'https://leetcode.com/u/Soham_Kolhe/';
 
 const achievementsList = [
   {
@@ -32,12 +34,12 @@ const achievementsList = [
     title: '160+ DSA Solved',
     subtitle: 'LeetCode platform',
     accent: 'magenta',
-    link: { type: 'external', target: personalInfo.social?.leetcode || '#' },
+    link: { type: 'external', target: leetcodeUrl },
   },
   {
     icon: '🏆',
-    title: '6 Certifications',
-    subtitle: '5x Azure (AZ-104 Associate) + NPTEL Elite',
+    title: `${certifications.length} Certifications`,
+    subtitle: '5x Azure (AZ-104 Associate) + NPTEL + AlgoUniversity + Forage',
     accent: 'cyan',
     link: { type: 'scroll', target: '#certifications' },
   },

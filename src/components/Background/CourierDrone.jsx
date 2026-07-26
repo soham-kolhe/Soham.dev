@@ -45,11 +45,11 @@ export default function CourierDrone({ degraded }) {
 
   // Trail config
   const showTrail = !degraded && !isMobile;
-  const trailLength = 20;
+  const trailLength = 12;
 
   const trailPositions = useMemo(() => {
     return new Float32Array(showTrail ? trailLength * 3 : 0);
-  }, [showTrail]);
+  }, [showTrail, trailLength]);
 
   const colorObj = useRef(new THREE.Color(SECTION_COLORS[0]));
 

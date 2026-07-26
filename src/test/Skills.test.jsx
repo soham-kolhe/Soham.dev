@@ -5,33 +5,45 @@ import Skills from '../components/Skills/Skills';
 import { skills } from '../data/portfolio';
 
 describe('Skills Component', () => {
-  it('renders terminal scan view by default', () => {
+  it('renders terminal shell with title, filter prompt, and skills categories', () => {
     render(<Skills />);
-    expect(screen.getByText(/soham@grid/i)).toBeInTheDocument();
-    expect(screen.getByText(/soham.skills.scan\(\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Scanning tech stack/i)).toBeInTheDocument();
+    expect(screen.getByText(/soham@grid:~\/skills.sh/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Filter skills by keyword/i)).toBeInTheDocument();
+    expect(screen.getByText(/Indexed \d+ of \d+ technologies/i)).toBeInTheDocument();
+
+    Object.values(skills).forEach((cat) => {
+      expect(screen.getByText(new RegExp(cat.label, 'i'))).toBeInTheDocument();
+    });
   });
 
-  it('toggles to quick scan view on button click', async () => {
+  it('filters skills based on user input query and clears filter on clear click', async () => {
     const user = userEvent.setup();
     render(<Skills />);
-    
-    const toggleBtn = screen.getByRole('button', { name: /VIEW QUICK SCAN/i });
-    await user.click(toggleBtn);
-    
-    expect(screen.getByText(/Quick Scan/i)).toBeInTheDocument();
-    
-    // Check that skills items are rendered
-    const flatSkills = Object.values(skills).flatMap((cat) => cat.items);
-    flatSkills.forEach((skill) => {
-      const elements = screen.getAllByText(new RegExp(skill.name, 'i'));
-      expect(elements.length).toBeGreaterThan(0);
-    });
-    
-    // Toggle back
-    const toggleBackBtn = screen.getByRole('button', { name: /VIEW TERMINAL SCAN/i });
-    await user.click(toggleBackBtn);
-    
-    expect(screen.getByText(/soham@grid/i)).toBeInTheDocument();
+
+    const input = screen.getByLabelText(/Filter skills by keyword/i);
+
+    await user.type(input, 'docker');
+
+    expect(screen.getByText(/Indexed \d+ of \d+ technologies/i)).toBeInTheDocument();
+    expect(screen.getByText('Docker')).toBeInTheDocument();
+    expect(screen.queryByText('Java')).not.toBeInTheDocument();
+
+    const clearBtn = screen.getByRole('button', { name: /CLEAR/i });
+    await user.click(clearBtn);
+
+    expect(input.value).toBe('');
+    expect(screen.getByText(/Indexed \d+ of \d+ technologies/i)).toBeInTheDocument();
+    expect(screen.getByText('Java')).toBeInTheDocument();
+  });
+
+  it('displays no skills message when query has no matches', async () => {
+    const user = userEvent.setup();
+    render(<Skills />);
+
+    const input = screen.getByLabelText(/Filter skills by keyword/i);
+    await user.type(input, 'nonexistentxyz');
+
+    expect(screen.getByText(/grep: no skills found matching "nonexistentxyz"/i)).toBeInTheDocument();
   });
 });
+

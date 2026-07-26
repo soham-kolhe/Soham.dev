@@ -133,7 +133,6 @@
   border: none;
   border-left: 3px solid transparent;
   color: var(--color-text-muted);
-  cursor: pointer;
   transition: all var(--transition-fast);
   text-align: left;
 }
@@ -197,7 +196,6 @@
   border: none;
   border-left: 2px solid transparent;
   color: var(--color-text-muted);
-  cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.68rem;
   text-align: left;
@@ -267,7 +265,6 @@
   color: var(--color-text-muted);
   font-family: inherit;
   font-size: inherit;
-  cursor: pointer;
   padding: 0;
 }
 
@@ -278,7 +275,6 @@
 .oss__breadcrumb-item--active {
   color: var(--color-cyan);
   font-weight: var(--fw-bold);
-  cursor: default;
 }
 
 .oss__breadcrumb-sep {
@@ -377,7 +373,6 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
@@ -447,7 +442,6 @@
   font-weight: var(--fw-bold);
   color: var(--color-cyan);
   letter-spacing: 1px;
-  cursor: pointer;
   white-space: nowrap;
   transition: all var(--transition-fast);
 }

@@ -18,10 +18,11 @@
 }
 
 .cursor-ring--hover {
-  width: 60px;
-  height: 60px;
-  border-color: var(--color-magenta);
+  width: 55px;
+  height: 55px;
+  border-color: var(--color-cyan);
   border-width: 2px;
+  box-shadow: 0 0 15px var(--color-cyan-glow);
 }
 
 .cursor-ring--hidden {
@@ -36,7 +37,7 @@
 }
 
 .cursor-ring--hover .cursor-ring__line {
-  background-color: var(--color-magenta);
+  background-color: var(--color-cyan);
 }
 
 .cursor-ring__line--top,
@@ -90,8 +91,8 @@
 .cursor-dot--hover {
   width: 10px;
   height: 10px;
-  background-color: var(--color-magenta);
-  box-shadow: 0 0 8px var(--color-magenta-glow), 0 0 20px var(--color-magenta-glow);
+  background-color: var(--color-cyan);
+  box-shadow: 0 0 10px var(--color-cyan-glow), 0 0 25px var(--color-cyan-glow);
 }
 
 .cursor-dot--hidden {

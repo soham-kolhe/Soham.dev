@@ -1,31 +1,33 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import About from '../components/About/About';
-import { personalInfo } from '../data/portfolio';
+import { personalInfo, certifications } from '../data/portfolio';
 
 describe('About Component', () => {
-  it('shows the biography tab by default', () => {
+  it('renders operator dossier title and biography text', () => {
     render(<About />);
-    expect(screen.getByText(personalInfo.name)).toBeInTheDocument();
+    expect(screen.getByText(/SYS.OPERATOR_DOSSIER/i)).toBeInTheDocument();
+    expect(screen.getByText(/operator_bio.txt/i)).toBeInTheDocument();
+
+    const firstBioSegment = personalInfo.bio[0][0].text;
+    expect(screen.getByText(firstBioSegment)).toBeInTheDocument();
   });
 
-  it('switches to the timeline tab and shows education details', async () => {
-    const user = userEvent.setup();
+  it('renders achievements grid and education details', () => {
     render(<About />);
-
-    await user.click(screen.getByRole('button', { name: /TIMELINE/i }));
-
-    expect(screen.getByText(personalInfo.education.degree)).toBeInTheDocument();
-    expect(screen.getByText(personalInfo.education.university)).toBeInTheDocument();
+    expect(screen.getByText(/operator_achievements.log/i)).toBeInTheDocument();
+    expect(screen.getByText(/Open to Opportunities/i)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`${certifications.length} Certifications`, 'i'))).toBeInTheDocument();
+    expect(
+      screen.getByText(new RegExp(`CGPA ${personalInfo.education.cgpa.split(' ')[0]}`, 'i'))
+    ).toBeInTheDocument();
   });
 
-  it('switches to the diagnostics tab and shows the status card', async () => {
-    const user = userEvent.setup();
+  it('renders call to action link to shipped projects', () => {
     render(<About />);
-
-    await user.click(screen.getByRole('button', { name: /DIAGNOSTICS/i }));
-
-    expect(screen.getByText(/OPEN TO OPPORTUNITIES/i)).toBeInTheDocument();
+    const ctaLink = screen.getByRole('link', { name: /Explore Shipped Projects/i });
+    expect(ctaLink).toBeInTheDocument();
+    expect(ctaLink.getAttribute('href')).toBe('#projects');
   });
 });
+

@@ -1,5 +1,8 @@
 /* ============================================
    Navbar — HUD Overlay Styles
+   Breakpoint Rationale:
+   - 900px: Collapses 7 desktop nav items + logo to mobile burger overlay
+     (prevents nav link wrapping/overflow on medium desktop screens)
    ============================================ */
 
 /* --- Base navbar --- */
@@ -128,7 +131,6 @@
   height: 32px;
   background: none;
   border: none;
-  cursor: pointer;
   z-index: calc(var(--z-nav) + 10);
   padding: 0;
 }
@@ -189,7 +191,6 @@
   color: var(--color-cyan);
   background: none;
   border: none;
-  cursor: pointer;
   z-index: calc(var(--z-nav) + 5);
   font-family: var(--font-body);
   transition: color var(--transition-fast),

@@ -6,6 +6,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
+import { personalInfo } from '../../data/portfolio.js';
 import './Loader.css';
 
 const Loader = ({ onComplete }) => {
@@ -111,13 +112,13 @@ const Loader = ({ onComplete }) => {
       ref={containerRef}
       className="loader-portal"
       onClick={handleSkip}
-      role="progressbar"
+      role="region"
       aria-label="Welcome screen. Press enter, space, escape, or click to skip."
     >
       <div className="loader-portal__scanlines" aria-hidden="true" />
       <div className="loader-portal__scaler">
         <h1 ref={textRef} className="loader-portal__text">
-          SOHAM KOLHE
+          {personalInfo.name.toUpperCase()}
         </h1>
       </div>
     </div>

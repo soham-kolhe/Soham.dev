@@ -1,6 +1,9 @@
 /* ============================================
    Certifications — Decoded Credentials
    Evidence Board (Desktop) + Bento Grid (Mobile)
+   Breakpoint Rationale:
+   - min-width: 769px: Renders detective-style 3D tilt Evidence Board layout for desktop viewports
+   - max-width: 768px / 480px: Switches to responsive 1-column/2-column Bento Grid layout for mobile touch devices
    ============================================ */
 
 /* --- Section Background --- */
@@ -41,7 +44,6 @@
   background: none;
   border: 1px solid var(--color-border);
   padding: var(--space-sm) var(--space-lg);
-  cursor: pointer;
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
 }
@@ -70,7 +72,6 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  cursor: pointer;
   text-decoration: none;
   color: inherit;
   user-select: none;

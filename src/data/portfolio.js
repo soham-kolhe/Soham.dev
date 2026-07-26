@@ -13,7 +13,7 @@ export const personalInfo = {
   heroQuote: "Welcome to the Grid. I build the future.",
   location: "Vadodara, Gujarat, India",
   email: "sohamkolhe20@gmail.com",
-  formspreeId: "", // Paste your Formspree form ID here (e.g. "xqnqjdyy") to receive form submissions
+  formspreeId: "mqergvjz",
   resumeLink: "/resume.pdf",
   bio: [
     [
@@ -73,29 +73,26 @@ export const skills = {
       { name: "Java", level: "core", proof: "DS / Algos & Academic Labs" },
       { name: "JavaScript", level: "core", proof: "Used in All Projects" },
       { name: "TypeScript", level: "core", proof: "CollabBoard", proofProjectId: "collabboard" },
-      { name: "SQL", level: "proficient", proof: "Hospital Information System", proofProjectId: "hospital-is" }
+      { name: "SQL", level: "proficient", proof: "Parul MediConnect (HIS)", proofProjectId: "hospital-is" }
     ]
   },
   devops: {
     label: "DevOps",
     icon: "🚀",
     items: [
-      { name: "Docker", level: "core", proof: "AI Second Brain, Hospital IS", proofProjectId: "ai-second-brain" },
-      { name: "Docker Compose", level: "core", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
+      { name: "Docker", level: "core", proof: "AI Second Brain, Parul MediConnect", proofProjectId: "ai-second-brain" },
       { name: "Git", level: "core", proof: "Used in All Projects" },
       { name: "GitHub", level: "core", proof: "Open Source Contributions" },
-      { name: "CI/CD", level: "proficient", proof: "Vercel & Workflow Automations" },
-      { name: "Kubernetes", level: "learning", proof: "Minikube Orchestration", proofProjectId: "hospital-is" }
+      { name: "CI/CD", level: "proficient", proof: "Vercel & Automated Workflows" }
     ]
   },
   cloud: {
     label: "Cloud & Azure",
     icon: "☁️",
     items: [
-      { name: "Azure App Service", level: "core", proof: "Cloud deployments" },
-      { name: "Azure Functions", level: "proficient", proof: "Serverless triggers" },
-      { name: "Azure OpenAI", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
-      { name: "Azure Storage", level: "proficient", proof: "Document asset blobs" }
+      { name: "Azure Services", level: "core", proof: "AZ-104 & AZ-900 Certified" },
+      { name: "Azure AI", level: "proficient", proof: "AI-900 Certified" },
+      { name: "Azure Data", level: "proficient", proof: "DP-900 Certified" }
     ]
   },
   backend: {
@@ -103,8 +100,8 @@ export const skills = {
     icon: "⚙️",
     items: [
       { name: "Node.js", level: "core", proof: "AI Second Brain, CollabBoard", proofProjectId: "ai-second-brain" },
-      { name: "Express.js", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
-      { name: "REST APIs", level: "core", proof: "AI Second Brain, Hospital IS", proofProjectId: "ai-second-brain" },
+      { name: "Express.js", level: "core", proof: "AI Second Brain, CollabBoard, Parul MediConnect", proofProjectId: "ai-second-brain" },
+      { name: "REST APIs", level: "core", proof: "AI Second Brain, Parul MediConnect", proofProjectId: "ai-second-brain" },
       { name: "Socket.io", level: "proficient", proof: "CollabBoard", proofProjectId: "collabboard" }
     ]
   },
@@ -112,21 +109,19 @@ export const skills = {
     label: "Databases",
     icon: "🗄️",
     items: [
-      { name: "MongoDB", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
-      { name: "PostgreSQL", level: "proficient", proof: "Hospital Information System", proofProjectId: "hospital-is" },
-      { name: "Pinecone Vector DB", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" }
+      { name: "MongoDB", level: "core", proof: "AI Second Brain, CollabBoard, Parul MediConnect", proofProjectId: "ai-second-brain" },
+      { name: "PostgreSQL", level: "proficient", proof: "Parul MediConnect (HIS)", proofProjectId: "hospital-is" }
     ]
   },
   frontend: {
     label: "Frontend",
     icon: "🖥️",
     items: [
-      { name: "React", level: "core", proof: "AI Second Brain, CollabBoard, Hospital IS", proofProjectId: "ai-second-brain" },
-      { name: "Vite", level: "core", proof: "CollabBoard", proofProjectId: "collabboard" },
+      { name: "React", level: "core", proof: "AI Second Brain, CollabBoard, Parul MediConnect", proofProjectId: "ai-second-brain" },
+      { name: "Vite", level: "core", proof: "CollabBoard, Parul MediConnect", proofProjectId: "collabboard" },
       { name: "HTML5", level: "core", proof: "All Web Projects" },
       { name: "CSS3", level: "core", proof: "Custom styling sheets" },
-      { name: "Tailwind CSS", level: "proficient", proof: "CollabBoard, Hospital IS", proofProjectId: "collabboard" },
-      { name: "Three.js", level: "learning", proof: "Custom 3D Scene background" }
+      { name: "Tailwind CSS", level: "proficient", proof: "CollabBoard, Parul MediConnect", proofProjectId: "collabboard" }
     ]
   },
   ai: {
@@ -135,10 +130,7 @@ export const skills = {
     items: [
       { name: "LangChain", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
       { name: "RAG Pipeline", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
-      { name: "GPT Models", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
-      { name: "Prompt Engineering", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
-      { name: "Embeddings", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" },
-      { name: "Semantic Search", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" }
+      { name: "Vector Search", level: "proficient", proof: "AI Second Brain", proofProjectId: "ai-second-brain" }
     ]
   },
   tools: {
@@ -146,8 +138,7 @@ export const skills = {
     icon: "🛠️",
     items: [
       { name: "VS Code", level: "core", proof: "Primary IDE" },
-      { name: "Postman", level: "core", proof: "API endpoint testing" },
-      { name: "MySQL Workbench", level: "proficient", proof: "Local DB design" }
+      { name: "Postman", level: "core", proof: "API Endpoint Testing" }
     ]
   }
 };
@@ -178,8 +169,9 @@ export const projects = [
       "<strong>Automatic MCQ generation</strong> for self-testing",
       "<strong>Weak-topic analytics</strong> for targeted revision"
     ],
-    github: "https://github.com/soham-kolhe/AI-Second-Brain",
-    live: "https://github.com/soham-kolhe/AI-Second-Brain",
+    isPrivate: false,
+    github: "https://github.com/soham-kolhe/AI-SecondBrain",
+    live: null,
     color: "cyan"
   },
   {
@@ -206,37 +198,39 @@ export const projects = [
       "<strong>Board ownership</strong> & granular access control",
       "<strong>Multi-step Undo / Redo</strong> canvas state support"
     ],
+    isPrivate: false,
     github: "https://github.com/soham-kolhe/CollabBoard",
-    live: "https://github.com/soham-kolhe/CollabBoard",
+    live: "https://collabboard-frontend-one.vercel.app",
     color: "magenta"
   },
   {
     id: "hospital-is",
-    title: "Hospital Information System",
-    codename: "OPERATION: MED GRID",
+    title: "Parul MediConnect (Unified HIS)",
+    codename: "OPERATION: MED_GRID",
     classification: "RESTRICTED",
-    type: "Enterprise Healthcare Platform",
-    status: "IN DEVELOPMENT",
-    image: "/images/hospital-is.jpg",
+    type: "Full-Stack Healthcare Platform",
+    status: "BUILD COMPLETE",
+    image: null,
     stats: [
-      { label: "Active Modules", value: "12 Modules" },
-      { label: "Architecture", value: "Dual DB" },
-      { label: "Orchestration", value: "Minikube" }
+      { label: "EVENT", value: "Hackathon" },
+      { label: "STACK", value: "React + Express" },
+      { label: "REPORTS", value: "jsPDF AutoTable" }
     ],
-    description: "A comprehensive hospital management platform designed to digitize and streamline hospital operations with 12 integrated modules.",
-    problem: "Hospital operations rely on fragmented, manual systems causing data silos and inefficiency.",
-    approach: "Modular architecture with separate modules for OPD, IPD, Emergency, Pharmacy, Billing, and more. Dual-database approach with MongoDB and PostgreSQL.",
-    outcome: "Comprehensive digital platform covering 12 hospital modules, containerized for local orchestration.",
-    tech: ["React", "Tailwind CSS", "Express.js", "MongoDB", "PostgreSQL", "Docker", "Kubernetes"],
+    description: "A full-stack Hospital Information System (HIS) built for a hackathon to digitize and unify end-to-end clinical, administrative, and financial hospital workflows into a single platform.",
+    problem: "Hospitals operate with <strong>fragmented systems</strong> across OPD, IPD, labs, pharmacy, and billing, causing <strong>manual data duplication</strong>, departmental silos, and <strong>billing/revenue leakage</strong>.",
+    approach: "Developed a full-stack architecture using <strong>React 19</strong>, <strong>Vite</strong>, <strong>Express.js / Node.js</strong>, and <strong>MongoDB</strong>. Integrated <strong>jsPDF & jsPDF-AutoTable</strong> for automated digital billing, report generation, and role-based access controls.",
+    outcome: "Delivered a centralized hospital platform featuring a <strong>360° operational dashboard</strong>, real-time patient workflow tracking across departments, and automated <strong>digital PDF invoice generation</strong>.",
+    tech: ["React 19", "Vite", "Node.js", "Express.js", "MongoDB", "jsPDF", "Tailwind CSS", "Lucide React"],
     features: [
-      "Docker containerization & Minikube orchestration config",
-      "OPD / IPD patient cycle management",
-      "Emergency room triage & coordination system",
-      "Integrated pharmacy, billing & insurance processing",
-      "Radiology & laboratory logging modules",
-      "Unified hospital-wide dual DB analytics dashboard"
+      "<strong>360° real-time operational dashboard</strong> for hospital metrics",
+      "<strong>End-to-end OPD & IPD patient workflow tracking</strong>",
+      "<strong>Automated PDF invoice & prescription generation</strong> via jsPDF",
+      "<strong>Inter-departmental coordination</strong> across pharmacy & admin",
+      "<strong>Role-based access control (RBAC)</strong> & secure clinical logging"
     ],
-    github: "https://github.com/soham-kolhe/Hospital-Information-System",
+    isPrivate: false,
+    github: "https://github.com/soham-kolhe/Parul_MediConnect",
+    live: null,
     color: "green"
   }
 ];
@@ -251,8 +245,7 @@ export const certifications = [
     color: "cyan",
     date: "Jan 2026",
     highlight: true,
-    // TODO: Replace with your personal Credly / Microsoft Learn verification URL
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    verifyUrl: "https://learn.microsoft.com/api/credentials/share/en-us/SohamKolhe-0425/A3E174AF7BD307E2?sharingId=11AC43A908BC9A53",
     image: "/images/Az-104.png"
   },
   {
@@ -264,7 +257,7 @@ export const certifications = [
     color: "magenta",
     date: "Nov 2025",
     highlight: false,
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    verifyUrl: "https://www.credly.com/badges/35788dcf-9b48-4b59-babf-71c88e80ac01/public_url",
     image: "/images/Ai-900.png"
   },
   {
@@ -276,9 +269,8 @@ export const certifications = [
     color: "cyan",
     date: "Jul 2024",
     highlight: false,
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
-    // TODO: Drop the real AZ-900 certificate screenshot at public/images/certs/az-900.png
-    image: "/images/certs/az-900.png"
+    verifyUrl: "https://www.credly.com/badges/b836c5d9-bf75-494b-92ec-9b463470f7f5/public_url",
+    image: "/images/az-900.png"
   },
   {
     title: "Azure Data Fundamentals",
@@ -289,7 +281,7 @@ export const certifications = [
     color: "green",
     date: "Sep 2025",
     highlight: false,
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    verifyUrl: "https://www.credly.com/badges/2ceb9a56-6a49-46ef-8626-1dfd7888162f/public_url",
     image: "/images/DP-900.png"
   },
   {
@@ -301,7 +293,7 @@ export const certifications = [
     color: "magenta",
     date: "Oct 2025",
     highlight: false,
-    verifyUrl: "https://learn.microsoft.com/en-us/users/sohamkolhe-0425/credentials/",
+    verifyUrl: "https://www.credly.com/badges/ed283bc4-93b9-461b-83ee-10286ebdff80/public_url",
     image: "/images/SC-900.png"
   },
   {
@@ -314,8 +306,19 @@ export const certifications = [
     date: "Apr 2024",
     highlight: false,
     verifyUrl: "https://nptel.ac.in/noc/",
-    // TODO: Drop the real NPTEL certificate screenshot at public/images/certs/nptel.png
-    image: "/images/certs/nptel.png"
+    image: "/images/nptel.png"
+  },
+  {
+    title: "Graph Theory",
+    code: "GRAPH",
+    issuer: "AlgoUniversity",
+    icon: "🕸️",
+    level: "Mastery",
+    color: "cyan",
+    date: "Jan 2025",
+    highlight: false,
+    verifyUrl: "https://algouniversity.com/",
+    image: "/images/graphtheory.png"
   },
   {
     title: "UX Design Job Simulation",
@@ -326,9 +329,8 @@ export const certifications = [
     color: "cyan",
     date: "Dec 2025",
     highlight: false,
-    verifyUrl: "https://www.theforage.com/simulations/lloyds-banking-group/ux-design-simulation-nz7i",
-    // TODO: Drop the real Lloyds UX certificate screenshot at public/images/certs/lloyds-ux.png
-    image: "/images/certs/lloyds-ux.png"
+    verifyUrl: "https://www.theforage.com/simulations/lloyds-banking-group/ux-design-introduction-xhef/completed",
+    image: "/images/forage.png"
   }
 ];
 

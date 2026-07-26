@@ -16,7 +16,7 @@
   background: var(--color-deep);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: visible;
   box-shadow:
     0 0 30px rgba(0, 240, 255, 0.05),
     0 20px 60px rgba(0, 0, 0, 0.4);
@@ -37,6 +37,8 @@
   padding: var(--space-xs) var(--space-lg);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
   min-height: 38px;
 }
 
@@ -150,7 +152,6 @@
   color: var(--color-text-muted);
   font-family: var(--font-body);
   font-size: var(--fs-xs);
-  cursor: pointer;
   letter-spacing: 1px;
   transition: color var(--transition-fast);
 }
@@ -261,8 +262,8 @@
 .skills-term__tooltip {
   position: absolute;
   bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
+  left: 0;
+  transform: translateY(4px);
   background: var(--color-deep);
   border: 1px solid var(--color-cyan);
   border-radius: var(--radius-xs);
@@ -274,10 +275,10 @@
   pointer-events: none;
   visibility: hidden;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-  z-index: 50;
+  z-index: 100;
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.9),
-    0 0 12px rgba(0, 240, 255, 0.3);
+    0 4px 20px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(0, 240, 255, 0.35);
   white-space: nowrap;
 }
 
@@ -285,8 +286,7 @@
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 16px;
   border-width: 4px 4px 0 4px;
   border-style: solid;
   border-color: var(--color-cyan) transparent transparent transparent;
@@ -297,7 +297,7 @@
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .skills-term__tooltip-label {
@@ -315,7 +315,6 @@
   text-decoration: underline;
   text-decoration-color: rgba(0, 240, 255, 0.4);
   text-underline-offset: 2px;
-  cursor: pointer;
   font-weight: var(--fw-semibold);
   transition: all var(--transition-fast);
 }

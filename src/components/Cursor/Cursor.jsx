@@ -112,6 +112,7 @@ export default function Cursor() {
       {/* Outer ring - smooth follow */}
       <div
         ref={cursorRef}
+        aria-hidden="true"
         className={`cursor-ring ${isHovering ? 'cursor-ring--hover' : ''} ${isHidden ? 'cursor-ring--hidden' : ''}`}
       >
         {/* Crosshair lines */}
@@ -124,6 +125,7 @@ export default function Cursor() {
       {/* Inner dot - exact follow */}
       <div
         ref={cursorDotRef}
+        aria-hidden="true"
         className={`cursor-dot ${isHovering ? 'cursor-dot--hover' : ''} ${isHidden ? 'cursor-dot--hidden' : ''}`}
       />
     </>

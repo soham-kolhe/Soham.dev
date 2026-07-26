@@ -3,8 +3,32 @@
    Cyberpunk HUD-styled project showcase
    ============================================ */
 
+import { useState } from 'react';
 import { projects } from '../../data/portfolio.js';
 import './Projects.css';
+
+const ProjectImage = ({ project }) => {
+  const [imgError, setImgError] = useState(false);
+
+  if (project.image && !imgError) {
+    return (
+      <img
+        src={project.image}
+        alt={`${project.title} screenshot`}
+        className="projects__image"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  return (
+    <div className="projects__image-placeholder" data-color={project.color}>
+      <span className="projects__placeholder-icon">⚡</span>
+      <span className="projects__placeholder-title">{project.title}</span>
+      <span className="projects__placeholder-code">{project.codename}</span>
+    </div>
+  );
+};
 
 const Projects = () => {
   const primaryProjects = projects.slice(0, 2);
@@ -79,11 +103,7 @@ const Projects = () => {
                     <span className="projects__image-corner projects__image-corner--tr" />
                     <span className="projects__image-corner projects__image-corner--bl" />
                     <span className="projects__image-corner projects__image-corner--br" />
-                    <img
-                      src={project.image}
-                      alt={`${project.title} screenshot`}
-                      className="projects__image"
-                    />
+                    <ProjectImage project={project} />
                   </div>
                   <div className="projects__stats-row">
                     {project.stats.map((stat, i) => (
@@ -102,12 +122,26 @@ const Projects = () => {
                     </div>
                   </div>
                   <div className="projects__actions">
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn">
-                      <span>[ VIEW CODE ]</span>
-                    </a>
-                    <a href={project.live || project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn cyber-btn--magenta">
-                      <span>[ GO LIVE ]</span>
-                    </a>
+                    {project.isPrivate || !project.github ? (
+                      <button
+                        type="button"
+                        className="cyber-btn cyber-btn--disabled"
+                        title="Private Repository — Source code confidential"
+                        aria-label="Private Repository"
+                        disabled
+                      >
+                        <span>[ PRIVATE REPO 🔒 ]</span>
+                      </button>
+                    ) : (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn">
+                        <span>[ VIEW CODE ]</span>
+                      </a>
+                    )}
+                    {project.live && project.live !== project.github && (
+                      <a href={project.live} target="_blank" rel="noopener noreferrer" className="cyber-btn cyber-btn--magenta">
+                        <span>[ GO LIVE ]</span>
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -157,7 +191,7 @@ const Projects = () => {
                 <article key={project.id} id={`project-${project.id}`} className="projects__secondary-card glass-card hud-corners" data-color={project.color}>
                   <div className="projects__card-top">
                     <span className="projects__card-classification">{project.classification}</span>
-                    <span className="projects__card-badge projects__card-badge--working">WORKING</span>
+                    <span className="projects__card-badge projects__card-badge--working">{project.status || 'BUILD COMPLETE'}</span>
                   </div>
                   <h4 className="projects__card-title">{project.title}</h4>
                   <p className="projects__card-desc">{project.description}</p>
@@ -178,9 +212,21 @@ const Projects = () => {
                   </div>
 
                   <div className="projects__card-actions">
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn projects__card-btn">
-                      <span>[ VIEW CODE ]</span>
-                    </a>
+                    {project.isPrivate || !project.github ? (
+                      <button
+                        type="button"
+                        className="cyber-btn cyber-btn--disabled projects__card-btn"
+                        title="Private Repository — Source code confidential"
+                        aria-label="Private Repository"
+                        disabled
+                      >
+                        <span>[ PRIVATE REPO 🔒 ]</span>
+                      </button>
+                    ) : (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn projects__card-btn">
+                        <span>[ VIEW CODE ]</span>
+                      </a>
+                    )}
                   </div>
                 </article>
               ))}

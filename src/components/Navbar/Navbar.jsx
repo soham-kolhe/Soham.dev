@@ -2,7 +2,7 @@
    Navbar — HUD Overlay Navigation
    ============================================ */
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { navItems } from '../../data/portfolio.js';
+import { personalInfo, navItems } from '../../data/portfolio.js';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -110,6 +110,8 @@ const Navbar = () => {
     }
   }, []);
 
+  const logoName = personalInfo.firstName.toUpperCase();
+
   return (
     <>
       <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
@@ -120,7 +122,7 @@ const Navbar = () => {
             className="navbar__logo"
             onClick={(e) => handleNavClick(e, '#hero')}
           >
-            SOHAM<span className="navbar__logo-dot">.</span>DEV
+            {logoName}<span className="navbar__logo-dot">.</span>DEV
           </a>
 
           {/* Desktop links */}
