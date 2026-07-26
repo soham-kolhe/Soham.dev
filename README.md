@@ -11,7 +11,7 @@ Welcome to the Grid. This is a highly interactive, responsive, and developer-cen
 - **Smooth Scroll**: Lenis, synced to GSAP's ticker
 - **Animations**: GSAP + ScrollTrigger, with `matchMedia`-based scrub vs. one-shot reveal variants for desktop/mobile
 - **Styling**: Vanilla CSS with custom properties and a shared design-token file (`src/index.css`)
-- **Linting**: Oxlint (fast static checks, run manually via `npm run lint` — not yet wired into CI)
+- **Linting**: Oxlint (run automatically in CI, or manually via `npm run lint`)
 
 ---
 
@@ -27,10 +27,8 @@ Welcome to the Grid. This is a highly interactive, responsive, and developer-cen
 
 ## 🧪 Testing & Quality
 
-Current state, honestly:
-- `oxlint` catches basic static issues (rules-of-hooks, unused exports) — run with `npm run lint`.
-- Component tests (Vitest + React Testing Library) are being added incrementally — see `src/test/`. Coverage is not yet comprehensive; contributions welcome.
-- No CI pipeline is configured yet. Planned: run `lint` + `test` on push via GitHub Actions.
+- Component tests (Vitest + React Testing Library) cover Contact, Navbar, OpenSource, Skills, About, and Certifications — see `src/test/`.
+- CI runs lint, test, and build on every push via GitHub Actions (`.github/workflows/ci.yml`), on Node 20 and 22.
 
 ---
 

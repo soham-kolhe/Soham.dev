@@ -3,10 +3,59 @@
    Cyberpunk HUD-styled project showcase
    ============================================ */
 
+import { useState } from 'react';
 import { projects } from '../../data/portfolio.js';
 import './Projects.css';
 
+const ProjectImage = ({ project }) => {
+  const [imgError, setImgError] = useState(false);
+
+  if (project.image && !imgError) {
+    return (
+      <img
+        src={project.image}
+        alt={`${project.title} screenshot`}
+        className="projects__image"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  return (
+    <div className="projects__image-placeholder" data-color={project.color}>
+      <span className="projects__placeholder-icon">⚡</span>
+      <span className="projects__placeholder-title">{project.title}</span>
+      <span className="projects__placeholder-code">{project.codename}</span>
+    </div>
+  );
+};
+
 const Projects = () => {
+  const primaryProjects = projects.slice(0, 2);
+  const otherProjects = projects.slice(2);
+
+  const handleTiltMouseMove = (e) => {
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((centerY - y) / centerY) * 14;
+    const rotateY = ((x - centerX) / centerX) * 14;
+
+    container.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03)`;
+    container.style.transition = 'transform 0.1s ease-out';
+  };
+
+  const handleTiltMouseLeave = (e) => {
+    const container = e.currentTarget;
+    container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    container.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+  };
+
   return (
     <section id="projects" className="section projects">
       <div className="container">
@@ -18,126 +67,172 @@ const Projects = () => {
           </h2>
         </div>
 
-        {/* Mission Cards */}
-        <div className="projects__list">
-          {projects.map((project, index) => (
+        {/* Spotlight Projects (First two) */}
+        <div className="projects__spotlight-list">
+          {primaryProjects.map((project) => (
             <article
               key={project.id}
-              className={`mission-card hud-corners reveal`}
+              id={`project-${project.id}`}
+              className="projects__spotlight-window hud-corners reveal"
               data-color={project.color}
-              style={{ '--card-delay': `${index * 0.15}s` }}
             >
-              {/* HUD Inner Corner Decorations */}
-              <div className="mission-card__corner mission-card__corner--tl" />
-              <div className="mission-card__corner mission-card__corner--tr" />
-              <div className="mission-card__corner mission-card__corner--bl" />
-              <div className="mission-card__corner mission-card__corner--br" />
-
-              {/* Top Status Bar */}
-              <div className="mission-card__topbar">
-                <span className={`mission-card__classification mission-card__classification--${project.classification.toLowerCase().replace(' ', '-')}`}>
-                  ◆ {project.classification}
-                </span>
-                <span className={`mission-card__status mission-card__status--${project.status === 'DEPLOYED' ? 'deployed' : 'dev'}`}>
-                  <span className="mission-card__status-dot" />
+              {/* Header Bar */}
+              <div className="projects__window-header">
+                <div className="projects__window-dots">
+                  <span className="projects__window-dot projects__window-dot--red" />
+                  <span className="projects__window-dot projects__window-dot--yellow" />
+                  <span className="projects__window-dot projects__window-dot--green" />
+                </div>
+                <div className="projects__window-title">PROJECT_SPOTLIGHT // {project.codename}</div>
+                <span className="projects__window-status">
+                  <span className="projects__window-pulse" />
                   {project.status}
                 </span>
               </div>
 
-              {/* Codename */}
-              <p className={`mission-card__codename text-${project.color}`}>
-                {project.codename}
-              </p>
-
-              {/* Title */}
-              <h3 className="mission-card__title">{project.title}</h3>
-
-              {/* Type Subtitle */}
-              <p className="mission-card__type">{project.type}</p>
-
-              {/* Separator */}
-              <div className="mission-card__divider" data-color={project.color} />
-
-              {/* Case Study */}
-              <div className="mission-card__case-study">
-                <div className="mission-card__case-block">
-                  <span className={`mission-card__case-label text-${project.color}`}>
-                    {'>'} PROBLEM:
-                  </span>
-                  <p className="mission-card__case-text">{project.problem}</p>
-                </div>
-
-                <div className="mission-card__case-block">
-                  <span className={`mission-card__case-label text-${project.color}`}>
-                    {'>'} APPROACH:
-                  </span>
-                  <p className="mission-card__case-text">{project.approach}</p>
-                </div>
-
-                <div className="mission-card__case-block">
-                  <span className={`mission-card__case-label text-${project.color}`}>
-                    {'>'} OUTCOME:
-                  </span>
-                  <p className="mission-card__case-text">{project.outcome}</p>
-                </div>
-              </div>
-
-              {/* Key Features */}
-              <div className="mission-card__features">
-                <p className={`mission-card__features-label text-${project.color}`}>
-                  KEY FEATURES
-                </p>
-                <ul className="mission-card__features-list" data-color={project.color}>
-                  {project.features.map((feature, i) => (
-                    <li key={i} className="mission-card__feature-item">
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tech Stack */}
-              <div className="mission-card__tech">
-                <p className="mission-card__tech-label">TECH STACK</p>
-                <div className="mission-card__tech-chips">
-                  {project.tech.map((t, i) => (
-                    <span
-                      key={i}
-                      className="mission-card__chip"
-                      data-color={project.color}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="mission-card__actions" style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cyber-btn"
-                >
-                  <span className="cyber-btn__icon">◈</span>
-                  VIEW CODE
-                </a>
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cyber-btn cyber-btn--magenta"
+              {/* Window content */}
+              <div className="projects__window-body">
+                {/* Left Side: Mockup, stats, tech stack & actions */}
+                <div className="projects__window-left">
+                  <div
+                    className="projects__image-container"
+                    onMouseMove={handleTiltMouseMove}
+                    onMouseLeave={handleTiltMouseLeave}
                   >
-                    <span className="cyber-btn__icon">⚡</span>
-                    LIVE DEMO
-                  </a>
-                )}
+                    <span className="projects__image-corner projects__image-corner--tl" />
+                    <span className="projects__image-corner projects__image-corner--tr" />
+                    <span className="projects__image-corner projects__image-corner--bl" />
+                    <span className="projects__image-corner projects__image-corner--br" />
+                    <ProjectImage project={project} />
+                  </div>
+                  <div className="projects__stats-row">
+                    {project.stats.map((stat, i) => (
+                      <div key={i} className="projects__stat-badge" data-color={project.color}>
+                        <span className="projects__stat-value">{stat.value}</span>
+                        <span className="projects__stat-label">{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="projects__tech-block">
+                    <span className="projects__tech-label">TECH_STACK //</span>
+                    <div className="projects__tech-chips">
+                      {project.tech.map((t, i) => (
+                        <span key={i} className="projects__tech-chip" data-color={project.color}>{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="projects__actions">
+                    {project.isPrivate || !project.github ? (
+                      <button
+                        type="button"
+                        className="cyber-btn cyber-btn--disabled"
+                        title="Private Repository — Source code confidential"
+                        aria-label="Private Repository"
+                        disabled
+                      >
+                        <span>[ PRIVATE REPO 🔒 ]</span>
+                      </button>
+                    ) : (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn">
+                        <span>[ VIEW CODE ]</span>
+                      </a>
+                    )}
+                    {project.live && project.live !== project.github && (
+                      <a href={project.live} target="_blank" rel="noopener noreferrer" className="cyber-btn cyber-btn--magenta">
+                        <span>[ GO LIVE ]</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Side: Details & Key Capabilities */}
+                <div className="projects__window-right">
+                  <span className="projects__classification">CLASSIFICATION: {project.classification}</span>
+                  <h3 className="projects__title">{project.title}</h3>
+                  <p className="projects__type">{project.type}</p>
+                  
+                  <div className="projects__case">
+                    <p className="projects__case-block">
+                      <strong className={`text-${project.color}`}>PROBLEM //</strong>{' '}
+                      <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.problem }} />
+                    </p>
+                    <p className="projects__case-block">
+                      <strong className={`text-${project.color}`}>APPROACH //</strong>{' '}
+                      <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.approach }} />
+                    </p>
+                    <p className="projects__case-block">
+                      <strong className={`text-${project.color}`}>RESULT //</strong>{' '}
+                      <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.outcome }} />
+                    </p>
+                  </div>
+
+                  <div className="projects__features-block">
+                    <span className={`projects__features-label text-${project.color}`}>KEY_CAPABILITIES //</span>
+                    <ul className="projects__features-list">
+                      {project.features.map((feature, i) => (
+                        <li key={i} className="projects__feature-item" dangerouslySetInnerHTML={{ __html: feature }} />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </article>
           ))}
         </div>
+
+        {/* Secondary/In Progress Projects */}
+        {otherProjects.length > 0 && (
+          <div className="projects__secondary-section reveal">
+            <h3 className="projects__secondary-heading">
+              <span className="projects__secondary-heading-icon">◈</span> AUXILIARY OPERATIONS // IN DEVELOPMENT
+            </h3>
+            <div className="projects__secondary-grid">
+              {otherProjects.map((project) => (
+                <article key={project.id} id={`project-${project.id}`} className="projects__secondary-card glass-card hud-corners" data-color={project.color}>
+                  <div className="projects__card-top">
+                    <span className="projects__card-classification">{project.classification}</span>
+                    <span className="projects__card-badge projects__card-badge--working">{project.status || 'BUILD COMPLETE'}</span>
+                  </div>
+                  <h4 className="projects__card-title">{project.title}</h4>
+                  <p className="projects__card-desc">{project.description}</p>
+
+                  <div className="projects__card-stats">
+                    {project.stats.map((stat, i) => (
+                      <div key={i} className="projects__card-stat">
+                        <span className="projects__card-stat-val">{stat.value}</span>
+                        <span className="projects__card-stat-lbl">{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="projects__card-tech">
+                    {project.tech.map((t, i) => (
+                      <span key={i} className="projects__card-tech-chip" data-color={project.color}>{t}</span>
+                    ))}
+                  </div>
+
+                  <div className="projects__card-actions">
+                    {project.isPrivate || !project.github ? (
+                      <button
+                        type="button"
+                        className="cyber-btn cyber-btn--disabled projects__card-btn"
+                        title="Private Repository — Source code confidential"
+                        aria-label="Private Repository"
+                        disabled
+                      >
+                        <span>[ PRIVATE REPO 🔒 ]</span>
+                      </button>
+                    ) : (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="cyber-btn projects__card-btn">
+                        <span>[ VIEW CODE ]</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

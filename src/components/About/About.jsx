@@ -4,37 +4,7 @@
    ============================================ */
 import { personalInfo } from '../../data/portfolio.js';
 import './About.css';
-
-const infoCards = [
-  {
-    icon: '🎓',
-    label: 'Education',
-    value: `${personalInfo.education.degree}`,
-    sub: `${personalInfo.education.university} — CGPA: ${personalInfo.education.cgpa}`,
-    accent: 'cyan',
-  },
-  {
-    icon: '📍',
-    label: 'Location',
-    value: personalInfo.location,
-    sub: null,
-    accent: 'magenta',
-  },
-  {
-    icon: '🟢',
-    label: 'Status',
-    value: 'Open to Opportunities',
-    sub: null,
-    accent: 'green',
-  },
-  {
-    icon: '⚡',
-    label: 'Interests',
-    value: 'Full-Stack, Cloud, DevOps, AI',
-    sub: null,
-    accent: 'cyan',
-  },
-];
+import Achievements from './Achievements';
 
 function About() {
   return (
@@ -48,57 +18,60 @@ function About() {
           </h2>
         </div>
 
-        {/* Two-column layout */}
-        <div className="about__grid">
-          {/* Left Column — Bio */}
-          <div className="about__bio reveal-left">
-            <div className="about__bio-tag">
-              <span className="about__bio-tag-dot" />
-              <span className="about__bio-tag-text">sys.operator.bio</span>
+        {/* Console dossier window */}
+        <div className="about__console hud-corners glass-card reveal">
+          {/* Header Bar */}
+          <div className="about__console-header">
+            <div className="about__console-dots">
+              <span className="about__console-dot about__console-dot--red" />
+              <span className="about__console-dot about__console-dot--yellow" />
+              <span className="about__console-dot about__console-dot--green" />
             </div>
-
-            {personalInfo.bio.map((paragraph, index) => (
-              <p key={index} className="about__bio-paragraph">
-                {paragraph}
-              </p>
-            ))}
-
-            <div className="about__bio-meta">
-              <span className="about__meta-item">
-                <span className="about__meta-key">Name:</span>
-                <span className="about__meta-value">{personalInfo.name}</span>
-              </span>
-              <span className="about__meta-item">
-                <span className="about__meta-key">Role:</span>
-                <span className="about__meta-value">{personalInfo.tagline}</span>
-              </span>
-              <span className="about__meta-item">
-                <span className="about__meta-key">Year:</span>
-                <span className="about__meta-value">{personalInfo.education.year}</span>
-              </span>
+            <div className="about__console-title">
+              SYS.OPERATOR_DOSSIER // SK-2027
+              <span className="about__console-scanner" />
             </div>
-
-            <hr className="neon-line" />
+            <div className="about__console-status">
+              <span className="about__console-pulse" />
+              <span>SECURE_CONN_ACTIVE</span>
+            </div>
           </div>
 
-          {/* Right Column — Info Cards */}
-          <div className="about__cards reveal-right">
-            {infoCards.map((card) => (
-              <div
-                key={card.label}
-                className={`about__card glass-card hud-corners about__card--${card.accent}`}
-              >
-                <div className="about__card-icon">{card.icon}</div>
-                <div className="about__card-content">
-                  <span className="about__card-label">{card.label}</span>
-                  <span className="about__card-value">{card.value}</span>
-                  {card.sub && (
-                    <span className="about__card-sub">{card.sub}</span>
-                  )}
-                </div>
+          <div className="about__console-body">
+            {/* Left Column: Bio */}
+            <div className="about__console-pane about__console-pane--bio">
+              <div className="about__bio-tag">
+                <span className="about__bio-tag-dot" />
+                <span className="about__bio-tag-text">operator_bio.txt</span>
               </div>
-            ))}
+              <div className="about__bio-paragraphs">
+                {personalInfo.bio.map((paragraph, index) => (
+                  <p key={index} className="about__bio-paragraph">
+                    {paragraph.map((segment, i) =>
+                      segment.bold ? (
+                        <strong key={i}>{segment.text}</strong>
+                      ) : (
+                        <span key={i}>{segment.text}</span>
+                      )
+                    )}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Column: Merged facts + achievements grid */}
+            <div className="about__console-pane about__console-pane--facts">
+              <Achievements compact />
+            </div>
           </div>
+        </div>
+
+        {/* Closing CTA */}
+        <div className="about__cta reveal">
+          <span className="about__cta-text">Curious what I've built?</span>
+          <a href="#projects" className="about__cta-link">
+            Explore Shipped Projects <span className="arrow">→</span>
+          </a>
         </div>
       </div>
     </section>

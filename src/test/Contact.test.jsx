@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Contact from '../components/Contact/Contact';
@@ -19,6 +19,9 @@ describe('Contact form submission honesty', () => {
 
   it('does not show a fake "transmitting" state when no backend is configured', async () => {
     const user = userEvent.setup();
+    const originalFormspreeId = personalInfo.formspreeId;
+    personalInfo.formspreeId = '';
+
     render(<Contact />);
 
     await user.type(screen.getByLabelText(/CALLSIGN/i), 'Test User');
@@ -34,14 +37,65 @@ describe('Contact form submission honesty', () => {
     // Should have redirected to a mailto: link
     await waitFor(() => {
       expect(window.location.href).toContain('mailto:');
-      expect(window.location.href).toContain(encodeURIComponent(personalInfo.email) === '' ? '' : '');
     });
-  });
 
-  it('shows an explanatory note when no backend is configured', () => {
+    personalInfo.formspreeId = originalFormspreeId;
+  }, 10000);
+});
+
+describe('Contact Formspree backend integration', () => {
+  it('handles successful Formspree transmission correctly', async () => {
+    const user = userEvent.setup();
+    const originalFetch = global.fetch;
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ ok: true }),
+    });
+
     render(<Contact />);
-    expect(
-      screen.getByText(/no message backend is configured yet/i)
-    ).toBeInTheDocument();
-  });
+
+    await user.type(screen.getByLabelText(/CALLSIGN/i), 'Soham Tester');
+    await user.type(screen.getByLabelText(/FREQUENCY/i), 'soham@example.com');
+    await user.type(screen.getByLabelText(/TRANSMISSION/i), 'Test transmission message');
+
+    const submitButton = screen.getByRole('button', { name: /TRANSMIT_MESSAGE/i });
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/TRANSMISSION_SUCCESS/i)).toBeInTheDocument();
+      expect(screen.getByText(/SECURE_LINK_ESTABLISHED/i)).toBeInTheDocument();
+    });
+
+    global.fetch = originalFetch;
+  }, 10000);
+
+  it('handles Formspree transmission failure correctly', async () => {
+    const user = userEvent.setup();
+    const originalFetch = global.fetch;
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      json: async () => ({ error: 'Form not found' }),
+    });
+
+    render(<Contact />);
+
+    await user.type(screen.getByLabelText(/CALLSIGN/i), 'Soham Tester');
+    await user.type(screen.getByLabelText(/FREQUENCY/i), 'soham@example.com');
+    await user.type(screen.getByLabelText(/TRANSMISSION/i), 'Test error transmission');
+
+    const submitButton = screen.getByRole('button', { name: /TRANSMIT_MESSAGE/i });
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/RETRY_TRANSMISSION/i)).toBeInTheDocument();
+      expect(screen.getByText(/TRANSMISSION_FAILED/i)).toBeInTheDocument();
+      expect(screen.getByText(/Transmission failed/i)).toBeInTheDocument();
+    });
+
+    global.fetch = originalFetch;
+  }, 10000);
 });

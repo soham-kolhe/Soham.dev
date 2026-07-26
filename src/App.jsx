@@ -19,7 +19,7 @@ import OpenSource from './components/OpenSource/OpenSource';
 import Certifications from './components/Certifications/Certifications';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
-import { scrollState } from './scrollState';
+import { scrollState, SECTION_COLORS, TOTAL_SECTIONS } from './scrollState';
 const CyberpunkScene = lazy(() => import('./components/Background/CyberpunkScene'));
 
 /* Styles */
@@ -39,8 +39,8 @@ function App() {
     if (isLoading) return;
 
     const lenis = new Lenis({
-      lerp: 0.08,
-      duration: 1.4,
+      lerp: 0.11,
+      duration: 1.0,
       smoothWheel: true,
       syncTouch: false,
       touchMultiplier: 2,
@@ -48,11 +48,23 @@ function App() {
 
     lenisRef.current = lenis;
 
-    // Sync Lenis with GSAP ScrollTrigger and our Companion Drone scrollState
+    // Sync Lenis with GSAP ScrollTrigger, scroll state, and background gradient
     lenis.on('scroll', (e) => {
       ScrollTrigger.update();
-      scrollState.progress = e.progress;
+      const p = Math.max(0, Math.min(1, e.progress));
+      scrollState.progress = p;
       scrollState.velocity = e.velocity ?? 0;
+
+      const totalSegments = TOTAL_SECTIONS - 1;
+      const rawSeg = p * totalSegments;
+      const idx = Math.min(Math.floor(rawSeg), totalSegments - 1);
+      scrollState.sectionIndex = idx;
+      scrollState.sectionProgress = rawSeg - idx;
+
+      document.documentElement.style.setProperty(
+        '--bg-accent-color',
+        SECTION_COLORS[idx]
+      );
     });
 
     const raf = (time) => {
@@ -99,6 +111,7 @@ function App() {
       mm = gsap.matchMedia();
       // Reveal animations (fade in up)
       gsap.utils.toArray('.reveal').forEach((el) => {
+        const isHeroElement = el.closest('#hero');
         gsap.fromTo(
           el,
           { opacity: 0, y: 50 },
@@ -107,7 +120,15 @@ function App() {
             y: 0,
             duration: 1,
             ease: 'power3.out',
-            scrollTrigger: {
+            onStart: () => {
+              if (el.classList.contains('hero__name')) {
+                el.classList.add('hero__name--glitch-active');
+                setTimeout(() => {
+                  el.classList.remove('hero__name--glitch-active');
+                }, 1000);
+              }
+            },
+            scrollTrigger: isHeroElement ? null : {
               trigger: el,
               start: 'top 85%',
               end: 'top 50%',
@@ -157,6 +178,7 @@ function App() {
 
       // Reveal scale
       gsap.utils.toArray('.reveal-scale').forEach((el) => {
+        const isHeroElement = el.closest('#hero');
         gsap.fromTo(
           el,
           { opacity: 0, scale: 0.85 },
@@ -165,7 +187,7 @@ function App() {
             scale: 1,
             duration: 0.8,
             ease: 'back.out(1.7)',
-            scrollTrigger: {
+            scrollTrigger: isHeroElement ? null : {
               trigger: el,
               start: 'top 85%',
               toggleActions: 'play none none none',
@@ -284,6 +306,9 @@ function App() {
       {/* Custom Cursor */}
       <Cursor />
 
+      {/* Atmospheric Background Gradient */}
+      <div className="bg-gradient-layer" />
+
       {/* Scanline Overlay */}
       <div className="scanline-overlay" />
 
@@ -301,10 +326,10 @@ function App() {
           <main>
             <Hero onImageLoad={() => ScrollTrigger.refresh()} />
             <About />
-            <Skills />
             <Projects />
             <OpenSource />
             <Certifications />
+            <Skills />
             <Contact />
           </main>
           <Footer />
