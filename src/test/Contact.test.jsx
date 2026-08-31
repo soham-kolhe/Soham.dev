@@ -7,7 +7,7 @@ import { personalInfo } from '../data/portfolio';
 /*
   These tests exist specifically to lock in the "no fake loading state"
   fix: when no Formspree ID is configured, submitting must NOT show
-  "TRANSMITTING" — it should go straight to opening the mail client.
+  "SENDING" — it should go straight to opening the mail client.
 */
 
 describe('Contact form submission honesty', () => {
@@ -24,15 +24,15 @@ describe('Contact form submission honesty', () => {
 
     render(<Contact />);
 
-    await user.type(screen.getByLabelText(/CALLSIGN/i), 'Test User');
-    await user.type(screen.getByLabelText(/FREQUENCY/i), 'test@example.com');
-    await user.type(screen.getByLabelText(/TRANSMISSION/i), 'Hello there');
+    await user.type(screen.getByLabelText(/Name/i), 'Test User');
+    await user.type(screen.getByRole('textbox', { name: /Email/i }), 'test@example.com');
+    await user.type(screen.getByLabelText(/Message/i), 'Hello there');
 
-    const submitButton = screen.getByRole('button', { name: /OPEN_EMAIL_CLIENT|TRANSMIT_MESSAGE/i });
+    const submitButton = screen.getByRole('button', { name: /OPEN EMAIL CLIENT|SEND MESSAGE/i });
     await user.click(submitButton);
 
-    // Should never render the transmitting label for the no-backend path
-    expect(screen.queryByText(/ROUTING_PACKETS/i)).not.toBeInTheDocument();
+    // Should never render the "SENDING" status label for the no-backend path
+    expect(screen.queryByText(/● SENDING/)).not.toBeInTheDocument();
 
     // Should have redirected to a mailto: link
     await waitFor(() => {
@@ -56,16 +56,16 @@ describe('Contact Formspree backend integration', () => {
 
     render(<Contact />);
 
-    await user.type(screen.getByLabelText(/CALLSIGN/i), 'Soham Tester');
-    await user.type(screen.getByLabelText(/FREQUENCY/i), 'soham@example.com');
-    await user.type(screen.getByLabelText(/TRANSMISSION/i), 'Test transmission message');
+    await user.type(screen.getByLabelText(/Name/i), 'Soham Tester');
+    await user.type(screen.getByRole('textbox', { name: /Email/i }), 'soham@example.com');
+    await user.type(screen.getByLabelText(/Message/i), 'Test transmission message');
 
-    const submitButton = screen.getByRole('button', { name: /TRANSMIT_MESSAGE/i });
+    const submitButton = screen.getByRole('button', { name: /SEND MESSAGE/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/TRANSMISSION_SUCCESS/i)).toBeInTheDocument();
-      expect(screen.getByText(/SECURE_LINK_ESTABLISHED/i)).toBeInTheDocument();
+      expect(screen.getByText(/MESSAGE SENT/i)).toBeInTheDocument();
+      expect(screen.getByText(/MESSAGE_SENT/i)).toBeInTheDocument();
     });
 
     global.fetch = originalFetch;
@@ -83,17 +83,17 @@ describe('Contact Formspree backend integration', () => {
 
     render(<Contact />);
 
-    await user.type(screen.getByLabelText(/CALLSIGN/i), 'Soham Tester');
-    await user.type(screen.getByLabelText(/FREQUENCY/i), 'soham@example.com');
-    await user.type(screen.getByLabelText(/TRANSMISSION/i), 'Test error transmission');
+    await user.type(screen.getByLabelText(/Name/i), 'Soham Tester');
+    await user.type(screen.getByRole('textbox', { name: /Email/i }), 'soham@example.com');
+    await user.type(screen.getByLabelText(/Message/i), 'Test error transmission');
 
-    const submitButton = screen.getByRole('button', { name: /TRANSMIT_MESSAGE/i });
+    const submitButton = screen.getByRole('button', { name: /SEND MESSAGE/i });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/RETRY_TRANSMISSION/i)).toBeInTheDocument();
-      expect(screen.getByText(/TRANSMISSION_FAILED/i)).toBeInTheDocument();
-      expect(screen.getByText(/Transmission failed/i)).toBeInTheDocument();
+      expect(screen.getByText(/TRY AGAIN/i)).toBeInTheDocument();
+      expect(screen.getByText(/SEND_FAILED/i)).toBeInTheDocument();
+      expect(screen.getByText(/Message failed to send/i)).toBeInTheDocument();
     });
 
     global.fetch = originalFetch;

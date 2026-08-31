@@ -4,10 +4,10 @@ import About from '../components/About/About';
 import { personalInfo, certifications } from '../data/portfolio';
 
 describe('About Component', () => {
-  it('renders operator dossier title and biography text', () => {
+  it('renders about section title and biography text', () => {
     render(<About />);
-    expect(screen.getByText(/SYS.OPERATOR_DOSSIER/i)).toBeInTheDocument();
-    expect(screen.getByText(/operator_bio.txt/i)).toBeInTheDocument();
+    expect(screen.getByText(/about\.md/i)).toBeInTheDocument();
+    expect(screen.getByText(/bio\.md/i)).toBeInTheDocument();
 
     const firstBioSegment = personalInfo.bio[0][0].text;
     expect(screen.getByText(firstBioSegment)).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe('About Component', () => {
 
   it('renders achievements grid and education details', () => {
     render(<About />);
-    expect(screen.getByText(/operator_achievements.log/i)).toBeInTheDocument();
+    expect(screen.getByText(/highlights\.md/i)).toBeInTheDocument();
     expect(screen.getByText(/Open to Opportunities/i)).toBeInTheDocument();
     expect(screen.getByText(new RegExp(`${certifications.length} Certifications`, 'i'))).toBeInTheDocument();
     expect(

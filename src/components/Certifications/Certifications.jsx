@@ -1,5 +1,5 @@
 /* ============================================
-   Certifications — Decoded Credentials
+   Certifications
    Evidence Board (Desktop) + Bento Grid (Mobile)
    ============================================ */
 
@@ -198,7 +198,7 @@ const Certifications = () => {
         <div className="section-header reveal">
           <p className="section-label">ACHIEVEMENTS</p>
           <h2 className="section-title">
-            DECODED <span className="highlight">CREDENTIALS</span>
+            <span className="highlight">CERTIFICATIONS</span>
           </h2>
         </div>
 

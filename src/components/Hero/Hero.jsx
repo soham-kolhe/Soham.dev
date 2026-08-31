@@ -15,10 +15,7 @@ const Hero = ({ onImageLoad }) => {
         <div className="hero__content">
           {/* System label & Status */}
           <div className="hero__label-container reveal">
-            <div className="hero__label">
-              <span className="hero__label-dot" aria-hidden="true" />
-              <span>// SYSTEM ONLINE</span>
-            </div>
+
             <div className="hero__status">
               <span className="hero__status-dot" aria-hidden="true" />
               <span>STATUS: OPEN TO OPPORTUNITIES</span>
@@ -119,20 +116,13 @@ const Hero = ({ onImageLoad }) => {
 
           {/* HUD data below photo */}
           <div className="hero__photo-hud" aria-hidden="true">
-            <span className="hero__photo-hud-line">◈ OPERATOR_ID: SK-2027</span>
+
             <span className="hero__photo-hud-line hero__photo-hud-line--cyan">◈ STATUS: OPEN TO OPPORTUNITIES</span>
           </div>
         </div>
       </div>
 
-      {/* HUD decoration on right side */}
-      <div className="hero__hud-accent" aria-hidden="true">
-        <span className="hero__hud-line">SYS.STATUS: ACTIVE</span>
-        <span className="hero__hud-line">GRID: CONNECTED</span>
-        <span className="hero__hud-line">LAT: 22.3072° N</span>
-        <span className="hero__hud-line">LNG: 73.1812° E</span>
-        <span className="hero__hud-line">UPTIME: 99.97%</span>
-      </div>
+
 
       {/* Hero Bottom Bar */}
       <div className="hero__bottom-bar">

@@ -1,5 +1,5 @@
 /* ============================================
-   Contact — Comm Link Section
+   Contact Section
    ============================================ */
 import { useState } from 'react';
 import { personalInfo, socialLinks } from '../../data/portfolio.js';
@@ -52,15 +52,15 @@ const Contact = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name.trim()) {
-      newErrors.name = 'Callsign (name) is required.';
+      newErrors.name = 'Name is required.';
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'Frequency (email) is required.';
+      newErrors.email = 'Email is required.';
     } else if (!isEmailValid) {
       newErrors.email = 'Enter a valid email address.';
     }
     if (!formData.message.trim()) {
-      newErrors.message = 'Transmission (message) is required.';
+      newErrors.message = 'Message is required.';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -84,7 +84,7 @@ const Contact = () => {
   const buildMailto = () => {
     const subject = encodeURIComponent(`[${formData.subject}] Message from ${formData.name}`);
     const body = encodeURIComponent(
-      `Callsign: ${formData.name}\nFrequency: ${formData.email}\nSubject: ${formData.subject}\n\nTransmission:\n${formData.message}`
+      `Name: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`
     );
     return `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
   };
@@ -155,23 +155,23 @@ const Contact = () => {
     } catch {
       setStatus('error');
       setErrorMessage(
-        'Transmission failed. You can retry, or reach out directly at ' + personalInfo.email
+        'Message failed to send. You can retry, or reach out directly at ' + personalInfo.email
       );
     }
   };
 
   const statusLabel = {
     idle: hasBackend ? 'ONLINE' : 'ONLINE (opens email client)',
-    transmitting: 'TRANSMITTING',
-    success: hasBackend ? 'SECURE_LINK_ESTABLISHED' : 'EMAIL_CLIENT_OPENED',
-    error: 'TRANSMISSION_FAILED',
+    transmitting: 'SENDING',
+    success: hasBackend ? 'MESSAGE_SENT' : 'EMAIL_CLIENT_OPENED',
+    error: 'SEND_FAILED',
   }[status];
 
   const submitLabel = {
-    idle: hasBackend ? '[ TRANSMIT_MESSAGE ]' : '[ OPEN_EMAIL_CLIENT ]',
-    transmitting: '[ ROUTING_PACKETS... ]',
-    success: hasBackend ? '[ TRANSMISSION_SUCCESS ]' : '[ EMAIL_CLIENT_OPENED ]',
-    error: '[ RETRY_TRANSMISSION ]',
+    idle: hasBackend ? '[ SEND MESSAGE ]' : '[ OPEN EMAIL CLIENT ]',
+    transmitting: '[ SENDING... ]',
+    success: hasBackend ? '[ MESSAGE SENT ]' : '[ EMAIL CLIENT OPENED ]',
+    error: '[ TRY AGAIN ]',
   }[status];
 
   return (
@@ -181,7 +181,7 @@ const Contact = () => {
         <div className="section-header reveal">
           <p className="section-label">CONTACT</p>
           <h2 className="section-title">
-            OPEN <span className="highlight">COMM LINK</span>
+            GET IN <span className="highlight">TOUCH</span>
           </h2>
         </div>
 
@@ -201,7 +201,7 @@ const Contact = () => {
         <div className="contact__links-strip reveal">
           <div className="contact__direct-email-box">
             <div className="contact__direct-email-header">
-              <span className="contact__label">&gt; DIRECT_FREQUENCY</span>
+              <span className="contact__label">Email</span>
               {copied && (
                 <span className="contact__copy-badge">✓ COPIED</span>
               )}
@@ -221,7 +221,7 @@ const Contact = () => {
                 }`}
                 aria-label="Copy email address to clipboard"
               >
-                {copied ? '[ COPIED ]' : '[ COPY_EMAIL ]'}
+                {copied ? '[ COPIED ]' : '[ COPY EMAIL ]'}
               </button>
             </div>
           </div>
@@ -244,7 +244,7 @@ const Contact = () => {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            DOWNLOAD_RESUME.PDF
+            DOWNLOAD RESUME
           </a>
 
           <div className="contact__socials">
@@ -280,7 +280,7 @@ const Contact = () => {
             >
               ● {statusLabel}
             </span>
-            <span className="contact__form-label">SECURE_CHANNEL</span>
+            <span className="contact__form-label">CONTACT FORM</span>
           </div>
 
           {!hasBackend && (
@@ -304,10 +304,10 @@ const Contact = () => {
               />
             </div>
 
-            {/* CALLSIGN / Name */}
+            {/* Name */}
             <div className="contact__field">
               <label htmlFor="contact-name" className="contact__label">
-                &gt; CALLSIGN <span className="contact__label-sub">/ Name</span>
+                Name
               </label>
               <input
                 id="contact-name"
@@ -330,15 +330,15 @@ const Contact = () => {
               )}
             </div>
 
-            {/* FREQUENCY / Email */}
+            {/* Email */}
             <div className="contact__field">
               <div className="contact__label-row">
                 <label htmlFor="contact-email" className="contact__label">
-                  &gt; FREQUENCY <span className="contact__label-sub">/ Email</span>
+                  Email
                 </label>
                 {isEmailValid && (
                   <span className="contact__email-valid" title="Valid email format">
-                    ✓ VALID FREQUENCY
+                    ✓ Valid email
                   </span>
                 )}
               </div>
@@ -363,10 +363,10 @@ const Contact = () => {
               )}
             </div>
 
-            {/* CHANNEL / Subject Chips */}
+            {/* Subject */}
             <div className="contact__field">
               <label className="contact__label">
-                &gt; CHANNEL <span className="contact__label-sub">/ Subject</span>
+                Subject
               </label>
               <div className="contact__chips" role="radiogroup" aria-label="Select subject">
                 {SUBJECT_OPTIONS.map((opt) => (
@@ -389,11 +389,11 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* TRANSMISSION / Message */}
+            {/* Message */}
             <div className="contact__field">
               <div className="contact__label-row">
                 <label htmlFor="contact-message" className="contact__label">
-                  &gt; TRANSMISSION <span className="contact__label-sub">/ Message</span>
+                  Message
                 </label>
                 <span className="contact__char-counter">
                   {formData.message.length} / {MAX_CHARS}
@@ -429,8 +429,8 @@ const Contact = () => {
                   }`}
                 >
                   {isSignalLocked
-                    ? 'SIGNAL LOCKED'
-                    : `SIGNAL: ${validSignalCount}/4 CHANNELS LOCKED`}
+                    ? 'All fields complete'
+                    : `${validSignalCount} of 4 fields complete`}
                 </span>
               </div>
               <div className="contact__signal-bars" aria-hidden="true">

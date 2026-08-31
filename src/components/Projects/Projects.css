@@ -174,36 +174,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.mission-card__classification {
-  font-family: var(--font-body);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-bold);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 51, 68, 0.1);
-  border: 1px solid rgba(255, 51, 68, 0.3);
-  color: var(--color-red);
-}
-
-.mission-card__classification--classified {
-  background: rgba(255, 165, 0, 0.1);
-  border-color: rgba(255, 165, 0, 0.3);
-  color: #FFA500;
-}
-
-.mission-card__classification--restricted {
-  background: rgba(255, 215, 0, 0.1);
-  border-color: rgba(255, 215, 0, 0.3);
-  color: var(--color-gold);
-}
-
-.mission-card__classification--top-secret {
-  background: rgba(255, 51, 68, 0.1);
-  border-color: rgba(255, 51, 68, 0.3);
-  color: var(--color-red);
-}
 
 .mission-card__status {
   display: flex;
@@ -971,12 +941,6 @@
   background: rgba(255, 0, 170, 0.45);
 }
 
-.projects__classification {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
-  letter-spacing: 1.5px;
-}
 
 .projects__title {
   font-family: var(--font-heading);
@@ -1218,12 +1182,6 @@
   margin-bottom: var(--space-sm);
 }
 
-.projects__card-classification {
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  color: var(--color-text-muted);
-  letter-spacing: 1px;
-}
 
 .projects__card-badge {
   font-family: var(--font-body);

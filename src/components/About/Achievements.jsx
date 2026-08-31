@@ -68,7 +68,7 @@ export default function Achievements({ compact = false }) {
     <div className={`achievements-strip ${compact ? 'achievements-strip--compact' : ''}`}>
       <div className="about__bio-tag">
         <span className="about__bio-tag-dot" />
-        <span className="about__bio-tag-text">operator_achievements.log</span>
+        <span className="about__bio-tag-text">highlights.md</span>
       </div>
       <div className="achievements-strip__list">
         {achievementsList.map((item, idx) => {

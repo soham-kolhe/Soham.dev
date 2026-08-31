@@ -147,8 +147,6 @@ export const projects = [
   {
     id: "ai-second-brain",
     title: "AI Second Brain",
-    codename: "OPERATION: NEURAL_LINK",
-    classification: "TOP SECRET",
     type: "Full Stack AI Application",
     status: "BUILD COMPLETE",
     image: "/images/ai-second-brain.png",
@@ -177,8 +175,6 @@ export const projects = [
   {
     id: "collabboard",
     title: "CollabBoard",
-    codename: "OPERATION: SYNCHRONIZE",
-    classification: "RESTRICTED",
     type: "Real-Time Collaboration Platform",
     status: "BUILD COMPLETE",
     image: "/images/collabboard.png",
@@ -206,8 +202,6 @@ export const projects = [
   {
     id: "hospital-is",
     title: "Parul MediConnect (Unified HIS)",
-    codename: "OPERATION: MED_GRID",
-    classification: "RESTRICTED",
     type: "Full-Stack Healthcare Platform",
     status: "BUILD COMPLETE",
     image: null,
@@ -348,8 +342,6 @@ export const openSourceContributions = [
   {
     id: "privateboard",
     repo: "PrivateBoard",
-    codename: "OPERATION: OPEN GRID",
-    classification: "CONTRIBUTOR",
     repoPath: "lexasub/PrivateBoard",
     description: "A private workspace and board management application featuring real-time auto-saving and collaborative features.",
     contributions: [

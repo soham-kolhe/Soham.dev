@@ -1,5 +1,5 @@
 /* ============================================
-   Skills Component — Tech Arsenal
+   Skills Component
    Pure Terminal Shell with Live Grep & Hover Proof
    ============================================ */
 import { useState } from 'react';
@@ -60,7 +60,7 @@ function Skills() {
         <div className="section-header reveal">
           <p className="section-label">SKILLS</p>
           <h2 className="section-title">
-            TECH <span className="highlight">ARSENAL</span>
+            TECHNICAL <span className="highlight">SKILLS</span>
           </h2>
         </div>
 
@@ -137,7 +137,7 @@ function Skills() {
                           {/* Hover Proof Tooltip */}
                           {item.proof && (
                             <div className="skills-term__tooltip">
-                              <span className="skills-term__tooltip-label">PROOF // </span>
+                              <span className="skills-term__tooltip-label">Used in: </span>
                               {item.proofProjectId ? (
                                 <a
                                   href={`#project-${item.proofProjectId}`}

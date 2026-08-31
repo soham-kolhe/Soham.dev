@@ -1,5 +1,5 @@
 /* ============================================
-   About Component — Operator Profile
+   About Component
    Cyberpunk-styled about section with info cards
    ============================================ */
 import { personalInfo } from '../../data/portfolio.js';
@@ -14,11 +14,11 @@ function About() {
         <div className="section-header reveal">
           <p className="section-label">ABOUT</p>
           <h2 className="section-title">
-            OPERATOR <span className="highlight">PROFILE</span>
+            <span className="highlight">ABOUT</span> ME
           </h2>
         </div>
 
-        {/* Console dossier window */}
+        {/* Console window */}
         <div className="about__console hud-corners glass-card reveal">
           {/* Header Bar */}
           <div className="about__console-header">
@@ -28,12 +28,12 @@ function About() {
               <span className="about__console-dot about__console-dot--green" />
             </div>
             <div className="about__console-title">
-              SYS.OPERATOR_DOSSIER // SK-2027
+              about.md
               <span className="about__console-scanner" />
             </div>
             <div className="about__console-status">
               <span className="about__console-pulse" />
-              <span>SECURE_CONN_ACTIVE</span>
+              <span>CONNECTED</span>
             </div>
           </div>
 
@@ -42,7 +42,7 @@ function About() {
             <div className="about__console-pane about__console-pane--bio">
               <div className="about__bio-tag">
                 <span className="about__bio-tag-dot" />
-                <span className="about__bio-tag-text">operator_bio.txt</span>
+                <span className="about__bio-tag-text">bio.md</span>
               </div>
               <div className="about__bio-paragraphs">
                 {personalInfo.bio.map((paragraph, index) => (

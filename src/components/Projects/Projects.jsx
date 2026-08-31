@@ -1,5 +1,5 @@
 /* ============================================
-   Projects — Mission Briefings
+   Projects — Selected Work
    Cyberpunk HUD-styled project showcase
    ============================================ */
 
@@ -25,7 +25,7 @@ const ProjectImage = ({ project }) => {
     <div className="projects__image-placeholder" data-color={project.color}>
       <span className="projects__placeholder-icon">⚡</span>
       <span className="projects__placeholder-title">{project.title}</span>
-      <span className="projects__placeholder-code">{project.codename}</span>
+      <span className="projects__placeholder-code">{project.type}</span>
     </div>
   );
 };
@@ -63,7 +63,7 @@ const Projects = () => {
         <div className="section-header reveal">
           <p className="section-label">PROJECTS</p>
           <h2 className="section-title">
-            MISSION <span className="highlight">BRIEFINGS</span>
+            SELECTED <span className="highlight">WORK</span>
           </h2>
         </div>
 
@@ -83,7 +83,7 @@ const Projects = () => {
                   <span className="projects__window-dot projects__window-dot--yellow" />
                   <span className="projects__window-dot projects__window-dot--green" />
                 </div>
-                <div className="projects__window-title">PROJECT_SPOTLIGHT // {project.codename}</div>
+                <div className="projects__window-title">{project.title}</div>
                 <span className="projects__window-status">
                   <span className="projects__window-pulse" />
                   {project.status}
@@ -114,7 +114,7 @@ const Projects = () => {
                     ))}
                   </div>
                   <div className="projects__tech-block">
-                    <span className="projects__tech-label">TECH_STACK //</span>
+                    <span className="projects__tech-label">Tech Stack</span>
                     <div className="projects__tech-chips">
                       {project.tech.map((t, i) => (
                         <span key={i} className="projects__tech-chip" data-color={project.color}>{t}</span>
@@ -147,27 +147,26 @@ const Projects = () => {
 
                 {/* Right Side: Details & Key Capabilities */}
                 <div className="projects__window-right">
-                  <span className="projects__classification">CLASSIFICATION: {project.classification}</span>
                   <h3 className="projects__title">{project.title}</h3>
                   <p className="projects__type">{project.type}</p>
                   
                   <div className="projects__case">
                     <p className="projects__case-block">
-                      <strong className={`text-${project.color}`}>PROBLEM //</strong>{' '}
+                      <strong className={`text-${project.color}`}>Problem —</strong>{' '}
                       <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.problem }} />
                     </p>
                     <p className="projects__case-block">
-                      <strong className={`text-${project.color}`}>APPROACH //</strong>{' '}
+                      <strong className={`text-${project.color}`}>Approach —</strong>{' '}
                       <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.approach }} />
                     </p>
                     <p className="projects__case-block">
-                      <strong className={`text-${project.color}`}>RESULT //</strong>{' '}
+                      <strong className={`text-${project.color}`}>Result —</strong>{' '}
                       <span className="projects__case-text" dangerouslySetInnerHTML={{ __html: project.outcome }} />
                     </p>
                   </div>
 
                   <div className="projects__features-block">
-                    <span className={`projects__features-label text-${project.color}`}>KEY_CAPABILITIES //</span>
+                    <span className={`projects__features-label text-${project.color}`}>Key Features</span>
                     <ul className="projects__features-list">
                       {project.features.map((feature, i) => (
                         <li key={i} className="projects__feature-item" dangerouslySetInnerHTML={{ __html: feature }} />
@@ -184,13 +183,12 @@ const Projects = () => {
         {otherProjects.length > 0 && (
           <div className="projects__secondary-section reveal">
             <h3 className="projects__secondary-heading">
-              <span className="projects__secondary-heading-icon">◈</span> AUXILIARY OPERATIONS // IN DEVELOPMENT
+              <span className="projects__secondary-heading-icon">◈</span> More Projects
             </h3>
             <div className="projects__secondary-grid">
               {otherProjects.map((project) => (
                 <article key={project.id} id={`project-${project.id}`} className="projects__secondary-card glass-card hud-corners" data-color={project.color}>
                   <div className="projects__card-top">
-                    <span className="projects__card-classification">{project.classification}</span>
                     <span className="projects__card-badge projects__card-badge--working">{project.status || 'BUILD COMPLETE'}</span>
                   </div>
                   <h4 className="projects__card-title">{project.title}</h4>

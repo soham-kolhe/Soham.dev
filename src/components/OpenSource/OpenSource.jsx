@@ -141,12 +141,11 @@ const OpenSource = () => {
                 <div className="oss__view oss__view--project">
                   <div className="oss__content-header">
                     <div className="oss__header-meta">
-                      <span className="oss__classification">◆ {activeRepo.classification}</span>
+                      <span className="oss__classification">◆ Contributor</span>
                       <span className="oss__pr-status oss__pr-status--merged">
                         ● {activeRepo.contributions.length} MERGED
                       </span>
                     </div>
-                    <p className={`oss__codename text-${activeRepo.color}`}>{activeRepo.codename}</p>
                     <h3 className="oss__title">{activeRepo.repo}</h3>
                     <p className="oss__description">{activeRepo.description}</p>
                   </div>
