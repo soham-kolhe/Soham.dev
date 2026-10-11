@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Geist Pixel';
+  src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Pixel Grid';
+  src: url('/fonts/GeistPixel-Grid.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Pixel Circle';
+  src: url('/fonts/GeistPixel-Circle.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-brand-teal: #3ECF8E;
+  --color-brand-teal-dim: rgba(62, 207, 142, 0.15);
+  --color-brand-teal-border: rgba(62, 207, 142, 0.3);
+  --color-brand-dark: #08090A;
+  --color-brand-card: #0E1013;
+  --color-brand-cardBorder: #1A1D23;
+  --color-brand-card-border: #1A1D23;
+  --color-brand-cardHover: #14171D;
+  --color-brand-card-hover: #14171D;
+  --color-brand-muted: #7E8695;
+  --color-brand-subtle: #272B33;
+
+  --font-sans: "Geist", "Plus Jakarta Sans", Inter, system-ui, -apple-system, sans-serif;
+  --font-display: "Geist Pixel", "Space Grotesk", sans-serif;
+  --font-pixel: "Geist Pixel", monospace;
+  --font-pixel-grid: "Geist Pixel Grid", monospace;
+  --font-pixel-circle: "Geist Pixel Circle", monospace;
+  --font-mono: "Geist Mono", "JetBrains Mono", monospace;
+}
+
+@layer base {
+  html {
+    /* scroll-behavior handled by Lenis */
+  }
+  body {
+    background-color: #08090A;
+    color: #F3F4F6;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+  ::selection {
+    background-color: #3ECF8E;
+    color: #000000;
+  }
+}
+
+.bg-tech-grid {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+.bg-whiteboard-grid {
+  background-size: 16px 16px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.bg-tech-grid-glow {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(62, 207, 142, 0.65) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(62, 207, 142, 0.65) 1px, transparent 1px);
+}
+
+/* Reduced motion: disable all custom animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

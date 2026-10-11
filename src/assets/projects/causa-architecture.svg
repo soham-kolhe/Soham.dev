@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="100%" height="100%">
+  <defs>
+    <!-- Grid pattern background -->
+    <pattern id="diag-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#9AA0A9" stroke-width="0.5" stroke-opacity="0.12" />
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#5FD4C0" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#E2984D" />
+    </marker>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="880" height="440" fill="#0B0D10" />
+  <rect width="880" height="440" fill="url(#diag-grid)" />
+
+  <!-- Diagram Title / Header Tag -->
+  <g transform="translate(32, 28)">
+    <circle cx="6" cy="6" r="4" fill="#5FD4C0" />
+    <text x="18" y="10" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#5FD4C0" letter-spacing="1.5">CAUSA :: DISTRIBUTED TRACE INGESTION &amp; ROOT-CAUSE PIPELINE</text>
+  </g>
+
+  <!-- 1. SOURCE SERVICES LAYER -->
+  <g transform="translate(32, 65)">
+    <rect width="180" height="340" fill="#151A20" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.35" />
+    <rect width="180" height="28" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.25" />
+    <text x="14" y="19" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#9AA0A9" letter-spacing="1">01. INGRESS &amp; APPS</text>
+
+    <!-- App Node 1: Java / Spring Boot -->
+    <rect x="14" y="44" width="152" height="74" fill="#0B0D10" stroke="#5FD4C0" stroke-width="1.2" />
+    <text x="24" y="66" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">Spring Boot App</text>
+    <text x="24" y="84" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">OTel Java Agent</text>
+    <text x="24" y="102" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#5FD4C0">span_gen[auto_inject]</text>
+
+    <!-- App Node 2: Microservice API -->
+    <rect x="14" y="132" width="152" height="74" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.4" />
+    <text x="24" y="154" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">Order API Gateway</text>
+    <text x="24" y="172" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">W3C TraceContext</text>
+    <text x="24" y="190" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#9AA0A9">traceparent header</text>
+
+    <!-- App Node 3: Auth & DB Proxy -->
+    <rect x="14" y="220" width="152" height="74" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.4" />
+    <text x="24" y="242" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">Auth &amp; Data Proxy</text>
+    <text x="24" y="260" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">JDBC / SQL Interceptor</text>
+    <text x="24" y="278" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#9AA0A9">db.statement spans</text>
+  </g>
+
+  <!-- Connectors: Group 1 to Group 2 -->
+  <path d="M 212 146 L 256 146 L 256 200 L 292 200" fill="none" stroke="#5FD4C0" stroke-width="1.5" marker-end="url(#arrow-teal)" />
+  <path d="M 212 234 L 292 234" fill="none" stroke="#5FD4C0" stroke-width="1.5" marker-end="url(#arrow-teal)" />
+  <path d="M 212 322 L 256 322 L 256 268 L 292 268" fill="none" stroke="#5FD4C0" stroke-width="1.5" marker-end="url(#arrow-teal)" />
+
+  <!-- 2. TELEMETRY PIPELINE & COLLECTOR -->
+  <g transform="translate(300, 65)">
+    <rect width="230" height="340" fill="#151A20" stroke="#5FD4C0" stroke-width="1.2" />
+    <rect width="230" height="28" fill="#0B0D10" stroke="#5FD4C0" stroke-width="1" stroke-opacity="0.5" />
+    <text x="14" y="19" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#5FD4C0" letter-spacing="1">02. CAUSA COLLECTOR &amp; STREAM</text>
+
+    <!-- Collector Box -->
+    <rect x="14" y="44" width="202" height="96" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.3" />
+    <text x="24" y="68" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">OTel Collector Core</text>
+    <text x="24" y="86" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">gRPC / OTLP Receiver (4317)</text>
+    <text x="24" y="104" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Batch &amp; Tail-Based Sampler</text>
+    <text x="24" y="122" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#5FD4C0">rate: ~45,000 spans/sec</text>
+
+    <!-- Span Aggregation & Topology Builder -->
+    <rect x="14" y="156" width="202" height="150" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.3" />
+    <text x="24" y="180" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">DAG Topology Builder</text>
+    <text x="24" y="198" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Trace Tree Reassembly</text>
+    <text x="24" y="216" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Parent-Child Link Resolver</text>
+    <text x="24" y="244" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#E2984D">Anomaly / Error Hook</text>
+    <text x="24" y="262" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#9AA0A9">HTTP 5xx &amp; Latency Spikes</text>
+    <text x="24" y="280" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#E2984D">Trigger -> AI Diagnosis</text>
+  </g>
+
+  <!-- Connectors: Pipeline to Analysis -->
+  <path d="M 530 180 L 582 180" fill="none" stroke="#5FD4C0" stroke-width="1.5" marker-end="url(#arrow-teal)" />
+  <path d="M 530 310 L 582 310" fill="none" stroke="#E2984D" stroke-width="1.5" marker-end="url(#arrow-amber)" />
+
+  <!-- 3. ANALYSIS, AI & PERSISTENCE -->
+  <g transform="translate(590, 65)">
+    <rect width="258" height="340" fill="#151A20" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.35" />
+    <rect width="258" height="28" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.25" />
+    <text x="14" y="19" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="600" fill="#9AA0A9" letter-spacing="1">03. AI REASONING &amp; STORAGE</text>
+
+    <!-- AI Fix Suggestion Box -->
+    <rect x="14" y="44" width="230" height="114" fill="#0B0D10" stroke="#E2984D" stroke-width="1.2" />
+    <text x="24" y="68" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#E2984D">Azure AI Foundry Engine</text>
+    <text x="24" y="86" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#EDEAE3">Root-Cause Synthesizer</text>
+    <text x="24" y="104" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Stack Trace + Context Parsing</text>
+    <text x="24" y="122" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Actionable Code Patch Generator</text>
+    <text x="24" y="140" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#E2984D">output: [FIX_PROPOSAL.diff]</text>
+
+    <!-- Distributed Storage -->
+    <rect x="14" y="174" width="230" height="74" fill="#0B0D10" stroke="#9AA0A9" stroke-width="1" stroke-opacity="0.3" />
+    <text x="24" y="196" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#EDEAE3">Timescale &amp; Blob Storage</text>
+    <text x="24" y="214" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Distributed Span Log (Indexed)</text>
+    <text x="24" y="232" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#5FD4C0">sub-millisecond retrieval</text>
+
+    <!-- UI Telemetry Waterfall -->
+    <rect x="14" y="260" width="230" height="66" fill="#0B0D10" stroke="#5FD4C0" stroke-width="1" />
+    <text x="24" y="282" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="#5FD4C0">Causa Observability UI</text>
+    <text x="24" y="300" font-family="'IBM Plex Mono', monospace" font-size="9" fill="#9AA0A9">Live Waterfall &amp; Topology Graph</text>
+    <text x="24" y="316" font-family="'IBM Plex Mono', monospace" font-size="8.5" fill="#EDEAE3">Interactive Span Inspector</text>
+  </g>
+</svg>
