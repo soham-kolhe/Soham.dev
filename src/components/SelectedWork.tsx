@@ -66,20 +66,22 @@ const FEATURED_PROJECTS: ProjectCaseStudy[] = [
     ],
     slides: [
       {
+        title: "Authentication & Session Gateway",
+        tag: "AUTH & ACCESS",
+        imageSrc: "/images/collabboard1.png",
+        description: "Stateless JWT authentication and secure user access management for private collaborative workspaces.",
+      },
+      {
+        title: "Multi-Room Workspace Dashboard",
+        tag: "ROOM MANAGEMENT",
+        imageSrc: "/images/collabboard2.png",
+        description: "Centralized workspace dashboard for managing, joining, and creating persistent board sessions.",
+      },
+      {
         title: "Multiplayer Real-Time Canvas",
         tag: "LIVE WORKSPACE",
-        imageSrc: "/images/collabboard.png",
-        description: "Room-based WebSocket drawing with live multiplayer cursor presence and vector rendering.",
-      },
-      {
-        title: "Tldraw Vector Engine",
-        tag: "CANVAS ARCHITECTURE",
-        description: "Infinite viewport drawing tools with automatic geometric shape snapping and layering.",
-      },
-      {
-        title: "Persistent Room Sessions",
-        tag: "BACKEND PIPELINE",
-        description: "MongoDB snapshot serialization ensuring instant state recovery upon reconnection.",
+        imageSrc: "/images/collabboard3.png",
+        description: "Room-based WebSocket drawing with live multiplayer cursor presence and Tldraw vector rendering.",
       },
     ],
   },

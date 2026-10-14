@@ -91,11 +91,19 @@ export default function Stack({
   const shouldEnableClick = sendToBackOnClick || shouldDisableDrag;
 
   const [stack, setStack] = useState(() => {
-    return cards.map((content, index) => ({ id: index + 1, content }));
+    return cards.map((content, index) => ({ id: index + 1, content })).reverse();
   });
 
   useEffect(() => {
-    setStack(cards.map((content, index) => ({ id: index + 1, content })));
+    setStack((prev) => {
+      if (prev.length !== cards.length) {
+        return cards.map((content, index) => ({ id: index + 1, content })).reverse();
+      }
+      return prev.map((item) => {
+        const newContent = cards[item.id - 1];
+        return newContent !== undefined ? { ...item, content: newContent } : item;
+      });
+    });
   }, [cards]);
 
   const sendToBack = (id: number) => {

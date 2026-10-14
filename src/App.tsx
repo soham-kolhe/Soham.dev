@@ -29,7 +29,7 @@ export default function App() {
             techSpecs="React · Node.js · MongoDB · Cloud-native systems"
             availability="Open to Internship Opportunities"
             resumeUrl="/resume.pdf"
-            profileImgUrl="/images/soham-profile.svg"
+            profileImgUrl="/images/soham-profile-id-card.svg"
           />
 
           {/* 01 / About Section with Skills Matrix & Metrics */}

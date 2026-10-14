@@ -3,7 +3,7 @@ export const profile = {
   role: "Full-stack + Cloud Engineer building distributed systems",
   email: "sohamkolhe20@gmail.com",
   phone: "+91 8767371115",
-  avatarUrl: "/images/soham-profile.svg",
+  avatarUrl: "/images/soham-profile-id-card.svg",
   status: {
     label: "Open to opportunities",
     available: true,
@@ -73,7 +73,7 @@ export const projects = [
     links: { repo: "" }, // <add repo url>
     media: {
       type: "screenshot",
-      src: "/images/collabboard.png",
+      src: "/images/collabboard1.png",
       title: "collabboard-multiplayer-canvas.png",
       caption: "Multiplayer Real-Time Canvas with Room Cursor Tracking",
     },
